@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>People — Portable°</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ─────────────────────────────────────────
+       TOKENS
+    ───────────────────────────────────────── */
+    :root {
+      --lime-dark:    #263212;
+      --lime:         #BEF958;
+      --lime-light:   #EDFCCC;
+      --brown-dark:   #341405;
+      --brown:        #81330C;
+      --brown-light:  #EFD8C2;
+      --pink-dark:    #400E30;
+      --pink:         #FF38C0;
+      --pink-light:   #FFC3F6;
+      --verm-dark:    #471605;
+      --verm:         #EE4811;
+      --verm-light:   #FFC6BF;
+      --blue-dark:    #170045;
+      --blue:         #4B01E6;
+      --blue-light:   #DEDAFF;
+
+      --purple:       var(--blue);
+      --purple-mid:   var(--blue-light);
+      --purple-dark:  var(--blue-dark);
+      --green:        var(--lime);
+      --white:        #FFFFFF;
+      --off-white:    var(--lime-light);
+      --near-black:   var(--blue-dark);
+      --grey:         var(--brown);
+      --light-grey:   var(--brown-light);
+
+      --font-display: 'Inter', sans-serif;
+      --font-body:    'Inter', sans-serif;
+      --font-mono:    'Space Mono', monospace;
+
+      --max-w: 1280px;
+      --gutter: clamp(24px, 5vw, 80px);
+      --section-v: clamp(80px, 10vw, 140px);
+
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ─────────────────────────────────────────
+       RESET
+    ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--white);
+      color: var(--near-black);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ─────────────────────────────────────────
+       LAYOUT HELPERS
+    ───────────────────────────────────────── */
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+    .section { padding: var(--section-v) 0; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+    /* ─────────────────────────────────────────
+       TYPOGRAPHY
+    ───────────────────────────────────────── */
+    .display {
+      font-family: var(--font-display);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+    }
+    .display-xl  { font-size: clamp(44px, 5.5vw, 88px); line-height: 1.05; }
+    .display-lg  { font-size: clamp(36px, 4vw, 64px);  line-height: 1.1;  }
+    .display-md  { font-size: clamp(28px, 3.2vw, 48px); line-height: 1.15; }
+    .display-sm  { font-size: clamp(22px, 2.4vw, 34px); line-height: 1.2;  }
+
+    .eyebrow {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .body-lg  { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.65; font-weight: 400; }
+    .body-md  { font-size: 16px; line-height: 1.65; font-weight: 400; }
+    .body-sm  { font-size: 13px; line-height: 1.6; color: var(--grey); }
+
+    /* ─────────────────────────────────────────
+       BUTTONS
+    ───────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s var(--ease), opacity 0.2s;
+      border-radius: 2px;
+    }
+    .btn:hover { transform: translateY(-2px); opacity: 0.9; }
+    .btn-primary   { background: var(--purple); color: var(--white); }
+    .btn-outline   { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.4); }
+    .btn-outline:hover { border-color: white; }
+    .btn-dark      { background: var(--near-black); color: var(--white); }
+    .btn-green     { background: var(--green); color: var(--near-black); }
+    .btn-ghost     { background: transparent; color: var(--near-black); border: 1.5px solid var(--light-grey); }
+    .btn-ghost:hover { border-color: var(--near-black); }
+    .btn-arrow::after { content: '→'; font-size: 18px; }
+
+    /* ─────────────────────────────────────────
+       FADE-UP ANIMATION
+    ───────────────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─────────────────────────────────────────
+       NAV
+    ───────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px var(--gutter);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: transparent;
+      transition: background 0.3s ease;
+    }
+    nav.scrolled {
+      background: rgba(4, 0, 70, 0.85);
+      backdrop-filter: blur(10px);
+    }
+    nav a {
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    nav .logo img {
+      height: 20px;
+      width: auto;
+      filter: invert(1);
+    }
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+    .nav-links a {
+      transition: opacity 0.2s;
+    }
+    .nav-links a:hover {
+      opacity: 0.7;
+    }
+
+    /* ─────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────── */
+    .hero {
+      background: var(--purple-dark);
+      color: var(--white);
+      padding: 160px var(--gutter) var(--section-v);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle at 20% 80%, rgba(190, 249, 88, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero .container {
+      position: relative;
+      z-index: 1;
+    }
+    .hero .display-xl {
+      color: var(--green);
+      margin-bottom: 24px;
+    }
+    .hero .body-lg {
+      color: rgba(255, 255, 255, 0.85);
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* ─────────────────────────────────────────
+       PEOPLE SECTION
+    ───────────────────────────────────────── */
+    .people-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+      margin-bottom: var(--section-v);
+    }
+    .stat-block {
+      padding: 32px;
+      background: var(--off-white);
+      border-radius: 2px;
+    }
+    .stat-number {
+      font-family: var(--font-mono);
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--purple);
+      margin-bottom: 12px;
+    }
+    .stat-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--grey);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* ─────────────────────────────────────────
+       DISCIPLINES SECTION
+    ───────────────────────────────────────── */
+    .disciplines {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+    }
+    .discipline-card {
+      padding: 28px;
+      border: 1px solid var(--light-grey);
+      border-radius: 2px;
+      transition: all 0.3s var(--ease);
+    }
+    .discipline-card:hover {
+      border-color: var(--purple);
+      background: var(--purple-mid);
+    }
+    .discipline-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+    .discipline-name {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 8px;
+      color: var(--near-black);
+    }
+    .discipline-desc {
+      font-size: 13px;
+      color: var(--grey);
+      line-height: 1.5;
+    }
+
+    /* ─────────────────────────────────────────
+       VALUES SECTION
+    ───────────────────────────────────────── */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-bottom: var(--section-v);
+    }
+    .value-card {
+      padding: 32px;
+      border-left: 3px solid var(--green);
+      background: var(--white);
+    }
+    .value-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--near-black);
+    }
+    .value-desc {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--grey);
+    }
+
+    /* ─────────────────────────────────────────
+       CULTURE SECTION
+    ───────────────────────────────────────── */
+    .culture-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      margin-bottom: var(--section-v);
+    }
+    .culture-content h3 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--near-black);
+    }
+    .culture-content p {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--grey);
+      margin-bottom: 20px;
+    }
+    .culture-benefits {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .benefit-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .benefit-icon {
+      flex-shrink: 0;
+      font-size: 20px;
+    }
+    .benefit-text {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--near-black);
+    }
+    .culture-visual {
+      background: linear-gradient(135deg, var(--purple-mid) 0%, rgba(190, 249, 88, 0.1) 100%);
+      border-radius: 2px;
+      padding: 60px 40px;
+      text-align: center;
+      color: var(--purple);
+      font-weight: 700;
+      font-size: 32px;
+    }
+
+    /* ─────────────────────────────────────────
+       CTA SECTION
+    ───────────────────────────────────────── */
+    .cta-section {
+      background: var(--purple);
+      color: var(--white);
+      text-align: center;
+      padding: var(--section-v);
+    }
+    .cta-section h2 {
+      font-size: clamp(28px, 3.2vw, 48px);
+      font-weight: 900;
+      margin-bottom: 20px;
+    }
+    .cta-section p {
+      font-size: 16px;
+      margin-bottom: 32px;
+      opacity: 0.9;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ─────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────── */
+    footer {
+      background: var(--near-black);
+      color: var(--white);
+      padding: 60px var(--gutter) 40px;
+    }
+    footer .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+    footer h4 {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      color: var(--light-grey);
+    }
+    footer a {
+      display: block;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 10px;
+      transition: color 0.2s;
+    }
+    footer a:hover {
+      color: var(--white);
+    }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding-left: var(--gutter);
+      padding-right: var(--gutter);
+    }
+    .footer-logo {
+      height: 18px;
+      width: auto;
+      filter: invert(1);
+    }
+    .footer-bottom p {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .values-grid { grid-template-columns: 1fr 1fr; }
+      .culture-grid { grid-template-columns: 1fr; gap: 32px; }
+      footer .container { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .people-stats { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: 1fr; }
+      .nav-links { gap: 20px; font-size: 13px; }
+      .discipline-card { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="logo">
+      <a href="index.html"><img src="logo.png" alt="Portable"></a>
+    </div>
+    <div class="nav-links">
+      <a href="work.html">Work</a>
+      <a href="ai.html">AI</a>
+      <a href="people.html">People</a>
+      <a href="purpose.html">Purpose</a>
+      <a href="training.html">Training</a>
+      <a href="services.html">Services</a>
+      <a href="mailto:hello@portable.com.au">hello@portable.com.au</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="display-xl fade-up">Our People</h1>
+      <p class="body-lg fade-up" style="transition-delay: 0.1s;">A team of 65+ specialists united by purpose. Engineers, designers, researchers, strategists, and leaders committed to building technology that matters.</p>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="section">
+    <div class="container fade-up">
+      <div class="people-stats">
+        <div class="stat-block">
+          <div class="stat-number">65+</div>
+          <div class="stat-label">Specialists</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">20+</div>
+          <div class="stat-label">Years Excellence</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">12</div>
+          <div class="stat-label">Disciplines</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Purpose-Driven</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISCIPLINES -->
+  <section class="section" style="background: var(--off-white);">
+    <div class="container">
+      <h2 class="display-md fade-up" style="margin-bottom: 48px;">Our Disciplines</h2>
+      <div class="disciplines fade-up" style="transition-delay: 0.1s;">
+        <div class="discipline-card">
+          <div class="discipline-icon">💻</div>
+          <div class="discipline-name">Product Engineering</div>
+          <div class="discipline-desc">Full-stack engineers building scalable systems</div>
+        </div>
+        <div class="discipline-card">
+          <div class="discipline-icon">🎨</div>
+          <div class="discipline-name">Design & UX</div>
+          <div class="discipline-desc">Researchers and designers creating intuitive experiences</div>
+        </div>
+        <div class="discipline-card">
+          <div class="discipline-icon">📊</div>
+          <div class="discipline-name">Data & AI</div>
+          <div class="discipline-desc">Data scientists and ML engineers advancing intelligence</div>
+        </div>
+        <div class="discipline-card">
+          <div class="discipline-icon">🏛️</div>
+          <div class="discipline-name">Strategy & Policy</div>
+          <div class="discipline-desc">Policy experts and strategists shaping impact</div>
+        </div>
+        <div class="discipline-card">
+          <div class="discipline-icon">🧠</div>
+          <div class="discipline-name">Research & Innovation</div>
+          <div class="discipline-desc">Researchers exploring emerging technologies</div>
+        </div>
+        <div class="discipline-card">
+          <div class="discipline-icon">📢</div>
+          <div class="discipline-name">Storytelling & Content</div>
+          <div class="discipline-desc">Communicators crafting compelling narratives</div>
+        </div>
+        <div class="discipline-card">
+          <div class="discipline-icon">🎯</div>
+          <div class="discipline-name">Project Leadership</div>
+          <div class="discipline-desc">Leaders delivering transformative outcomes</div>
+        </div>
+        <div class="discipline-card">
+          <div class="discipline-icon">🤝</div>
+          <div class="discipline-name">Partnership & Growth</div>
+          <div class="discipline-desc">Account leaders building deep relationships</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section class="section">
+    <div class="container">
+      <h2 class="display-md fade-up" style="margin-bottom: 48px;">What We Stand For</h2>
+      <div class="values-grid fade-up" style="transition-delay: 0.1s;">
+        <div class="value-card">
+          <div class="value-title">Purpose-Driven</div>
+          <div class="value-desc">We work only with organisations creating positive change. Impact over profit shapes every decision we make.</div>
+        </div>
+        <div class="value-card">
+          <div class="value-title">Excellence</div>
+          <div class="value-desc">We commit to the highest standards of craft in technology, design, and strategy. Mediocrity doesn't exist in our vocabulary.</div>
+        </div>
+        <div class="value-card">
+          <div class="value-title">Collaboration</div>
+          <div class="value-desc">We believe in the power of diverse teams. Different perspectives lead to better solutions and lasting change.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CULTURE -->
+  <section class="section" style="background: var(--off-white);">
+    <div class="container">
+      <div class="culture-grid fade-up">
+        <div class="culture-content">
+          <h3>We Support Our People</h3>
+          <p>Portable is built on the belief that great work comes from great people. We invest in continuous learning, professional growth, and wellbeing.</p>
+          <div class="culture-benefits">
+            <div class="benefit-item">
+              <div class="benefit-icon">✓</div>
+              <div class="benefit-text">Competitive salary & benefits</div>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-icon">✓</div>
+              <div class="benefit-text">Flexible working arrangements</div>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-icon">✓</div>
+              <div class="benefit-text">Learning & development fund</div>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-icon">✓</div>
+              <div class="benefit-text">Mentorship programs</div>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-icon">✓</div>
+              <div class="benefit-text">Health insurance</div>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-icon">✓</div>
+              <div class="benefit-text">Remote-friendly culture</div>
+            </div>
+          </div>
+        </div>
+        <div class="culture-visual">
+          💙 <br>We build together
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <h2 class="fade-up">Ready to Join Our Mission?</h2>
+      <p class="fade-up" style="transition-delay: 0.1s;">We're always looking for talented, passionate people to join our team. Explore opportunities in our careers section.</p>
+      <a href="careers.html" class="btn btn-green fade-up" style="transition-delay: 0.2s;">View Open Roles</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div>
+        <h4>Company</h4>
+        <a href="index.html">Home</a>
+        <a href="work.html">Work</a>
+        <a href="ai.html">AI</a>
+        <a href="people.html">People</a>
+        <a href="purpose.html">Purpose</a>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <a href="services.html">Our Services</a>
+        <a href="training.html">Training & Uplift</a>
+        <a href="work.html">Case Studies</a>
+        <a href="mailto:hello@portable.com.au">Get in Touch</a>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <a href="mailto:hello@portable.com.au">hello@portable.com.au</a>
+        <a href="https://linkedin.com/company/portable" target="_blank">LinkedIn</a>
+        <a href="https://portable.com.au" target="_blank">portable.com.au</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <img src="logo.png" alt="Portable" class="footer-logo">
+      <p>© 2026 Portable. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Nav scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+
+    // Fade-up animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '-40px' });
+
+    document.querySelectorAll('.fade-up').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
