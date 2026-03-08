@@ -12,16 +12,31 @@
        TOKENS
     ───────────────────────────────────────── */
     :root {
-      --purple:       #5500EE;
-      --purple-mid:   #7733FF;
-      --purple-dark:  #1A0060;
-      --pink:         #FF1090;
-      --green:        #AAFF00;
+      --lime-dark:    #263212;
+      --lime:         #BEF958;
+      --lime-light:   #EDFCCC;
+      --brown-dark:   #341405;
+      --brown:        #81330C;
+      --brown-light:  #EFD8C2;
+      --pink-dark:    #400E30;
+      --pink:         #FF38C0;
+      --pink-light:   #FFC3F6;
+      --verm-dark:    #471605;
+      --verm:         #EE4811;
+      --verm-light:   #FFC6BF;
+      --blue-dark:    #170045;
+      --blue:         #4B01E6;
+      --blue-light:   #DEDAFF;
+
+      --purple:       var(--blue);
+      --purple-mid:   var(--blue-light);
+      --purple-dark:  var(--blue-dark);
+      --green:        var(--lime);
       --white:        #FFFFFF;
-      --off-white:    #F5F4F0;
-      --near-black:   #080808;
-      --grey:         #888888;
-      --light-grey:   #E8E8E4;
+      --off-white:    var(--lime-light);
+      --near-black:   var(--blue-dark);
+      --grey:         var(--brown);
+      --light-grey:   var(--brown-light);
 
       --font-display: 'Inter', sans-serif;
       --font-body:    'Inter', sans-serif;
@@ -138,7 +153,7 @@
     }
     .nav-logo { display: flex; align-items: center; }
     .nav-logo img {
-      height: 20px;
+      height: 14px;
       width: auto;
       display: block;
       filter: invert(1);
@@ -1144,7 +1159,7 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a class="nav-logo" href="index.html" style="margin-bottom:16px;"><img src="logo.png" alt="Portable" style="height:26px;"></a>
+          <a class="nav-logo" href="index.html" style="margin-bottom:16px;"><img src="logo.png" alt="Portable" style="height:18px;"></a>
           <p class="footer-tagline">
             Wherever Portable works, a better world exists.
             Purpose-driven technology for government and the social sector.
