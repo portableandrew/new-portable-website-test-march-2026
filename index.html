@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portable° — Technology for organisations that matter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ─────────────────────────────────────────
+       TOKENS
+    ───────────────────────────────────────── */
+    :root {
+      --purple:       #5500EE;
+      --purple-mid:   #7733FF;
+      --purple-dark:  #1A0060;
+      --pink:         #FF1090;
+      --green:        #AAFF00;
+      --white:        #FFFFFF;
+      --off-white:    #F5F4F0;
+      --near-black:   #080808;
+      --grey:         #888888;
+      --light-grey:   #E8E8E4;
+
+      --font-display: 'Inter', sans-serif;
+      --font-body:    'Inter', sans-serif;
+      --font-mono:    'Space Mono', monospace;
+
+      --max-w: 1280px;
+      --gutter: clamp(24px, 5vw, 80px);
+      --section-v: clamp(80px, 10vw, 140px);
+
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ─────────────────────────────────────────
+       RESET
+    ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--white);
+      color: var(--near-black);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ─────────────────────────────────────────
+       LAYOUT HELPERS
+    ───────────────────────────────────────── */
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+    .section { padding: var(--section-v) 0; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+    /* ─────────────────────────────────────────
+       TYPOGRAPHY
+    ───────────────────────────────────────── */
+    .display {
+      font-family: var(--font-display);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+    }
+    .display-xl  { font-size: clamp(44px, 5.5vw, 88px); line-height: 1.05; }
+    .display-lg  { font-size: clamp(36px, 4vw, 64px);  line-height: 1.1;  }
+    .display-md  { font-size: clamp(28px, 3.2vw, 48px); line-height: 1.15; }
+    .display-sm  { font-size: clamp(22px, 2.4vw, 34px); line-height: 1.2;  }
+
+    .eyebrow {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .body-lg  { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.65; font-weight: 400; }
+    .body-md  { font-size: 16px; line-height: 1.65; font-weight: 400; }
+    .body-sm  { font-size: 13px; line-height: 1.6; color: var(--grey); }
+
+    /* ─────────────────────────────────────────
+       BUTTONS
+    ───────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s var(--ease), opacity 0.2s;
+      border-radius: 2px;
+    }
+    .btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+    .btn-primary   { background: var(--purple); color: var(--white); }
+    .btn-outline   { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.4); }
+    .btn-outline:hover { border-color: white; }
+    .btn-dark      { background: var(--near-black); color: var(--white); }
+    .btn-green     { background: var(--green); color: var(--near-black); }
+
+    .btn-arrow::after { content: '→'; font-size: 18px; }
+
+    /* ─────────────────────────────────────────
+       NAV
+    ───────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px var(--gutter);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      /* No mix-blend-mode — it distorts the logo image */
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+    }
+    .nav-logo img {
+      height: 20px;
+      width: auto;
+      display: block;
+      /* logo is black — invert to white for dark/purple backgrounds */
+      filter: invert(1);
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
+      opacity: 0.75;
+      transition: opacity 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .nav-cta {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      border: 1.5px solid rgba(255,255,255,0.5);
+      padding: 10px 22px;
+      border-radius: 2px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .nav-cta:hover { background: var(--white); color: var(--near-black); border-color: var(--white); }
+
+    /* ─────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      background: var(--purple);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-content {
+      padding: 160px var(--gutter) 100px;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-eyebrow {
+      color: var(--green);
+      margin-bottom: 32px;
+    }
+    .hero-headline {
+      color: var(--white);
+      margin-bottom: 32px;
+    }
+    .hero-sub {
+      color: rgba(255,255,255,0.7);
+      max-width: 480px;
+      margin-bottom: 48px;
+    }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    /* Hero shape – CSS animated blob */
+    .hero-shape-wrap {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(0px);
+    }
+    .blob-1 {
+      width: 520px; height: 520px;
+      background: radial-gradient(circle at 35% 40%, var(--green) 0%, transparent 60%),
+                  radial-gradient(circle at 70% 60%, var(--pink) 0%, transparent 55%);
+      animation: morph1 8s var(--ease) infinite alternate;
+      opacity: 0.9;
+    }
+    .blob-2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle at 60% 30%, var(--pink) 0%, transparent 60%),
+                  radial-gradient(circle at 30% 70%, var(--purple-mid) 0%, transparent 60%);
+      animation: morph2 10s var(--ease) infinite alternate;
+      opacity: 0.7;
+      top: 20%;
+    }
+    /* Stepped / layered shape effect */
+    .shape-layers {
+      position: absolute;
+      width: 460px;
+      height: 460px;
+    }
+    .shape-layer {
+      position: absolute;
+      inset: 0;
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+      border: 1.5px solid rgba(255,255,255,0.12);
+    }
+    .shape-layer:nth-child(1)  { transform: scale(1.0)  rotate(0deg);    animation: spin 18s linear infinite; }
+    .shape-layer:nth-child(2)  { transform: scale(0.88) rotate(15deg);   animation: spin 22s linear infinite reverse; }
+    .shape-layer:nth-child(3)  { transform: scale(0.76) rotate(30deg);   animation: spin 16s linear infinite; }
+    .shape-layer:nth-child(4)  { transform: scale(0.64) rotate(45deg);   animation: spin 20s linear infinite reverse; }
+    .shape-layer:nth-child(5)  { transform: scale(0.52) rotate(60deg);   animation: spin 24s linear infinite; }
+    .shape-layer:nth-child(6)  { transform: scale(0.40) rotate(75deg);   animation: spin 14s linear infinite reverse; }
+    .shape-layer:nth-child(7)  { transform: scale(0.28) rotate(90deg);   animation: spin 19s linear infinite; }
+
+    @keyframes morph1 {
+      0%   { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: scale(1) rotate(0deg); }
+      50%  { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; transform: scale(1.05) rotate(5deg); }
+      100% { border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%; transform: scale(0.95) rotate(-3deg); }
+    }
+    @keyframes morph2 {
+      0%   { border-radius: 50% 50% 30% 70% / 40% 60% 40% 60%; transform: scale(1) rotate(0deg) translate(20px, -20px); }
+      100% { border-radius: 70% 30% 60% 40% / 60% 40% 60% 40%; transform: scale(1.08) rotate(-8deg) translate(-20px, 20px); }
+    }
+    @keyframes spin {
+      from { transform-origin: center; }
+      to { transform-origin: center; }
+    }
+    @keyframes rotate { to { transform: rotate(360deg); } }
+
+    /* ─────────────────────────────────────────
+       MARQUEE
+    ───────────────────────────────────────── */
+    .marquee-wrap {
+      background: var(--near-black);
+      overflow: hidden;
+      padding: 20px 0;
+      border-top: 1px solid #1a1a1a;
+    }
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 30s linear infinite;
+    }
+    .marquee-item {
+      white-space: nowrap;
+      padding: 0 40px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+    .marquee-item span { color: var(--green); margin-right: 40px; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+
+    /* ─────────────────────────────────────────
+       INTRO / POSITIONING
+    ───────────────────────────────────────── */
+    #intro {
+      background: var(--white);
+      padding: var(--section-v) 0;
+    }
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: end;
+    }
+    .intro-headline { color: var(--near-black); }
+    .intro-right { padding-bottom: 8px; }
+    .intro-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--light-grey);
+      border: 1px solid var(--light-grey);
+      margin-top: 48px;
+    }
+    .stat-cell {
+      background: var(--white);
+      padding: 32px 28px;
+    }
+    .stat-number {
+      font-family: var(--font-mono);
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 700;
+      color: var(--purple);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-label { font-size: 13px; color: var(--grey); font-weight: 500; }
+
+    /* ─────────────────────────────────────────
+       HOW WE WORK — THREE PILLARS
+    ───────────────────────────────────────── */
+    #how-we-work {
+      background: var(--near-black);
+      padding: var(--section-v) 0;
+    }
+    .section-header { margin-bottom: 64px; }
+    .section-header .eyebrow { margin-bottom: 16px; }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .pillar-card {
+      padding: 48px 40px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s var(--ease);
+    }
+    .pillar-card:hover { transform: translateY(-4px); }
+    .pillar-card:nth-child(1) { background: #111111; }
+    .pillar-card:nth-child(2) { background: #161616; }
+    .pillar-card:nth-child(3) { background: var(--purple); }
+
+    .pillar-num {
+      font-family: var(--font-display);
+      font-size: 52px;
+      font-weight: 800;
+      color: var(--pink);
+      line-height: 1;
+      margin-bottom: 24px;
+    }
+    .pillar-card:nth-child(3) .pillar-num { color: rgba(255,255,255,0.4); }
+    .pillar-name {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .pillar-tagline {
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 32px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+    .pillar-divider {
+      width: 40px; height: 2px;
+      background: var(--pink);
+      margin-bottom: 32px;
+    }
+    .pillar-card:nth-child(3) .pillar-divider { background: rgba(255,255,255,0.4); }
+    .pillar-points { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .pillar-points li {
+      font-size: 14px;
+      color: rgba(255,255,255,0.65);
+      padding-left: 16px;
+      position: relative;
+    }
+    .pillar-points li::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 8px;
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--pink);
+    }
+    .pillar-card:nth-child(3) .pillar-points li::before { background: rgba(255,255,255,0.5); }
+
+    /* ─────────────────────────────────────────
+       AI SECTION
+    ───────────────────────────────────────── */
+    #ai {
+      background: var(--purple-dark);
+      padding: var(--section-v) 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .ai-bg-shape {
+      position: absolute;
+      right: -200px;
+      top: -100px;
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .ai-bg-shape-2 {
+      position: absolute;
+      right: 0px;
+      top: 50px;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.04);
+      background: radial-gradient(circle at center, rgba(85,0,238,0.3) 0%, transparent 70%);
+    }
+    .ai-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .ai-left .eyebrow { color: var(--green); margin-bottom: 24px; }
+    .ai-headline { color: var(--white); margin-bottom: 28px; }
+    .ai-sub { color: rgba(255,255,255,0.6); margin-bottom: 40px; }
+    .ai-proof {
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 40px;
+    }
+    .ai-proof-stat .stat-number { color: var(--green); font-size: 40px; }
+    .ai-proof-stat .stat-label { color: rgba(255,255,255,0.5); font-size: 12px; }
+
+    .ai-cards { display: flex; flex-direction: column; gap: 2px; }
+    .ai-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 32px 36px;
+      transition: background 0.2s;
+    }
+    .ai-card:hover { background: rgba(255,255,255,0.07); }
+    .ai-card-num {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--green);
+      margin-bottom: 12px;
+      letter-spacing: 0.1em;
+    }
+    .ai-card-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .ai-card-body { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+    /* ─────────────────────────────────────────
+       CASE STUDIES
+    ───────────────────────────────────────── */
+    #work {
+      background: var(--off-white);
+      padding: var(--section-v) 0;
+    }
+    .work-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 56px;
+    }
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .case-card {
+      background: var(--white);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s var(--ease), box-shadow 0.3s;
+    }
+    .case-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.12);
+    }
+    .case-card-header {
+      height: 200px;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      padding: 28px;
+      overflow: hidden;
+    }
+    .case-card-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+    .case-amica .case-card-header { background: var(--purple); }
+    .case-sweep .case-card-header  { background: #0A1628; }
+    .case-hearme .case-card-header { background: #1A0A2E; }
+    .case-childhood .case-card-header { background: #1E0840; }
+    .case-wayfinding .case-card-header { background: #0D1A00; }
+    .case-storytelling .case-card-header { background: #3D0015; }
+
+    /* Card header abstract shape */
+    .case-shape {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .case-shape-blob {
+      position: absolute;
+      border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
+    }
+    .case-amica .case-shape-blob {
+      width: 280px; height: 280px;
+      top: -60px; right: -60px;
+      background: radial-gradient(circle, var(--green) 0%, var(--pink) 50%, transparent 70%);
+      opacity: 0.6;
+    }
+    .case-sweep .case-shape-blob {
+      width: 260px; height: 260px;
+      top: -40px; right: -40px;
+      background: radial-gradient(circle, #00E5FF 0%, #0066FF 50%, transparent 70%);
+      opacity: 0.5;
+    }
+    .case-hearme .case-shape-blob {
+      width: 240px; height: 240px;
+      top: -30px; right: -30px;
+      background: radial-gradient(circle, var(--pink) 0%, var(--purple) 50%, transparent 70%);
+      opacity: 0.6;
+    }
+    .case-childhood .case-shape-blob {
+      width: 300px; height: 300px;
+      top: -70px; right: -70px;
+      background: radial-gradient(circle, var(--pink) 0%, var(--purple-mid) 50%, transparent 70%);
+      opacity: 0.5;
+    }
+    .case-wayfinding .case-shape-blob {
+      width: 260px; height: 260px;
+      top: -50px; right: -50px;
+      background: radial-gradient(circle, var(--green) 0%, #005522 50%, transparent 70%);
+      opacity: 0.6;
+    }
+    .case-storytelling .case-shape-blob {
+      width: 280px; height: 280px;
+      top: -60px; right: -60px;
+      background: radial-gradient(circle, #FF6640 0%, var(--pink) 50%, transparent 70%);
+      opacity: 0.5;
+    }
+
+    .case-badge {
+      position: relative;
+      z-index: 2;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 6px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--white);
+      border-radius: 2px;
+    }
+    .case-card-body { padding: 32px; flex: 1; display: flex; flex-direction: column; }
+    .case-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--purple);
+    }
+    .tag + .tag::before { content: '·'; margin-right: 8px; color: var(--light-grey); }
+    .case-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--near-black);
+      margin-bottom: 12px;
+      line-height: 1.15;
+    }
+    .case-desc { font-size: 15px; line-height: 1.6; color: #555; flex: 1; margin-bottom: 24px; }
+    .case-metrics {
+      display: flex;
+      gap: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--light-grey);
+    }
+    .metric { }
+    .metric-val {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--near-black);
+    }
+    .metric-label { font-size: 11px; color: var(--grey); margin-top: 2px; }
+    .cases-cta {
+      text-align: center;
+      margin-top: 56px;
+    }
+
+    /* ─────────────────────────────────────────
+       STORYTELLING
+    ───────────────────────────────────────── */
+    #storytelling {
+      background: #1C0808;
+      padding: var(--section-v) 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .story-bg {
+      position: absolute;
+      left: -100px; top: -100px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,16,144,0.15) 0%, transparent 70%);
+    }
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .story-left .eyebrow { color: var(--pink); margin-bottom: 24px; }
+    .story-headline { color: var(--white); margin-bottom: 28px; }
+    .story-sub { color: rgba(255,255,255,0.6); margin-bottom: 40px; }
+    .story-types { display: flex; flex-direction: column; gap: 2px; }
+    .story-type {
+      padding: 16px 24px;
+      background: rgba(255,255,255,0.04);
+      border-left: 2px solid var(--pink);
+      font-size: 15px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.8);
+    }
+    .story-quote {
+      background: rgba(255,16,144,0.1);
+      border: 1px solid rgba(255,16,144,0.2);
+      padding: 48px;
+      position: relative;
+    }
+    .story-quote-mark {
+      font-family: var(--font-display);
+      font-size: 80px;
+      font-weight: 800;
+      color: var(--pink);
+      opacity: 0.3;
+      line-height: 1;
+      margin-bottom: -20px;
+    }
+    .story-quote-text {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 2.5vw, 32px);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.3;
+      margin-bottom: 24px;
+    }
+    .story-quote-attr { font-size: 13px; color: rgba(255,255,255,0.4); font-style: italic; }
+
+    /* ─────────────────────────────────────────
+       SECTORS
+    ───────────────────────────────────────── */
+    #sectors { background: var(--white); padding: var(--section-v) 0; }
+    .sectors-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--light-grey);
+      border: 1px solid var(--light-grey);
+      margin-top: 56px;
+    }
+    .sector-cell {
+      background: var(--white);
+      padding: 36px 32px;
+      transition: background 0.2s;
+      cursor: default;
+    }
+    .sector-cell:hover { background: var(--purple); }
+    .sector-cell:hover .sector-name { color: var(--white); }
+    .sector-cell:hover .sector-detail { color: rgba(255,255,255,0.6); }
+    .sector-cell:hover .sector-icon { color: var(--green); }
+    .sector-icon {
+      font-size: 24px;
+      margin-bottom: 16px;
+      color: var(--purple);
+      transition: color 0.2s;
+    }
+    .sector-name {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .sector-detail { font-size: 13px; color: var(--grey); line-height: 1.5; transition: color 0.2s; }
+
+    /* ─────────────────────────────────────────
+       WHY PORTABLE
+    ───────────────────────────────────────── */
+    #why {
+      background: var(--off-white);
+      padding: var(--section-v) 0;
+    }
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--light-grey);
+      margin-top: 56px;
+    }
+    .why-card {
+      background: var(--off-white);
+      padding: 48px 44px;
+    }
+    .why-card:nth-child(even) { background: var(--white); }
+    .why-num {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--purple);
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+    .why-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .why-body { font-size: 15px; line-height: 1.65; color: #555; }
+
+    /* ─────────────────────────────────────────
+       CTA
+    ───────────────────────────────────────── */
+    #cta {
+      background: var(--purple);
+      padding: var(--section-v) 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-bg-shape {
+      position: absolute;
+      right: -200px;
+      top: -200px;
+      width: 800px;
+      height: 800px;
+    }
+    .cta-bg-blob {
+      position: absolute;
+      inset: 0;
+      border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
+      background: radial-gradient(circle at 40% 40%, var(--pink) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 70%, var(--green) 0%, transparent 50%);
+      opacity: 0.3;
+      animation: morph1 10s var(--ease) infinite alternate;
+    }
+    .cta-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .cta-eyebrow { color: rgba(255,255,255,0.6); margin-bottom: 24px; }
+    .cta-headline { color: var(--white); margin-bottom: 24px; }
+    .cta-sub { color: rgba(255,255,255,0.65); margin-bottom: 56px; }
+    .cta-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 64px;
+    }
+    .cta-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 32px 28px;
+      text-align: left;
+      transition: background 0.2s;
+    }
+    .cta-card:hover { background: rgba(255,255,255,0.12); }
+    .cta-card-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .cta-card-desc { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 20px; }
+    .cta-card-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .cta-card-link::after { content: '→'; }
+
+    /* ─────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────── */
+    footer {
+      background: var(--near-black);
+      padding: 60px 0 40px;
+      border-top: 1px solid #1a1a1a;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+    .footer-brand .nav-logo { font-size: 22px; display: block; margin-bottom: 16px; }
+    .footer-tagline { font-size: 13px; color: #555; line-height: 1.6; max-width: 240px; }
+    .footer-col-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #444;
+      margin-bottom: 20px;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-size: 14px; color: #666; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 32px;
+      border-top: 1px solid #1a1a1a;
+    }
+    .footer-copy { font-size: 12px; color: #444; }
+    .footer-acknowledgement { font-size: 12px; color: #333; max-width: 400px; text-align: right; line-height: 1.5; }
+
+    /* ─────────────────────────────────────────
+       SCROLLING ANIMATIONS
+    ───────────────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-up:nth-child(2) { transition-delay: 0.1s; }
+    .fade-up:nth-child(3) { transition-delay: 0.2s; }
+    .fade-up:nth-child(4) { transition-delay: 0.3s; }
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      #hero { grid-template-columns: 1fr; }
+      .hero-shape-wrap { display: none; }
+      .hero-content { padding-top: 120px; }
+      .intro-grid, .ai-grid, .story-grid { grid-template-columns: 1fr; gap: 48px; }
+      .pillars-grid, .grid-3, .cases-grid, .sectors-grid, .why-grid { grid-template-columns: 1fr; }
+      .cta-cards { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      nav .nav-links { display: none; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+      .footer-acknowledgement { text-align: center; }
+      .work-header { flex-direction: column; align-items: flex-start; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       NAV
+  ═══════════════════════════════════════ -->
+  <nav>
+    <a class="nav-logo" href="index.html"><img src="logo.png" alt="Portable"></a>
+    <ul class="nav-links">
+      <li><a href="work.html">Work</a></li>
+      <li><a href="#how-we-work">How we work</a></li>
+      <li><a href="ai.html">AI</a></li>
+      <li><a href="#sectors">Sectors</a></li>
+      <li><a href="#storytelling">Storytelling</a></li>
+    </ul>
+    <a href="mailto:hello@portable.com.au" class="nav-cta">Start a conversation</a>
+  </nav>
+
+  <!-- ═══════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-content">
+      <p class="eyebrow hero-eyebrow">Technology for organisations that matter</p>
+      <h1 class="display display-xl hero-headline">
+        Wherever<br>Portable<br>works, a<br>better world<br>exists.
+      </h1>
+      <p class="body-lg hero-sub">
+        Purpose-driven design, engineering and AI for government
+        and the social sector. We embed, we build, we grow.
+      </p>
+      <div class="hero-actions">
+        <a href="work.html" class="btn btn-green btn-arrow">See our work</a>
+        <a href="#cta" class="btn btn-outline">Start a conversation</a>
+      </div>
+    </div>
+
+    <div class="hero-shape-wrap">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="shape-layers">
+        <div class="shape-layer"></div>
+        <div class="shape-layer"></div>
+        <div class="shape-layer"></div>
+        <div class="shape-layer"></div>
+        <div class="shape-layer"></div>
+        <div class="shape-layer"></div>
+        <div class="shape-layer"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       MARQUEE
+  ═══════════════════════════════════════ -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <!-- Repeated twice for seamless loop -->
+      <span class="marquee-item"><span>★</span> Product</span>
+      <span class="marquee-item"><span>★</span> Capability</span>
+      <span class="marquee-item"><span>★</span> Uplift</span>
+      <span class="marquee-item"><span>★</span> AI Strategy</span>
+      <span class="marquee-item"><span>★</span> Government</span>
+      <span class="marquee-item"><span>★</span> Access to Justice</span>
+      <span class="marquee-item"><span>★</span> Service Design</span>
+      <span class="marquee-item"><span>★</span> Storytelling</span>
+      <span class="marquee-item"><span>★</span> Mental Health</span>
+      <span class="marquee-item"><span>★</span> Product</span>
+      <span class="marquee-item"><span>★</span> Capability</span>
+      <span class="marquee-item"><span>★</span> Uplift</span>
+      <span class="marquee-item"><span>★</span> AI Strategy</span>
+      <span class="marquee-item"><span>★</span> Government</span>
+      <span class="marquee-item"><span>★</span> Access to Justice</span>
+      <span class="marquee-item"><span>★</span> Service Design</span>
+      <span class="marquee-item"><span>★</span> Storytelling</span>
+      <span class="marquee-item"><span>★</span> Mental Health</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       INTRO / POSITIONING
+  ═══════════════════════════════════════ -->
+  <section id="intro" class="section">
+    <div class="container">
+      <div class="intro-grid">
+        <div class="intro-left">
+          <p class="eyebrow" style="color:var(--purple);margin-bottom:20px;">Who we are</p>
+          <h2 class="display display-lg intro-headline">
+            Twenty years<br>building what<br>matters.
+          </h2>
+        </div>
+        <div class="intro-right">
+          <p class="body-lg" style="color:#333;margin-bottom:24px;">
+            Portable is a purpose-driven technology company. We design and build digital
+            products, embed specialist capability, and grow the teams that run them —
+            for government, legal aid, health, education and the social sector.
+          </p>
+          <p class="body-md" style="color:#666;">
+            We combine deep sector knowledge with genuine engineering and design craft.
+            The team you meet is the team that builds. All in-house, all onshore.
+          </p>
+          <div class="intro-stats fade-up">
+            <div class="stat-cell">
+              <div class="stat-number">20+</div>
+              <div class="stat-label">Years in digital & AI</div>
+            </div>
+            <div class="stat-cell">
+              <div class="stat-number">65</div>
+              <div class="stat-label">Specialists onshore</div>
+            </div>
+            <div class="stat-cell">
+              <div class="stat-number">$35M</div>
+              <div class="stat-label">Community benefit (Amica)</div>
+            </div>
+            <div class="stat-cell">
+              <div class="stat-number">100+</div>
+              <div class="stat-label">Government projects</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       HOW WE WORK — THREE PILLARS
+  ═══════════════════════════════════════ -->
+  <section id="how-we-work">
+    <div class="container">
+      <div class="section-header">
+        <p class="eyebrow" style="color:var(--pink);margin-bottom:16px;">How we work</p>
+        <h2 class="display display-lg" style="color:var(--white);max-width:640px;">
+          Three ways we create impact.
+        </h2>
+        <p class="body-lg" style="color:rgba(255,255,255,0.5);margin-top:20px;max-width:560px;">
+          Every engagement draws on product thinking, capability depth, and a commitment
+          to leaving teams better than we found them.
+        </p>
+      </div>
+      <div class="pillars-grid">
+        <div class="pillar-card fade-up">
+          <div class="pillar-num">01</div>
+          <div class="pillar-name">Product</div>
+          <div class="pillar-tagline">Discovery to delivery</div>
+          <div class="pillar-divider"></div>
+          <ul class="pillar-points">
+            <li>End-to-end digital delivery</li>
+            <li>Service design &amp; research</li>
+            <li>Agile product teams</li>
+            <li>Platform &amp; API development</li>
+            <li>AI-augmented workflows</li>
+            <li>Government-grade at startup speed</li>
+          </ul>
+        </div>
+        <div class="pillar-card fade-up">
+          <div class="pillar-num">02</div>
+          <div class="pillar-name">Capability</div>
+          <div class="pillar-tagline">Teams that scale</div>
+          <div class="pillar-divider"></div>
+          <ul class="pillar-points">
+            <li>Embedded consultants (Midnyte City)</li>
+            <li>Surge capacity on demand</li>
+            <li>Senior engineers &amp; UX designers</li>
+            <li>Product managers &amp; delivery leads</li>
+            <li>Data engineers</li>
+            <li>Day-one productive specialists</li>
+          </ul>
+        </div>
+        <div class="pillar-card fade-up">
+          <div class="pillar-num">03</div>
+          <div class="pillar-name">Uplift</div>
+          <div class="pillar-tagline">Skills that stick</div>
+          <div class="pillar-divider"></div>
+          <ul class="pillar-points">
+            <li>Skills transfer by design</li>
+            <li>Coaching &amp; pairing</li>
+            <li>Sprint retrospectives &amp; workshops</li>
+            <li>Capability roadmaps</li>
+            <li>Self-sufficient teams</li>
+            <li>Documented practices &amp; playbooks</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       AI SECTION
+  ═══════════════════════════════════════ -->
+  <section id="ai">
+    <div class="ai-bg-shape"></div>
+    <div class="ai-bg-shape-2"></div>
+    <div class="container">
+      <div class="ai-grid">
+        <div class="ai-left">
+          <p class="eyebrow ai-eyebrow">Artificial Intelligence</p>
+          <h2 class="display display-lg ai-headline">
+            AI for<br>organisations<br>that matter.
+          </h2>
+          <p class="body-lg ai-sub">
+            Responsible AI strategy, products and training for government
+            and the purpose sector. We help you move from curiosity
+            to real implementation.
+          </p>
+          <a href="ai.html" class="btn btn-green btn-arrow">Explore AI with Portable</a>
+          <div class="ai-proof">
+            <div class="ai-proof-stat">
+              <div class="stat-number" style="color:var(--green);font-size:36px;">7+</div>
+              <div class="stat-label" style="color:rgba(255,255,255,0.45);font-size:12px;">Years running<br>in production</div>
+            </div>
+            <div style="border-left:1px solid rgba(255,255,255,0.1);padding-left:32px;flex:1;">
+              <p style="font-size:14px;color:rgba(255,255,255,0.6);line-height:1.6;">
+                Amica — one of Australia's longest-running government AI deployments.
+                Still live. Still delivering. <span style="color:var(--green);font-weight:600;">National Innovation Award 2020.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="ai-cards">
+          <div class="ai-card fade-up">
+            <div class="ai-card-num">A — Strategy &amp; Policy</div>
+            <div class="ai-card-title">Design AI adoption</div>
+            <div class="ai-card-body">
+              Identify where AI creates real value. Build governance foundations and ethical
+              frameworks that earn community trust. Map a safe, confident path forward.
+            </div>
+          </div>
+          <div class="ai-card fade-up">
+            <div class="ai-card-num">B — Product &amp; Innovation</div>
+            <div class="ai-card-title">Build AI-enabled services</div>
+            <div class="ai-card-body">
+              Rapid prototyping to live deployment. Custom AI products that plug into
+              real systems, built ethically and designed to actually get used.
+            </div>
+          </div>
+          <div class="ai-card fade-up">
+            <div class="ai-card-num">C — Capability &amp; Training</div>
+            <div class="ai-card-title">Embed AI capability</div>
+            <div class="ai-card-body">
+              Develop your people, processes and operating models so AI sustains and
+              scales without us. From GenAI foundations to executive masterclasses.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       WORK / CASE STUDIES
+  ═══════════════════════════════════════ -->
+  <section id="work">
+    <div class="container">
+      <div class="work-header">
+        <div>
+          <p class="eyebrow" style="color:var(--purple);margin-bottom:16px;">Selected work</p>
+          <h2 class="display display-lg">What we've built.</h2>
+        </div>
+        <a href="work.html" class="btn btn-dark btn-arrow">All case studies</a>
+      </div>
+      <div class="cases-grid">
+
+        <!-- Amica -->
+        <div class="case-card case-amica fade-up">
+          <div class="case-card-header">
+            <div class="case-shape"><div class="case-shape-blob"></div></div>
+            <span class="case-badge">7+ years live</span>
+          </div>
+          <div class="case-card-body">
+            <div class="case-tags">
+              <span class="tag">Access to Justice</span>
+              <span class="tag">Machine Learning</span>
+              <span class="tag">Federal Gov</span>
+            </div>
+            <h3 class="case-title">Amica</h3>
+            <p class="case-desc">
+              AI-powered divorce and asset division platform for separating couples.
+              Built on a synthetic dataset co-created with family lawyers across every
+              Australian state and territory — without lawyers, without bias.
+            </p>
+            <div class="case-metrics">
+              <div class="metric">
+                <div class="metric-val">$35M</div>
+                <div class="metric-label">Community benefit</div>
+              </div>
+              <div class="metric">
+                <div class="metric-val">1.6M</div>
+                <div class="metric-label">Website visits</div>
+              </div>
+              <div class="metric">
+                <div class="metric-val">9,000</div>
+                <div class="metric-label">Registered matters</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sweep -->
+        <div class="case-card case-sweep fade-up">
+          <div class="case-card-header">
+            <div class="case-shape"><div class="case-shape-blob"></div></div>
+            <span class="case-badge">$1.1M BRII Grant</span>
+          </div>
+          <div class="case-card-body">
+            <div class="case-tags">
+              <span class="tag">Fair Work</span>
+              <span class="tag">AI Compliance</span>
+              <span class="tag">Federal Gov</span>
+            </div>
+            <h3 class="case-title">Sweep</h3>
+            <p class="case-desc">
+              Wage compliance and fair work AI platform. Connects payroll and award data
+              to automatically flag potential wage discrepancies before they become legal
+              problems. Scaling nationally across multiple industries.
+            </p>
+            <div class="case-metrics">
+              <div class="metric">
+                <div class="metric-val">$1.1M</div>
+                <div class="metric-label">Gov grant awarded</div>
+              </div>
+              <div class="metric">
+                <div class="metric-val">National</div>
+                <div class="metric-label">Rollout scope</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hear Me Out -->
+        <div class="case-card case-hearme fade-up">
+          <div class="case-card-header">
+            <div class="case-shape"><div class="case-shape-blob"></div></div>
+            <span class="case-badge">Purpose sector</span>
+          </div>
+          <div class="case-card-body">
+            <div class="case-tags">
+              <span class="tag">Mental Health</span>
+              <span class="tag">NLP</span>
+              <span class="tag">Conversational AI</span>
+            </div>
+            <h3 class="case-title">Hear Me Out</h3>
+            <p class="case-desc">
+              AI-powered guided support platform for young Australians. Trauma-informed
+              design combined with NLP to connect people with mental health resources —
+              built for equity and accessibility where standard services fail most.
+            </p>
+            <div class="case-metrics">
+              <div class="metric">
+                <div class="metric-val">Trauma-informed</div>
+                <div class="metric-label">Design approach</div>
+              </div>
+              <div class="metric">
+                <div class="metric-val">Equity-first</div>
+                <div class="metric-label">Accessibility</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Childhood Dementia -->
+        <div class="case-card case-childhood fade-up">
+          <div class="case-card-header">
+            <div class="case-shape"><div class="case-shape-blob"></div></div>
+            <span class="case-badge">Health sector</span>
+          </div>
+          <div class="case-card-body">
+            <div class="case-tags">
+              <span class="tag">Health</span>
+              <span class="tag">Service Design</span>
+              <span class="tag">Digital Platform</span>
+            </div>
+            <h3 class="case-title">Digital Information &amp; Support Hub</h3>
+            <p class="case-desc">
+              A digital platform for the Childhood Dementia Initiative — designed to give
+              families, carers and clinicians access to information, community and
+              support at the moments they need it most.
+            </p>
+            <div class="case-metrics">
+              <div class="metric">
+                <div class="metric-val">CDI</div>
+                <div class="metric-label">Client</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wayfinding Australia -->
+        <div class="case-card case-wayfinding fade-up">
+          <div class="case-card-header">
+            <div class="case-shape"><div class="case-shape-blob"></div></div>
+            <span class="case-badge">Government</span>
+          </div>
+          <div class="case-card-body">
+            <div class="case-tags">
+              <span class="tag">Government Innovation</span>
+              <span class="tag">Research</span>
+              <span class="tag">Service Design</span>
+            </div>
+            <h3 class="case-title">Are we moving in the right direction?</h3>
+            <p class="case-desc">
+              Wayfinding in Australia — a research-led initiative examining how people
+              navigate complex government services. Turning insight into systemic
+              recommendations for service design at scale.
+            </p>
+            <div class="case-metrics">
+              <div class="metric">
+                <div class="metric-val">Systemic</div>
+                <div class="metric-label">Impact focus</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Navigator / CSIRO -->
+        <div class="case-card case-storytelling fade-up">
+          <div class="case-card-header">
+            <div class="case-shape"><div class="case-shape-blob"></div></div>
+            <span class="case-badge">GenAI · CSIRO</span>
+          </div>
+          <div class="case-card-body">
+            <div class="case-tags">
+              <span class="tag">Government Innovation</span>
+              <span class="tag">GenAI</span>
+              <span class="tag">Capability</span>
+            </div>
+            <h3 class="case-title">AI Navigator</h3>
+            <p class="case-desc">
+              An AI capability and wayfinding tool built with CSIRO, helping government
+              agencies understand their AI readiness, identify adoption pathways, and
+              build internal confidence in responsible AI implementation.
+            </p>
+            <div class="case-metrics">
+              <div class="metric">
+                <div class="metric-val">CSIRO</div>
+                <div class="metric-label">Client</div>
+              </div>
+              <div class="metric">
+                <div class="metric-val">Gov-wide</div>
+                <div class="metric-label">Reach</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="cases-cta">
+        <a href="work.html" class="btn btn-primary btn-arrow">View all our work</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       STORYTELLING
+  ═══════════════════════════════════════ -->
+  <section id="storytelling">
+    <div class="story-bg"></div>
+    <div class="container">
+      <div class="story-grid">
+        <div class="story-left">
+          <p class="eyebrow" style="color:var(--pink);margin-bottom:24px;">Storytelling</p>
+          <h2 class="display display-md story-headline">
+            Change doesn't happen until people move.
+          </h2>
+          <p class="body-lg story-sub">
+            In high-stakes contexts, communication isn't just about understanding.
+            It's about moving people to respond differently. We make films, campaigns
+            and stories that shift behaviour at scale.
+          </p>
+          <div class="story-types">
+            <div class="story-type">National awareness campaigns</div>
+            <div class="story-type">Documentaries and interviews</div>
+            <div class="story-type">Animated stories</div>
+            <div class="story-type">Product explainers</div>
+            <div class="story-type">Case study and impact stories</div>
+            <div class="story-type">Training and educational videos</div>
+          </div>
+        </div>
+        <div>
+          <div class="story-quote">
+            <div class="story-quote-mark">"</div>
+            <div class="story-quote-text">
+              Not as a case study — as a human catalyst for systemic change.
+            </div>
+            <div class="story-quote-attr">
+              On Portable's video storytelling work with the Australian Childhood Foundation
+            </div>
+          </div>
+          <div style="margin-top:24px;padding:32px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
+            <p style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.7;">
+              Organisations come to us when people don't fully grasp the reality or urgency
+              of an issue. When information exists, but isn't shifting behaviour or responsibility.
+              When critical work isn't trusted, visible, or gaining momentum.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       SECTORS
+  ═══════════════════════════════════════ -->
+  <section id="sectors" class="section">
+    <div class="container">
+      <p class="eyebrow" style="color:var(--purple);">Where we work</p>
+      <h2 class="display display-lg" style="margin-top:16px;max-width:640px;">
+        The sectors that shape society.
+      </h2>
+      <p class="body-lg" style="color:#666;margin-top:20px;max-width:520px;">
+        We don't parachute in. We've spent 20 years building deep domain knowledge
+        across the sectors that matter most.
+      </p>
+      <div class="sectors-grid">
+        <div class="sector-cell fade-up">
+          <div class="sector-icon">⚖️</div>
+          <div class="sector-name">Access to Justice</div>
+          <div class="sector-detail">Legal aid, online dispute resolution, court tech, employment law</div>
+        </div>
+        <div class="sector-cell fade-up">
+          <div class="sector-icon">🏛️</div>
+          <div class="sector-name">Government Innovation</div>
+          <div class="sector-detail">Policy, service delivery, regulatory tech, digital transformation</div>
+        </div>
+        <div class="sector-cell fade-up">
+          <div class="sector-icon">🧠</div>
+          <div class="sector-name">Mental Health</div>
+          <div class="sector-detail">Conversational AI, triage tools, digital therapeutics, crisis support</div>
+        </div>
+        <div class="sector-cell fade-up">
+          <div class="sector-icon">🎓</div>
+          <div class="sector-name">Education</div>
+          <div class="sector-detail">Learning platforms, AI literacy programs, capability uplift</div>
+        </div>
+        <div class="sector-cell fade-up">
+          <div class="sector-icon">🌿</div>
+          <div class="sector-name">Environment</div>
+          <div class="sector-detail">Climate data, emissions tracking, sustainable planning tools</div>
+        </div>
+        <div class="sector-cell fade-up">
+          <div class="sector-icon">🏥</div>
+          <div class="sector-name">Health</div>
+          <div class="sector-detail">Patient navigation, cancer journeys, care coordination platforms</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       WHY PORTABLE
+  ═══════════════════════════════════════ -->
+  <section id="why" class="section">
+    <div class="container">
+      <p class="eyebrow" style="color:var(--purple);">Why Portable</p>
+      <h2 class="display display-lg" style="margin-top:16px;max-width:700px;">
+        A lot of firms will look like this. Few will have actually done it.
+      </h2>
+      <div class="why-grid">
+        <div class="why-card fade-up">
+          <div class="why-num">01</div>
+          <div class="why-title">Sector-deep, not sector-wide</div>
+          <div class="why-body">We don't parachute into government. We've spent 20 years building trusted relationships and deep domain knowledge across justice, health, education and policy. That's why our projects get delivered.</div>
+        </div>
+        <div class="why-card fade-up">
+          <div class="why-num">02</div>
+          <div class="why-title">Design-led AI that people actually use</div>
+          <div class="why-body">Every product starts with user research. Technology that doesn't centre the human isn't just bad ethics — it fails. We design and build together, and it shows in adoption.</div>
+        </div>
+        <div class="why-card fade-up">
+          <div class="why-num">03</div>
+          <div class="why-title">Proven production-grade AI — not just prototypes</div>
+          <div class="why-body">Amica has been running for 7+ years. Sweep won a Federal Government grant. These aren't demos — they're working systems operating at national scale in complex, regulated environments.</div>
+        </div>
+        <div class="why-card fade-up">
+          <div class="why-num">04</div>
+          <div class="why-title">Full-spectrum capability, all in-house, all onshore</div>
+          <div class="why-body">ML, GenAI, NLP, data science, policy, training and change management — all in-house, all onshore. No outsourced quality risk. The team you meet is the team that builds.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       CTA
+  ═══════════════════════════════════════ -->
+  <section id="cta">
+    <div class="cta-bg-shape"><div class="cta-bg-blob"></div></div>
+    <div class="container">
+      <div class="cta-content">
+        <p class="eyebrow cta-eyebrow">Let's work together</p>
+        <h2 class="display display-lg cta-headline">
+          Let's build something that lasts.
+        </h2>
+        <p class="body-lg cta-sub">
+          Whether you need a team to build, someone to slot in, or a partner
+          to grow capability — we'd love to talk.
+        </p>
+        <a href="mailto:hello@portable.com.au" class="btn btn-green" style="font-size:16px;padding:20px 44px;">
+          hello@portable.com.au
+        </a>
+        <div class="cta-cards">
+          <div class="cta-card">
+            <div class="cta-card-title">Start a conversation</div>
+            <div class="cta-card-desc">Tell us what you're working on. We'll tell you how we can help.</div>
+            <div class="cta-card-link">Get in touch</div>
+          </div>
+          <div class="cta-card">
+            <div class="cta-card-title">See our work</div>
+            <div class="cta-card-desc">Government delivery case studies, AI products and storytelling.</div>
+            <div class="cta-card-link">View case studies</div>
+          </div>
+          <div class="cta-card">
+            <div class="cta-card-title">Join the team</div>
+            <div class="cta-card-desc">We're always growing. Come work on problems that matter.</div>
+            <div class="cta-card-link">View open roles</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="nav-logo" href="index.html" style="margin-bottom:16px;"><img src="logo.png" alt="Portable" style="height:18px;"></a>
+          <p class="footer-tagline">
+            Wherever Portable works, a better world exists.
+            Purpose-driven technology for government and the social sector.
+          </p>
+        </div>
+        <div>
+          <div class="footer-col-title">Services</div>
+          <ul class="footer-links">
+            <li><a href="#how-we-work">Product &amp; Delivery</a></li>
+            <li><a href="#how-we-work">Capability &amp; Staffing</a></li>
+            <li><a href="#how-we-work">Uplift &amp; Training</a></li>
+            <li><a href="ai.html">AI Strategy</a></li>
+            <li><a href="#storytelling">Storytelling</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Work</div>
+          <ul class="footer-links">
+            <li><a href="work.html">Amica</a></li>
+            <li><a href="work.html">Sweep</a></li>
+            <li><a href="work.html">Hear Me Out</a></li>
+            <li><a href="work.html">AI Navigator</a></li>
+            <li><a href="work.html">All case studies</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Company</div>
+          <ul class="footer-links">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Team</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Insights</a></li>
+            <li><a href="mailto:hello@portable.com.au">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-copy">© 2025 Portable. All rights reserved.</div>
+        <div class="footer-acknowledgement">
+          We acknowledge the Traditional Custodians of the land on which we work,
+          and pay our respects to Elders past and present.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════
+       SCROLL ANIMATIONS
+  ═══════════════════════════════════════ -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Nav: transparent over hero, dark on scroll
+    const nav = document.querySelector('nav');
+    function updateNav() {
+      if (window.scrollY > 60) {
+        nav.style.background = 'rgba(8,8,8,0.96)';
+        nav.style.backdropFilter = 'blur(16px)';
+        nav.style.borderBottom = '1px solid #1a1a1a';
+      } else {
+        // Over purple hero — keep transparent, logo already white via filter
+        nav.style.background = 'transparent';
+        nav.style.backdropFilter = '';
+        nav.style.borderBottom = '';
+      }
+    }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI with Portable° — Responsible AI for organisations that matter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ─────────────────────────────────────────
+       TOKENS
+    ───────────────────────────────────────── */
+    :root {
+      --purple:       #5500EE;
+      --purple-mid:   #7733FF;
+      --purple-dark:  #1A0060;
+      --pink:         #FF1090;
+      --green:        #AAFF00;
+      --white:        #FFFFFF;
+      --off-white:    #F5F4F0;
+      --near-black:   #080808;
+      --grey:         #888888;
+      --light-grey:   #E8E8E4;
+
+      --font-display: 'Inter', sans-serif;
+      --font-body:    'Inter', sans-serif;
+      --font-mono:    'Space Mono', monospace;
+
+      --max-w: 1280px;
+      --gutter: clamp(24px, 5vw, 80px);
+      --section-v: clamp(80px, 10vw, 140px);
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ─────────────────────────────────────────
+       RESET
+    ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--white);
+      color: var(--near-black);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ─────────────────────────────────────────
+       LAYOUT HELPERS
+    ───────────────────────────────────────── */
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+    .section { padding: var(--section-v) 0; }
+
+    /* ─────────────────────────────────────────
+       TYPOGRAPHY
+    ───────────────────────────────────────── */
+    .display {
+      font-family: var(--font-display);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+    }
+    .display-xl  { font-size: clamp(44px, 5.5vw, 88px); line-height: 1.05; }
+    .display-lg  { font-size: clamp(36px, 4vw, 64px);  line-height: 1.1;  }
+    .display-md  { font-size: clamp(28px, 3.2vw, 48px); line-height: 1.15; }
+    .display-sm  { font-size: clamp(22px, 2.4vw, 34px); line-height: 1.2;  }
+
+    .eyebrow {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .body-lg  { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.65; font-weight: 400; }
+    .body-md  { font-size: 16px; line-height: 1.65; font-weight: 400; }
+    .body-sm  { font-size: 13px; line-height: 1.6; color: var(--grey); }
+
+    /* ─────────────────────────────────────────
+       BUTTONS
+    ───────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s var(--ease), opacity 0.2s;
+      border-radius: 2px;
+    }
+    .btn:hover { transform: translateY(-2px); opacity: 0.9; }
+    .btn-primary   { background: var(--purple); color: var(--white); }
+    .btn-outline   { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.4); }
+    .btn-outline:hover { border-color: white; }
+    .btn-dark      { background: var(--near-black); color: var(--white); }
+    .btn-green     { background: var(--green); color: var(--near-black); }
+    .btn-arrow::after { content: '→'; font-size: 18px; }
+
+    /* ─────────────────────────────────────────
+       FADE-UP ANIMATION
+    ───────────────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─────────────────────────────────────────
+       NAV
+    ───────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px var(--gutter);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo { display: flex; align-items: center; }
+    .nav-logo img {
+      height: 20px;
+      width: auto;
+      display: block;
+      filter: invert(1);
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
+      opacity: 0.75;
+      transition: opacity 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { opacity: 1; }
+    .nav-cta {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      border: 1.5px solid rgba(255,255,255,0.5);
+      padding: 10px 22px;
+      border-radius: 2px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .nav-cta:hover { background: var(--white); color: var(--near-black); border-color: var(--white); }
+
+    /* ─────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      background: var(--purple);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-content {
+      padding: 160px var(--gutter) 100px;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-eyebrow {
+      color: var(--green);
+      margin-bottom: 32px;
+    }
+    .hero-headline {
+      color: var(--white);
+      margin-bottom: 32px;
+    }
+    .hero-sub {
+      color: rgba(255,255,255,0.7);
+      max-width: 480px;
+      margin-bottom: 48px;
+    }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+    .hero-proof {
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+    .hero-proof-stat { flex-shrink: 0; }
+    .hero-proof-num {
+      font-family: var(--font-mono);
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--green);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .hero-proof-label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.5;
+    }
+    .hero-proof-text {
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.7;
+    }
+    .hero-proof-text strong { color: var(--green); font-weight: 600; }
+
+    /* Hero animated shapes */
+    .hero-shape-wrap {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+    }
+    .blob-1 {
+      width: 520px; height: 520px;
+      background: radial-gradient(circle at 35% 40%, var(--green) 0%, transparent 60%),
+                  radial-gradient(circle at 70% 60%, var(--pink) 0%, transparent 55%);
+      animation: morph1 8s var(--ease) infinite alternate;
+      opacity: 0.9;
+    }
+    .blob-2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle at 60% 30%, var(--pink) 0%, transparent 60%),
+                  radial-gradient(circle at 30% 70%, var(--purple-mid) 0%, transparent 60%);
+      animation: morph2 10s var(--ease) infinite alternate;
+      opacity: 0.7;
+      top: 20%;
+    }
+    .shape-layers {
+      position: absolute;
+      width: 460px; height: 460px;
+    }
+    .shape-layer {
+      position: absolute;
+      inset: 0;
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+      border: 1.5px solid rgba(255,255,255,0.12);
+    }
+    .shape-layer:nth-child(1) { animation: rotateShape 18s linear infinite; }
+    .shape-layer:nth-child(2) { transform: scale(0.88) rotate(15deg); animation: rotateShape 22s linear infinite reverse; }
+    .shape-layer:nth-child(3) { transform: scale(0.76) rotate(30deg); animation: rotateShape 16s linear infinite; }
+    .shape-layer:nth-child(4) { transform: scale(0.64) rotate(45deg); animation: rotateShape 20s linear infinite reverse; }
+    .shape-layer:nth-child(5) { transform: scale(0.52) rotate(60deg); animation: rotateShape 24s linear infinite; }
+    .shape-layer:nth-child(6) { transform: scale(0.40) rotate(75deg); animation: rotateShape 14s linear infinite reverse; }
+    .shape-layer:nth-child(7) { transform: scale(0.28) rotate(90deg); animation: rotateShape 19s linear infinite; }
+
+    @keyframes morph1 {
+      0%   { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: scale(1) rotate(0deg); }
+      50%  { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; transform: scale(1.05) rotate(5deg); }
+      100% { border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%; transform: scale(0.95) rotate(-3deg); }
+    }
+    @keyframes morph2 {
+      0%   { border-radius: 50% 50% 30% 70% / 40% 60% 40% 60%; transform: scale(1) rotate(0deg) translate(20px, -20px); }
+      100% { border-radius: 70% 30% 60% 40% / 60% 40% 60% 40%; transform: scale(1.08) rotate(-8deg) translate(-20px, 20px); }
+    }
+    @keyframes rotateShape {
+      from { transform-origin: center; transform: rotate(0deg); }
+      to   { transform-origin: center; transform: rotate(360deg); }
+    }
+
+    /* ─────────────────────────────────────────
+       POSITIONING STATEMENT
+    ───────────────────────────────────────── */
+    #positioning {
+      background: var(--white);
+      padding: var(--section-v) 0;
+    }
+    .pos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .pos-headline { margin-bottom: 32px; }
+    .pos-right p {
+      font-size: clamp(17px, 1.4vw, 20px);
+      line-height: 1.75;
+      color: #444;
+      margin-bottom: 24px;
+    }
+    .pos-right p:last-child { margin-bottom: 0; }
+    .pos-stats {
+      display: flex;
+      gap: 0;
+      border-top: 1px solid var(--light-grey);
+      margin-top: 48px;
+      padding-top: 40px;
+    }
+    .pos-stat {
+      flex: 1;
+      padding-right: 32px;
+      border-right: 1px solid var(--light-grey);
+      margin-right: 32px;
+    }
+    .pos-stat:last-child { border-right: none; padding-right: 0; margin-right: 0; }
+    .pos-stat-num {
+      font-family: var(--font-mono);
+      font-size: clamp(28px, 2.5vw, 40px);
+      font-weight: 700;
+      color: var(--purple);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .pos-stat-label { font-size: 13px; color: var(--grey); line-height: 1.4; }
+
+    /* ─────────────────────────────────────────
+       THREE PILLARS
+    ───────────────────────────────────────── */
+    #pillars {
+      background: var(--near-black);
+      padding: var(--section-v) 0;
+      position: relative;
+      overflow: hidden;
+    }
+    #pillars::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(85,0,238,0.25) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .pillars-header {
+      margin-bottom: 64px;
+    }
+    .pillars-eyebrow { color: var(--green); margin-bottom: 24px; }
+    .pillars-headline { color: var(--white); max-width: 600px; }
+
+    .pillar-section { margin-bottom: 64px; }
+    .pillar-section:last-child { margin-bottom: 0; }
+    .pillar-divider-line {
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+      margin-bottom: 48px;
+    }
+    .pillar-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+    .pillar-label-col {}
+    .pillar-letter {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .pillar-name {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(24px, 2.5vw, 36px);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .pillar-tagline {
+      font-size: 14px;
+      color: rgba(255,255,255,0.4);
+      font-weight: 500;
+    }
+    .pillar-content-col {}
+    .pillar-desc {
+      font-size: clamp(16px, 1.3vw, 18px);
+      line-height: 1.75;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 40px;
+      max-width: 640px;
+    }
+    .pillar-capabilities {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .cap-item {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 16px 20px;
+      border-radius: 2px;
+    }
+    .cap-item-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .cap-item-desc {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.5;
+    }
+    .pillar-case-link {
+      margin-top: 32px;
+      padding: 20px 24px;
+      background: rgba(170,255,0,0.06);
+      border: 1px solid rgba(170,255,0,0.2);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 480px;
+    }
+    .pcl-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 4px;
+    }
+    .pcl-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--white);
+    }
+    .pcl-arrow { color: var(--green); font-size: 20px; }
+
+    /* ─────────────────────────────────────────
+       RESPONSIBLE AI
+    ───────────────────────────────────────── */
+    #responsible {
+      background: var(--off-white);
+      padding: var(--section-v) 0;
+    }
+    .resp-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: end;
+      margin-bottom: 64px;
+    }
+    .resp-headline { }
+    .resp-sub {
+      font-size: clamp(17px, 1.4vw, 20px);
+      line-height: 1.7;
+      color: #555;
+    }
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .principle-card {
+      background: var(--white);
+      padding: 36px 32px;
+      border-radius: 2px;
+      border: 1px solid transparent;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .principle-card:hover {
+      border-color: var(--purple);
+      box-shadow: 0 8px 32px rgba(85,0,238,0.08);
+    }
+    .principle-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--purple);
+      letter-spacing: 0.12em;
+      margin-bottom: 20px;
+    }
+    .principle-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 18px;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--near-black);
+      margin-bottom: 12px;
+    }
+    .principle-desc {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #555;
+    }
+
+    /* ─────────────────────────────────────────
+       AI CASE STUDIES
+    ───────────────────────────────────────── */
+    #ai-cases {
+      background: var(--purple-dark);
+      padding: var(--section-v) 0;
+      position: relative;
+      overflow: hidden;
+    }
+    #ai-cases::before {
+      content: '';
+      position: absolute;
+      right: -150px; bottom: -150px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,16,144,0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .cases-header {
+      margin-bottom: 56px;
+    }
+    .cases-eyebrow { color: var(--green); margin-bottom: 20px; }
+    .cases-headline { color: var(--white); }
+    .ai-cases-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .ai-case-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 2px;
+      overflow: hidden;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .ai-case-card:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(170,255,0,0.3);
+    }
+    .ai-case-visual {
+      height: 160px;
+      position: relative;
+      overflow: hidden;
+    }
+    .acv-amica {
+      background: linear-gradient(135deg, rgba(85,0,238,0.8) 0%, rgba(26,0,96,0.95) 100%);
+    }
+    .acv-amica::after {
+      content: '';
+      position: absolute;
+      left: -40px; top: -40px;
+      width: 250px; height: 250px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(170,255,0,0.3) 0%, transparent 60%);
+    }
+    .acv-sweep {
+      background: linear-gradient(135deg, rgba(8,8,8,0.9) 0%, rgba(40,0,80,0.9) 100%);
+    }
+    .acv-sweep::after {
+      content: '';
+      position: absolute;
+      right: 20px; top: 20px;
+      width: 150px; height: 150px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,16,144,0.35) 0%, transparent 60%);
+    }
+    .acv-hearme {
+      background: linear-gradient(135deg, rgba(14,0,36,0.95) 0%, rgba(85,0,238,0.7) 100%);
+    }
+    .acv-hearme::after {
+      content: '';
+      position: absolute;
+      left: 50%; bottom: -20px;
+      transform: translateX(-50%);
+      width: 180px; height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(170,255,0,0.2) 0%, transparent 70%);
+    }
+    .acv-nav {
+      background: linear-gradient(135deg, rgba(10,22,40,0.95) 0%, rgba(26,52,96,0.9) 100%);
+    }
+    .acv-nav::after {
+      content: '';
+      position: absolute;
+      right: 32px; top: 32px;
+      width: 80px; height: 80px;
+      background: var(--green);
+      clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+      opacity: 0.5;
+    }
+    .acc-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      color: var(--white);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 100px;
+      z-index: 1;
+    }
+    .acc-metric {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      text-align: right;
+    }
+    .acc-metric-val {
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--green);
+      line-height: 1;
+    }
+    .acc-metric-label {
+      font-size: 10px;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .ai-case-body {
+      padding: 28px;
+    }
+    .ai-case-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .tag-dark {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 100px;
+      color: rgba(255,255,255,0.5);
+    }
+    .ai-case-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 20px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .ai-case-desc {
+      font-size: 14px;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.55);
+    }
+
+    /* ─────────────────────────────────────────
+       ENGAGEMENT PATHS
+    ───────────────────────────────────────── */
+    #engage {
+      background: var(--white);
+      padding: var(--section-v) 0;
+    }
+    .engage-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: end;
+      margin-bottom: 64px;
+    }
+    .engage-headline { }
+    .engage-sub {
+      font-size: clamp(17px, 1.4vw, 20px);
+      line-height: 1.7;
+      color: #555;
+    }
+    .engage-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .engage-card {
+      padding: 36px 32px;
+      border: 1.5px solid var(--light-grey);
+      border-radius: 2px;
+      position: relative;
+      transition: border-color 0.2s, transform 0.2s var(--ease);
+    }
+    .engage-card:hover {
+      border-color: var(--purple);
+      transform: translateY(-4px);
+    }
+    .engage-letter {
+      font-family: var(--font-mono);
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--light-grey);
+      line-height: 1;
+      margin-bottom: 20px;
+      letter-spacing: -0.04em;
+    }
+    .engage-type {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 12px;
+    }
+    .engage-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 20px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .engage-desc {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #555;
+      margin-bottom: 24px;
+    }
+    .engage-duration {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey);
+      padding-top: 16px;
+      border-top: 1px solid var(--light-grey);
+    }
+
+    /* ─────────────────────────────────────────
+       CTA
+    ───────────────────────────────────────── */
+    #cta {
+      background: var(--near-black);
+      padding: var(--section-v) 0;
+      position: relative;
+      overflow: hidden;
+    }
+    #cta::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 900px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(85,0,238,0.25) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    #cta::after {
+      content: '';
+      position: absolute;
+      right: 10%;
+      bottom: -100px;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(170,255,0,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .cta-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+    }
+    .cta-eyebrow { color: var(--green); margin-bottom: 24px; }
+    .cta-headline { color: var(--white); margin-bottom: 28px; }
+    .cta-sub { color: rgba(255,255,255,0.6); margin-bottom: 48px; }
+    .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .cta-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 64px;
+    }
+    .cta-card {
+      padding: 24px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 2px;
+      text-align: left;
+    }
+    .cta-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .cta-card-desc {
+      font-size: 13px;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.6;
+    }
+
+    /* ─────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────── */
+    footer {
+      background: var(--near-black);
+      padding: 80px 0 40px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.8fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 64px;
+    }
+    .footer-tagline {
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.4);
+      margin-top: 20px;
+      max-width: 260px;
+    }
+    .footer-col-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 20px;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a { font-size: 14px; color: rgba(255,255,255,0.6); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      gap: 40px;
+    }
+    .footer-copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+    .footer-acknowledgement {
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+      max-width: 400px;
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      #hero { grid-template-columns: 1fr; }
+      .hero-shape-wrap { display: none; }
+      .hero-content { padding-top: 140px; }
+      .pos-grid,
+      .resp-header,
+      .engage-header { grid-template-columns: 1fr; gap: 40px; }
+      .pillar-layout { grid-template-columns: 1fr; gap: 32px; }
+      .pillar-capabilities { grid-template-columns: 1fr; }
+      .principles-grid,
+      .engage-grid { grid-template-columns: 1fr 1fr; }
+      .ai-cases-grid { grid-template-columns: 1fr; }
+      .cta-cards { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .principles-grid,
+      .engage-grid { grid-template-columns: 1fr; }
+      .pos-stats { flex-direction: column; gap: 24px; }
+      .pos-stat { border-right: none; border-bottom: 1px solid var(--light-grey); padding-bottom: 24px; padding-right: 0; margin-right: 0; }
+      .pos-stat:last-child { border-bottom: none; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; }
+      .footer-acknowledgement { text-align: left; }
+      .nav-links { display: none; }
+      .hero-proof { flex-direction: column; align-items: flex-start; gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       NAV
+  ═══════════════════════════════════════ -->
+  <nav>
+    <a class="nav-logo" href="index.html"><img src="logo.png" alt="Portable"></a>
+    <ul class="nav-links">
+      <li><a href="work.html">Work</a></li>
+      <li><a href="index.html#how-we-work">How we work</a></li>
+      <li><a href="ai.html" class="active">AI</a></li>
+      <li><a href="index.html#sectors">Sectors</a></li>
+      <li><a href="index.html#storytelling">Storytelling</a></li>
+    </ul>
+    <a href="mailto:hello@portable.com.au" class="nav-cta">Start a conversation</a>
+  </nav>
+
+  <!-- ═══════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-content">
+      <p class="eyebrow hero-eyebrow">Artificial Intelligence</p>
+      <h1 class="display display-xl hero-headline">
+        AI for<br>organisations<br>that matter.
+      </h1>
+      <p class="body-lg hero-sub">
+        Responsible AI strategy, products and training for government
+        and the purpose sector. From curiosity to real implementation.
+      </p>
+      <div class="hero-actions">
+        <a href="#engage" class="btn btn-green btn-arrow">How to work with us</a>
+        <a href="#ai-cases" class="btn btn-outline">See AI projects</a>
+      </div>
+      <div class="hero-proof">
+        <div class="hero-proof-stat">
+          <div class="hero-proof-num">7+</div>
+          <div class="hero-proof-label">Years running<br>in production</div>
+        </div>
+        <div style="border-left:1px solid rgba(255,255,255,0.15);padding-left:28px;">
+          <p class="hero-proof-text">
+            Amica — one of Australia's longest-running government AI deployments.
+            Still live. Still delivering. <strong>National Innovation Award 2020.</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-shape-wrap">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="shape-layers">
+        <div class="shape-layer"></div>
+        <div class="shape-layer"></div>
+        <div class="shape-layer"></div>
+        <div class="shape-layer"></div>
+        <div class="shape-layer"></div>
+        <div class="shape-layer"></div>
+        <div class="shape-layer"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       POSITIONING STATEMENT
+  ═══════════════════════════════════════ -->
+  <section id="positioning">
+    <div class="container">
+      <div class="pos-grid">
+        <div>
+          <p class="eyebrow" style="color:var(--purple);margin-bottom:24px;">Our position</p>
+          <h2 class="display display-lg pos-headline">
+            AI that earns<br>trust, not just<br>attention.
+          </h2>
+        </div>
+        <div class="pos-right fade-up">
+          <p>
+            The organisations we work with don't just want AI — they need AI that genuinely
+            works for the people they serve. That means responsible design, community trust,
+            and technology built to last well beyond the pilot phase.
+          </p>
+          <p>
+            We've been building AI products for government and the social sector since before
+            it was called AI. Our work has been tested in the harshest regulatory and ethical
+            environments in Australia — and it's still running.
+          </p>
+        </div>
+      </div>
+      <div class="pos-stats fade-up">
+        <div class="pos-stat">
+          <div class="pos-stat-num">20+</div>
+          <div class="pos-stat-label">Years of technology for government</div>
+        </div>
+        <div class="pos-stat">
+          <div class="pos-stat-num">65</div>
+          <div class="pos-stat-label">Specialists across design, engineering, data and policy</div>
+        </div>
+        <div class="pos-stat">
+          <div class="pos-stat-num">$35M</div>
+          <div class="pos-stat-label">Measured community benefit delivered through AI</div>
+        </div>
+        <div class="pos-stat">
+          <div class="pos-stat-num">100+</div>
+          <div class="pos-stat-label">Government and purpose-sector projects delivered</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       THREE PILLARS
+  ═══════════════════════════════════════ -->
+  <section id="pillars">
+    <div class="container">
+      <div class="pillars-header">
+        <p class="eyebrow pillars-eyebrow">What we do</p>
+        <h2 class="display display-lg pillars-headline">
+          Three ways<br>we work with AI.
+        </h2>
+      </div>
+
+      <!-- Pillar A: Strategy & Policy -->
+      <div class="pillar-section fade-up">
+        <div class="pillar-divider-line"></div>
+        <div class="pillar-layout">
+          <div class="pillar-label-col">
+            <div class="pillar-letter">A —</div>
+            <div class="pillar-name">Strategy &amp; Policy</div>
+            <div class="pillar-tagline">Design AI adoption</div>
+          </div>
+          <div class="pillar-content-col">
+            <p class="pillar-desc">
+              Most organisations know AI matters. Few know where to start safely.
+              We help you identify where AI creates real value for your context,
+              build the governance foundations that earn community trust, and map
+              a confident path forward — without the hype.
+            </p>
+            <div class="pillar-capabilities">
+              <div class="cap-item">
+                <div class="cap-item-title">AI Opportunity Mapping</div>
+                <div class="cap-item-desc">Where AI creates real value in your organisation</div>
+              </div>
+              <div class="cap-item">
+                <div class="cap-item-title">Governance &amp; Ethics Frameworks</div>
+                <div class="cap-item-desc">Principles, policies and risk management</div>
+              </div>
+              <div class="cap-item">
+                <div class="cap-item-title">Responsible AI Policy</div>
+                <div class="cap-item-desc">Community-centred policy design</div>
+              </div>
+              <div class="cap-item">
+                <div class="cap-item-title">AI Readiness Assessment</div>
+                <div class="cap-item-desc">Data, talent and infrastructure review</div>
+              </div>
+              <div class="cap-item">
+                <div class="cap-item-title">Stakeholder Alignment</div>
+                <div class="cap-item-desc">Building confidence across leadership</div>
+              </div>
+              <div class="cap-item">
+                <div class="cap-item-title">Roadmap &amp; Prioritisation</div>
+                <div class="cap-item-desc">Sequenced implementation planning</div>
+              </div>
+            </div>
+            <a href="#engage" class="pillar-case-link">
+              <div>
+                <div class="pcl-label">Related project</div>
+                <div class="pcl-title">AI Navigator — CSIRO</div>
+              </div>
+              <div class="pcl-arrow">→</div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pillar B: Product & Innovation -->
+      <div class="pillar-section fade-up">
+        <div class="pillar-divider-line"></div>
+        <div class="pillar-layout">
+          <div class="pillar-label-col">
+            <div class="pillar-letter">B —</div>
+            <div class="pillar-name">Product &amp; Innovation</div>
+            <div class="pillar-tagline">Build AI-enabled services</div>
+          </div>
+          <div class="pillar-content-col">
+            <p class="pillar-desc">
+              We take AI from concept to production. Rapid prototyping to live deployment —
+              custom AI products that integrate with real systems, built ethically and
+              designed so people actually use them. Technology that doesn't centre the human
+              isn't just bad ethics — it fails.
+            </p>
+            <div class="pillar-capabilities">
+              <div class="cap-item">
+                <div class="cap-item-title">Machine Learning Products</div>
+                <div class="cap-item-desc">Custom ML systems trained on your data</div>
+              </div>
+              <div class="cap-item">
+                <div class="cap-item-title">GenAI Applications</div>
+                <div class="cap-item-desc">LLM integration, RAG, custom AI assistants</div>
+              </div>
+              <div class="cap-item">
+                <div class="cap-item-title">Conversational AI</div>
+                <div class="cap-item-desc">NLP, chatbots, guided decision tools</div>
+              </div>
+              <div class="cap-item">
+                <div class="cap-item-title">Data Engineering</div>
+                <div class="cap-item-desc">Pipelines, infrastructure and quality</div>
+              </div>
+              <div class="cap-item">
+                <div class="cap-item-title">Rapid Prototyping</div>
+                <div class="cap-item-desc">Validate AI value before full build</div>
+              </div>
+              <div class="cap-item">
+                <div class="cap-item-title">AI-Human Design</div>
+                <div class="cap-item-desc">UX for AI systems people trust and use</div>
+              </div>
+            </div>
+            <a href="work.html" class="pillar-case-link">
+              <div>
+                <div class="pcl-label">Related project</div>
+                <div class="pcl-title">Amica — 7+ years in production</div>
+              </div>
+              <div class="pcl-arrow">→</div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pillar C: Capability & Training -->
+      <div class="pillar-section fade-up">
+        <div class="pillar-divider-line"></div>
+        <div class="pillar-layout">
+          <div class="pillar-label-col">
+            <div class="pillar-letter">C —</div>
+            <div class="pillar-name">Capability &amp; Training</div>
+            <div class="pillar-tagline">Embed AI capability</div>
+          </div>
+          <div class="pillar-content-col">
+            <p class="pillar-desc">
+              The long game in AI isn't the tool — it's the team. We develop your people,
+              processes and operating models so AI sustains and scales without us. From
+              GenAI foundations to executive masterclasses, we leave you genuinely capable.
+            </p>
+            <div class="pillar-capabilities">
+              <div class="cap-item">
+                <div class="cap-item-title">GenAI Foundations</div>
+                <div class="cap-item-desc">Whole-of-team AI literacy programs</div>
+              </div>
+              <div class="cap-item">
+                <div class="cap-item-title">Executive Masterclasses</div>
+                <div class="cap-item-desc">Leadership and decision-making for AI era</div>
+              </div>
+              <div class="cap-item">
+                <div class="cap-item-title">Embedded Coaching</div>
+                <div class="cap-item-desc">Hands-on pairing with your team</div>
+              </div>
+              <div class="cap-item">
+                <div class="cap-item-title">AI Operating Models</div>
+                <div class="cap-item-desc">Process and governance design</div>
+              </div>
+              <div class="cap-item">
+                <div class="cap-item-title">Prompt Engineering</div>
+                <div class="cap-item-desc">Practical skills for working with GenAI</div>
+              </div>
+              <div class="cap-item">
+                <div class="cap-item-title">Capability Roadmaps</div>
+                <div class="cap-item-desc">Your path to AI self-sufficiency</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       RESPONSIBLE AI PRINCIPLES
+  ═══════════════════════════════════════ -->
+  <section id="responsible">
+    <div class="container">
+      <div class="resp-header">
+        <div>
+          <p class="eyebrow" style="color:var(--purple);margin-bottom:24px;">Our approach</p>
+          <h2 class="display display-lg">
+            Responsible AI<br>isn't a constraint.<br>It's the work.
+          </h2>
+        </div>
+        <div class="resp-sub fade-up">
+          We believe the highest-leverage AI work happens where responsible design,
+          ethical governance and genuine community benefit intersect. That's not a
+          limitation on what we can build — it's what makes what we build last.
+        </div>
+      </div>
+      <div class="principles-grid">
+        <div class="principle-card fade-up">
+          <div class="principle-num">01</div>
+          <div class="principle-title">Human outcomes before technology outcomes</div>
+          <div class="principle-desc">
+            We start with the people the system will affect — before we write a line of code.
+            Every design decision traces back to a real human need, a community risk, or
+            a question of equity.
+          </div>
+        </div>
+        <div class="principle-card fade-up">
+          <div class="principle-num">02</div>
+          <div class="principle-title">Transparency by design</div>
+          <div class="principle-desc">
+            AI decisions that affect people's lives must be explainable. We build systems where
+            the reasoning is auditable, the limitations are visible, and communities can hold
+            the technology to account.
+          </div>
+        </div>
+        <div class="principle-card fade-up">
+          <div class="principle-num">03</div>
+          <div class="principle-title">Equity-centred</div>
+          <div class="principle-desc">
+            Technology amplifies what's already there — including bias. We actively design to
+            reduce disparity, particularly for communities that have been historically underserved
+            by government systems.
+          </div>
+        </div>
+        <div class="principle-card fade-up">
+          <div class="principle-num">04</div>
+          <div class="principle-title">Production-grade, not prototype</div>
+          <div class="principle-desc">
+            A demo is not a product. We build AI that operates in complex, regulated environments
+            at national scale — with the robustness, security and reliability that context demands.
+          </div>
+        </div>
+        <div class="principle-card fade-up">
+          <div class="principle-num">05</div>
+          <div class="principle-title">Capability transfer, not dependency</div>
+          <div class="principle-desc">
+            Our goal is to make ourselves less necessary over time. We embed skills, build
+            internal champions and design operating models that let your team own and evolve
+            the AI long after we're gone.
+          </div>
+        </div>
+        <div class="principle-card fade-up">
+          <div class="principle-num">06</div>
+          <div class="principle-title">All onshore, all in-house</div>
+          <div class="principle-desc">
+            ML, GenAI, NLP, data science, policy and training — all in-house, all onshore.
+            The team you meet is the team that builds. No outsourced quality risk, no black box.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       AI CASE STUDIES
+  ═══════════════════════════════════════ -->
+  <section id="ai-cases">
+    <div class="container">
+      <div class="cases-header">
+        <p class="eyebrow cases-eyebrow">AI in action</p>
+        <h2 class="display display-lg cases-headline">Built it. Shipped it.<br>Still running.</h2>
+      </div>
+      <div class="ai-cases-grid">
+
+        <!-- Amica -->
+        <div class="ai-case-card fade-up">
+          <div class="ai-case-visual acv-amica">
+            <span class="acc-badge">7+ Years Live</span>
+            <div class="acc-metric">
+              <div class="acc-metric-val">$35M</div>
+              <div class="acc-metric-label">Community benefit</div>
+            </div>
+          </div>
+          <div class="ai-case-body">
+            <div class="ai-case-tags">
+              <span class="tag-dark">Machine Learning</span>
+              <span class="tag-dark">Justice</span>
+              <span class="tag-dark">Federal Gov</span>
+            </div>
+            <div class="ai-case-title">Amica</div>
+            <p class="ai-case-desc">
+              AI-powered divorce and asset division platform. Trained on a synthetic dataset
+              co-created with family lawyers across every Australian state and territory.
+              One of Australia's longest-running government AI deployments.
+            </p>
+          </div>
+        </div>
+
+        <!-- Sweep -->
+        <div class="ai-case-card fade-up">
+          <div class="ai-case-visual acv-sweep">
+            <span class="acc-badge">$1.1M BRII Grant</span>
+            <div class="acc-metric">
+              <div class="acc-metric-val">National</div>
+              <div class="acc-metric-label">Rollout scope</div>
+            </div>
+          </div>
+          <div class="ai-case-body">
+            <div class="ai-case-tags">
+              <span class="tag-dark">AI Compliance</span>
+              <span class="tag-dark">Fair Work</span>
+              <span class="tag-dark">Federal Gov</span>
+            </div>
+            <div class="ai-case-title">Sweep</div>
+            <p class="ai-case-desc">
+              Wage compliance AI that flags discrepancies between payroll and Modern Award data
+              before they become legal problems. $1.1M BRII grant. Scaling nationally across
+              multiple industries.
+            </p>
+          </div>
+        </div>
+
+        <!-- Hear Me Out -->
+        <div class="ai-case-card fade-up">
+          <div class="ai-case-visual acv-hearme">
+            <span class="acc-badge">Purpose Sector</span>
+            <div class="acc-metric">
+              <div class="acc-metric-val">NLP</div>
+              <div class="acc-metric-label">Conversational AI</div>
+            </div>
+          </div>
+          <div class="ai-case-body">
+            <div class="ai-case-tags">
+              <span class="tag-dark">Mental Health</span>
+              <span class="tag-dark">NLP</span>
+              <span class="tag-dark">Youth</span>
+            </div>
+            <div class="ai-case-title">Hear Me Out</div>
+            <p class="ai-case-desc">
+              Trauma-informed AI guided support for young Australians. Combines NLP with
+              equity-centred design to connect people with mental health resources at the
+              moments they need it most.
+            </p>
+          </div>
+        </div>
+
+        <!-- AI Navigator -->
+        <div class="ai-case-card fade-up">
+          <div class="ai-case-visual acv-nav">
+            <span class="acc-badge">CSIRO · GenAI</span>
+            <div class="acc-metric">
+              <div class="acc-metric-val">Gov-wide</div>
+              <div class="acc-metric-label">Reach</div>
+            </div>
+          </div>
+          <div class="ai-case-body">
+            <div class="ai-case-tags">
+              <span class="tag-dark">GenAI</span>
+              <span class="tag-dark">Strategy</span>
+              <span class="tag-dark">Capability</span>
+            </div>
+            <div class="ai-case-title">AI Navigator</div>
+            <p class="ai-case-desc">
+              AI capability and wayfinding tool built with CSIRO. Helps government agencies
+              understand their AI readiness, identify adoption pathways and build internal
+              confidence in responsible AI implementation.
+            </p>
+          </div>
+        </div>
+
+      </div>
+      <div style="text-align:center;margin-top:48px;">
+        <a href="work.html" class="btn btn-outline btn-arrow">All case studies</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       ENGAGEMENT PATHS
+  ═══════════════════════════════════════ -->
+  <section id="engage">
+    <div class="container">
+      <div class="engage-header">
+        <div>
+          <p class="eyebrow" style="color:var(--purple);margin-bottom:24px;">How to start</p>
+          <h2 class="display display-lg">
+            Three ways<br>to engage.
+          </h2>
+        </div>
+        <div class="engage-sub fade-up">
+          Not sure where your AI work should begin? Most organisations start with one of
+          these entry points. We'll work with you from there.
+        </div>
+      </div>
+      <div class="engage-grid">
+        <div class="engage-card fade-up">
+          <div class="engage-letter">01</div>
+          <div class="engage-type">Strategy</div>
+          <div class="engage-title">AI Strategy Sprint</div>
+          <p class="engage-desc">
+            A focused 4–6 week engagement to map where AI creates real value in your
+            organisation, identify risks, define governance principles and build a
+            prioritised roadmap for confident adoption.
+          </p>
+          <div class="engage-duration">Typical duration: 4–6 weeks</div>
+        </div>
+        <div class="engage-card fade-up">
+          <div class="engage-letter">02</div>
+          <div class="engage-type">Product</div>
+          <div class="engage-title">AI Proof of Concept</div>
+          <p class="engage-desc">
+            Validate your AI idea with a working prototype before committing to a full
+            build. We design, build and test a functional proof of concept with real
+            users in 6–10 weeks — enough to know if it's worth going further.
+          </p>
+          <div class="engage-duration">Typical duration: 6–10 weeks</div>
+        </div>
+        <div class="engage-card fade-up">
+          <div class="engage-letter">03</div>
+          <div class="engage-type">Capability</div>
+          <div class="engage-title">AI Uplift Program</div>
+          <p class="engage-desc">
+            A structured learning journey — from GenAI fundamentals for your whole team
+            to advanced capability coaching for practitioners. Delivered with your work,
+            not alongside it, so learning sticks.
+          </p>
+          <div class="engage-duration">Typical duration: 8–16 weeks</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       CTA
+  ═══════════════════════════════════════ -->
+  <section id="cta">
+    <div class="container">
+      <div class="cta-inner">
+        <p class="eyebrow cta-eyebrow">Let's talk AI</p>
+        <h2 class="display display-lg cta-headline">Ready to move from<br>curiosity to action?</h2>
+        <p class="body-lg cta-sub">
+          Whether you're at the strategy stage or ready to build —
+          start with a conversation.
+        </p>
+        <div class="cta-buttons">
+          <a href="mailto:hello@portable.com.au" class="btn btn-green" style="font-size:16px;padding:20px 44px;">
+            hello@portable.com.au
+          </a>
+          <a href="work.html" class="btn btn-outline btn-arrow">See our work</a>
+        </div>
+        <div class="cta-cards">
+          <div class="cta-card">
+            <div class="cta-card-title">Strategy &amp; Policy</div>
+            <div class="cta-card-desc">Map AI value, build governance, define your path forward safely.</div>
+          </div>
+          <div class="cta-card">
+            <div class="cta-card-title">Product &amp; Innovation</div>
+            <div class="cta-card-desc">Prototype to production. AI products that work in the real world.</div>
+          </div>
+          <div class="cta-card">
+            <div class="cta-card-title">Capability &amp; Training</div>
+            <div class="cta-card-desc">Build your team's AI confidence from foundations to advanced.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="nav-logo" href="index.html" style="margin-bottom:16px;"><img src="logo.png" alt="Portable" style="height:26px;"></a>
+          <p class="footer-tagline">
+            Wherever Portable works, a better world exists.
+            Purpose-driven technology for government and the social sector.
+          </p>
+        </div>
+        <div>
+          <div class="footer-col-title">Services</div>
+          <ul class="footer-links">
+            <li><a href="index.html#how-we-work">Product &amp; Delivery</a></li>
+            <li><a href="index.html#how-we-work">Capability &amp; Staffing</a></li>
+            <li><a href="index.html#how-we-work">Uplift &amp; Training</a></li>
+            <li><a href="ai.html">AI Strategy</a></li>
+            <li><a href="index.html#storytelling">Storytelling</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Work</div>
+          <ul class="footer-links">
+            <li><a href="work.html">Amica</a></li>
+            <li><a href="work.html">Sweep</a></li>
+            <li><a href="work.html">Hear Me Out</a></li>
+            <li><a href="work.html">AI Navigator</a></li>
+            <li><a href="work.html">All case studies</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Company</div>
+          <ul class="footer-links">
+            <li><a href="index.html">About</a></li>
+            <li><a href="index.html">Team</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Insights</a></li>
+            <li><a href="mailto:hello@portable.com.au">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-copy">© 2026 Portable. All rights reserved.</div>
+        <div class="footer-acknowledgement">
+          We acknowledge the Traditional Custodians of the land on which we work,
+          and pay our respects to Elders past and present.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════
+       SCRIPTS
+  ═══════════════════════════════════════ -->
+  <script>
+    // Fade-up scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Nav: transparent over purple hero, dark on scroll
+    const nav = document.querySelector('nav');
+    function updateNav() {
+      if (window.scrollY > 60) {
+        nav.style.background = 'rgba(8,8,8,0.96)';
+        nav.style.backdropFilter = 'blur(16px)';
+        nav.style.borderBottom = '1px solid #1a1a1a';
+      } else {
+        nav.style.background = 'transparent';
+        nav.style.backdropFilter = '';
+        nav.style.borderBottom = '';
+      }
+    }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+  </script>
+
+</body>
+</html>

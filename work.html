@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work — Portable°</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ─────────────────────────────────────────
+       TOKENS
+    ───────────────────────────────────────── */
+    :root {
+      --purple:       #5500EE;
+      --purple-mid:   #7733FF;
+      --purple-dark:  #1A0060;
+      --pink:         #FF1090;
+      --green:        #AAFF00;
+      --white:        #FFFFFF;
+      --off-white:    #F5F4F0;
+      --near-black:   #080808;
+      --grey:         #888888;
+      --light-grey:   #E8E8E4;
+
+      --font-display: 'Inter', sans-serif;
+      --font-body:    'Inter', sans-serif;
+      --font-mono:    'Space Mono', monospace;
+
+      --max-w: 1280px;
+      --gutter: clamp(24px, 5vw, 80px);
+      --section-v: clamp(80px, 10vw, 140px);
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ─────────────────────────────────────────
+       RESET
+    ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--white);
+      color: var(--near-black);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ─────────────────────────────────────────
+       LAYOUT HELPERS
+    ───────────────────────────────────────── */
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+    .section { padding: var(--section-v) 0; }
+
+    /* ─────────────────────────────────────────
+       TYPOGRAPHY
+    ───────────────────────────────────────── */
+    .display {
+      font-family: var(--font-display);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+    }
+    .display-xl  { font-size: clamp(44px, 5.5vw, 88px); line-height: 1.05; }
+    .display-lg  { font-size: clamp(36px, 4vw, 64px);  line-height: 1.1;  }
+    .display-md  { font-size: clamp(28px, 3.2vw, 48px); line-height: 1.15; }
+    .display-sm  { font-size: clamp(22px, 2.4vw, 34px); line-height: 1.2;  }
+
+    .eyebrow {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .body-lg  { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.65; font-weight: 400; }
+    .body-md  { font-size: 16px; line-height: 1.65; font-weight: 400; }
+    .body-sm  { font-size: 13px; line-height: 1.6; color: var(--grey); }
+
+    /* ─────────────────────────────────────────
+       BUTTONS
+    ───────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s var(--ease), opacity 0.2s;
+      border-radius: 2px;
+    }
+    .btn:hover { transform: translateY(-2px); opacity: 0.9; }
+    .btn-primary   { background: var(--purple); color: var(--white); }
+    .btn-outline   { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.4); }
+    .btn-outline:hover { border-color: white; }
+    .btn-dark      { background: var(--near-black); color: var(--white); }
+    .btn-green     { background: var(--green); color: var(--near-black); }
+    .btn-ghost     { background: transparent; color: var(--near-black); border: 1.5px solid var(--light-grey); }
+    .btn-ghost:hover { border-color: var(--near-black); }
+    .btn-arrow::after { content: '→'; font-size: 18px; }
+
+    /* ─────────────────────────────────────────
+       FADE-UP ANIMATION
+    ───────────────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─────────────────────────────────────────
+       NAV
+    ───────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px var(--gutter);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo { display: flex; align-items: center; }
+    .nav-logo img {
+      height: 20px;
+      width: auto;
+      display: block;
+      filter: invert(1);
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
+      opacity: 0.75;
+      transition: opacity 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { opacity: 1; }
+    .nav-cta {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      border: 1.5px solid rgba(255,255,255,0.5);
+      padding: 10px 22px;
+      border-radius: 2px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .nav-cta:hover { background: var(--white); color: var(--near-black); border-color: var(--white); }
+
+    /* ─────────────────────────────────────────
+       PAGE HERO
+    ───────────────────────────────────────── */
+    #page-hero {
+      background: var(--near-black);
+      padding: 180px var(--gutter) 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: end;
+    }
+    .page-hero-eyebrow {
+      color: var(--green);
+      margin-bottom: 24px;
+    }
+    .page-hero-headline { color: var(--white); }
+    .page-hero-right {
+      padding-bottom: 8px;
+    }
+    .page-hero-sub {
+      font-size: clamp(17px, 1.4vw, 20px);
+      line-height: 1.65;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 40px;
+    }
+    .page-hero-stats {
+      display: flex;
+      gap: 0;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .ph-stat {
+      flex: 1;
+      padding: 28px 0 0;
+      border-right: 1px solid rgba(255,255,255,0.1);
+      padding-right: 32px;
+      margin-right: 32px;
+    }
+    .ph-stat:last-child { border-right: none; padding-right: 0; margin-right: 0; }
+    .ph-stat-num {
+      font-family: var(--font-mono);
+      font-size: clamp(28px, 2.5vw, 36px);
+      font-weight: 700;
+      color: var(--green);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .ph-stat-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.4;
+    }
+    /* Hero geometric accent */
+    #page-hero::after {
+      content: '';
+      position: absolute;
+      right: -80px;
+      top: 80px;
+      width: 480px;
+      height: 480px;
+      border-radius: 50% 50% 30% 70% / 50% 30% 70% 50%;
+      background: radial-gradient(circle at 40% 40%, rgba(85,0,238,0.3) 0%, transparent 70%),
+                  radial-gradient(circle at 70% 70%, rgba(255,16,144,0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* ─────────────────────────────────────────
+       FILTER BAR
+    ───────────────────────────────────────── */
+    .filter-bar {
+      position: sticky;
+      top: 68px;
+      z-index: 50;
+      background: var(--white);
+      border-bottom: 1px solid var(--light-grey);
+    }
+    .filter-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 14px var(--gutter);
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .filter-inner::-webkit-scrollbar { display: none; }
+    .filter-pill {
+      flex-shrink: 0;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--font-body);
+      border: 1.5px solid var(--light-grey);
+      border-radius: 100px;
+      background: transparent;
+      color: var(--grey);
+      cursor: pointer;
+      transition: all 0.2s var(--ease);
+      white-space: nowrap;
+    }
+    .filter-pill:hover {
+      border-color: var(--near-black);
+      color: var(--near-black);
+    }
+    .filter-pill.active {
+      background: var(--near-black);
+      border-color: var(--near-black);
+      color: var(--white);
+    }
+
+    /* ─────────────────────────────────────────
+       FEATURED CASES (large alternating)
+    ───────────────────────────────────────── */
+    .featured-case {
+      padding: 80px 0;
+      border-bottom: 1px solid var(--light-grey);
+      transition: opacity 0.3s, max-height 0.4s;
+    }
+    .featured-case.hidden {
+      display: none;
+    }
+    .featured-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+    .featured-grid.reverse { direction: rtl; }
+    .featured-grid.reverse > * { direction: ltr; }
+
+    /* CSS art visual panel */
+    .featured-visual {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+    }
+    /* Amica visual */
+    .vis-amica {
+      background: var(--purple);
+    }
+    .vis-amica::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 20%, var(--green) 0%, transparent 40%),
+        radial-gradient(ellipse at 80% 80%, var(--pink) 0%, transparent 40%);
+      opacity: 0.6;
+    }
+    /* Sweep visual */
+    .vis-sweep {
+      background: var(--near-black);
+    }
+    .vis-sweep::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 70% 30%, rgba(255,16,144,0.5) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 80%, rgba(85,0,238,0.4) 0%, transparent 50%);
+    }
+    .vis-hearme {
+      background: #0e0024;
+    }
+    .vis-hearme::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 40%, rgba(170,255,0,0.3) 0%, transparent 55%),
+        radial-gradient(ellipse at 30% 70%, rgba(85,0,238,0.5) 0%, transparent 50%);
+    }
+    .vis-navigator {
+      background: var(--off-white);
+    }
+    .vis-navigator::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 60% 40%, rgba(85,0,238,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 70%, rgba(170,255,0,0.2) 0%, transparent 50%);
+    }
+    /* Floating metric overlay on visual */
+    .visual-metrics {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 32px;
+      gap: 12px;
+    }
+    .vm-stat {
+      display: inline-block;
+    }
+    .vm-num {
+      font-family: var(--font-mono);
+      font-size: clamp(32px, 3vw, 48px);
+      font-weight: 700;
+      line-height: 1;
+      color: var(--white);
+    }
+    .vm-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-top: 4px;
+    }
+    .vm-badge {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: var(--green);
+      color: var(--near-black);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+    }
+    .vis-navigator .vm-num { color: var(--near-black); }
+    .vis-navigator .vm-label { color: rgba(0,0,0,0.45); }
+    .vis-navigator .vm-badge { background: var(--purple); color: var(--white); }
+
+    /* Featured case content */
+    .featured-content {}
+    .feat-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border: 1px solid var(--light-grey);
+      border-radius: 100px;
+      color: var(--grey);
+    }
+    .feat-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(28px, 2.8vw, 44px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      color: var(--near-black);
+    }
+    .feat-desc {
+      font-size: clamp(16px, 1.2vw, 18px);
+      line-height: 1.7;
+      color: #444;
+      margin-bottom: 32px;
+    }
+    .feat-metrics {
+      display: flex;
+      gap: 32px;
+      padding: 28px 0;
+      border-top: 1px solid var(--light-grey);
+      border-bottom: 1px solid var(--light-grey);
+      margin-bottom: 32px;
+    }
+    .feat-metric-val {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--purple);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .feat-metric-label {
+      font-size: 12px;
+      color: var(--grey);
+      line-height: 1.4;
+    }
+    .feat-quote {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #555;
+      font-style: italic;
+      padding-left: 20px;
+      border-left: 3px solid var(--purple);
+      margin-bottom: 32px;
+    }
+
+    /* ─────────────────────────────────────────
+       CASE GRID (smaller cards)
+    ───────────────────────────────────────── */
+    .cases-section {
+      padding: var(--section-v) 0;
+      background: var(--off-white);
+    }
+    .cases-section-header {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      margin-bottom: 48px;
+    }
+    .cases-grid-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .case-card {
+      background: var(--white);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.3s var(--ease), box-shadow 0.3s;
+      cursor: default;
+    }
+    .case-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.08);
+    }
+    .case-card.hidden { display: none; }
+    .case-visual-sm {
+      height: 180px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cv-cdi    { background: linear-gradient(135deg, #1a0060 0%, #5500ee 100%); }
+    .cv-way    { background: linear-gradient(135deg, #080808 0%, #333 100%); }
+    .cv-nav    { background: linear-gradient(135deg, #0a1628 0%, #1a3460 100%); }
+    .cv-hearme { background: linear-gradient(135deg, #0e0024 0%, #5500ee 60%); }
+    .cv-story  { background: linear-gradient(135deg, #FF1090 0%, #5500ee 100%); }
+    .cv-way::after {
+      content: '';
+      position: absolute;
+      right: -20px; bottom: -20px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(170,255,0,0.2) 0%, transparent 60%);
+    }
+    .cv-cdi::after {
+      content: '';
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%,-50%);
+      width: 120px; height: 120px;
+      border: 2px solid rgba(170,255,0,0.3);
+      border-radius: 50%;
+    }
+    .cv-nav::after {
+      content: '';
+      position: absolute;
+      right: 24px; top: 24px;
+      width: 80px; height: 80px;
+      background: var(--green);
+      clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+      opacity: 0.6;
+    }
+    .cv-hearme::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 30%, rgba(170,255,0,0.25) 0%, transparent 60%);
+    }
+    .cv-story::after {
+      content: '';
+      position: absolute;
+      left: -30px; bottom: -30px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+    }
+    .cv-badge {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+      color: var(--white);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 100px;
+    }
+    .case-card-body {
+      padding: 28px;
+    }
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .card-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 20px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+    .card-desc {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #555;
+      margin-bottom: 20px;
+    }
+    .card-metrics {
+      display: flex;
+      gap: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--light-grey);
+    }
+    .cm-val {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--purple);
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+    .cm-label {
+      font-size: 11px;
+      color: var(--grey);
+    }
+
+    /* ─────────────────────────────────────────
+       STORYTELLING TEASER
+    ───────────────────────────────────────── */
+    .story-teaser {
+      background: var(--near-black);
+      padding: var(--section-v) 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .story-teaser::before {
+      content: '';
+      position: absolute;
+      left: 60%;
+      top: -100px;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,16,144,0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .story-teaser-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .st-eyebrow { color: var(--pink); margin-bottom: 24px; }
+    .st-headline { color: var(--white); margin-bottom: 24px; }
+    .st-sub { color: rgba(255,255,255,0.6); margin-bottom: 40px; }
+    .story-formats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .sf-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 16px 20px;
+      border-radius: 2px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      font-weight: 500;
+    }
+    .sf-item::before { content: '→ '; color: var(--pink); }
+
+    /* ─────────────────────────────────────────
+       WORK CTA
+    ───────────────────────────────────────── */
+    .work-cta {
+      padding: var(--section-v) 0;
+      background: var(--purple);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .work-cta::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px;
+      height: 800px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 60%);
+    }
+    .work-cta-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      position: relative;
+    }
+    .work-cta-eyebrow { color: rgba(255,255,255,0.5); margin-bottom: 24px; }
+    .work-cta-headline { color: var(--white); margin-bottom: 24px; }
+    .work-cta-sub { color: rgba(255,255,255,0.65); margin-bottom: 48px; }
+
+    /* ─────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────── */
+    footer {
+      background: var(--near-black);
+      padding: 80px 0 40px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.8fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 64px;
+    }
+    .footer-tagline {
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.4);
+      margin-top: 20px;
+      max-width: 260px;
+    }
+    .footer-col-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 20px;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      gap: 40px;
+    }
+    .footer-copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+    .footer-acknowledgement {
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+      max-width: 400px;
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .page-hero-inner,
+      .featured-grid { grid-template-columns: 1fr; gap: 40px; }
+      .featured-grid.reverse { direction: ltr; }
+      .featured-visual { aspect-ratio: 16/9; }
+      .cases-grid-inner { grid-template-columns: 1fr 1fr; }
+      .story-teaser-inner { grid-template-columns: 1fr; gap: 48px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .cases-grid-inner { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; }
+      .footer-acknowledgement { text-align: left; }
+      .page-hero-stats { flex-direction: column; gap: 24px; }
+      .ph-stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 24px; margin-right: 0; padding-right: 0; }
+      .ph-stat:last-child { border-bottom: none; }
+      .feat-metrics { flex-wrap: wrap; gap: 20px; }
+      .story-formats { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       NAV
+  ═══════════════════════════════════════ -->
+  <nav>
+    <a class="nav-logo" href="index.html"><img src="logo.png" alt="Portable"></a>
+    <ul class="nav-links">
+      <li><a href="work.html" class="active">Work</a></li>
+      <li><a href="index.html#how-we-work">How we work</a></li>
+      <li><a href="ai.html">AI</a></li>
+      <li><a href="index.html#sectors">Sectors</a></li>
+      <li><a href="index.html#storytelling">Storytelling</a></li>
+    </ul>
+    <a href="mailto:hello@portable.com.au" class="nav-cta">Start a conversation</a>
+  </nav>
+
+  <!-- ═══════════════════════════════════════
+       PAGE HERO
+  ═══════════════════════════════════════ -->
+  <section id="page-hero">
+    <div class="page-hero-inner">
+      <div>
+        <p class="eyebrow page-hero-eyebrow">Selected work</p>
+        <h1 class="display display-xl page-hero-headline">Work<br>that<br>matters.</h1>
+      </div>
+      <div class="page-hero-right">
+        <p class="page-hero-sub">
+          Twenty years of technology for government and the purpose sector.
+          Products that reach national scale. AI that's still running in production.
+          Stories that shift behaviour at scale.
+        </p>
+        <div class="page-hero-stats">
+          <div class="ph-stat">
+            <div class="ph-stat-num">100+</div>
+            <div class="ph-stat-label">Government &amp;<br>purpose projects</div>
+          </div>
+          <div class="ph-stat">
+            <div class="ph-stat-num">$35M</div>
+            <div class="ph-stat-label">Measured community<br>benefit (Amica alone)</div>
+          </div>
+          <div class="ph-stat">
+            <div class="ph-stat-num">7+</div>
+            <div class="ph-stat-label">Years of AI in<br>production</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       FILTER BAR
+  ═══════════════════════════════════════ -->
+  <div class="filter-bar">
+    <div class="filter-inner">
+      <button class="filter-pill active" data-filter="all">All work</button>
+      <button class="filter-pill" data-filter="ai">AI &amp; Machine Learning</button>
+      <button class="filter-pill" data-filter="government">Government</button>
+      <button class="filter-pill" data-filter="justice">Access to Justice</button>
+      <button class="filter-pill" data-filter="health">Health</button>
+      <button class="filter-pill" data-filter="mental-health">Mental Health</button>
+      <button class="filter-pill" data-filter="storytelling">Storytelling</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       FEATURED CASE: AMICA
+  ═══════════════════════════════════════ -->
+  <div class="featured-case" data-tags="all ai justice government federal">
+    <div class="container">
+      <div class="featured-grid">
+        <div class="featured-visual vis-amica fade-up">
+          <span class="vm-badge">7+ Years Live</span>
+          <div class="visual-metrics">
+            <div class="vm-stat">
+              <div class="vm-num">$35M</div>
+              <div class="vm-label">Community benefit delivered</div>
+            </div>
+            <div class="vm-stat">
+              <div class="vm-num">9,000+</div>
+              <div class="vm-label">Registered matters</div>
+            </div>
+          </div>
+        </div>
+        <div class="featured-content fade-up">
+          <div class="feat-tags">
+            <span class="tag">Access to Justice</span>
+            <span class="tag">Machine Learning</span>
+            <span class="tag">Federal Government</span>
+            <span class="tag">AI Product</span>
+          </div>
+          <h2 class="feat-title">Amica — AI that helps separating couples move forward.</h2>
+          <p class="feat-desc">
+            When couples separate, navigating asset division without lawyers is genuinely hard.
+            Amica uses machine learning trained on a synthetic dataset co-created with family
+            lawyers across every Australian state and territory — removing bias, removing cost,
+            and giving people a fair path forward.
+          </p>
+          <p class="feat-desc">
+            One of Australia's longest-running government AI deployments. Built in partnership
+            with the Attorney-General's Department. Winner of the National Innovation Award 2020.
+            Still live. Still delivering.
+          </p>
+          <div class="feat-metrics">
+            <div>
+              <div class="feat-metric-val">$35M</div>
+              <div class="feat-metric-label">Community benefit</div>
+            </div>
+            <div>
+              <div class="feat-metric-val">1.6M</div>
+              <div class="feat-metric-label">Website visits</div>
+            </div>
+            <div>
+              <div class="feat-metric-val">9,000+</div>
+              <div class="feat-metric-label">Registered matters</div>
+            </div>
+            <div>
+              <div class="feat-metric-val">7+ yrs</div>
+              <div class="feat-metric-label">In production</div>
+            </div>
+          </div>
+          <a href="ai.html" class="btn btn-primary btn-arrow">See our AI work</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       FEATURED CASE: SWEEP
+  ═══════════════════════════════════════ -->
+  <div class="featured-case" data-tags="all ai justice government federal compliance">
+    <div class="container">
+      <div class="featured-grid reverse">
+        <div class="featured-visual vis-sweep fade-up">
+          <span class="vm-badge">$1.1M BRII Grant</span>
+          <div class="visual-metrics">
+            <div class="vm-stat">
+              <div class="vm-num">$1.1M</div>
+              <div class="vm-label">Federal grant awarded</div>
+            </div>
+            <div class="vm-stat">
+              <div class="vm-num">National</div>
+              <div class="vm-label">Rollout scope</div>
+            </div>
+          </div>
+        </div>
+        <div class="featured-content fade-up">
+          <div class="feat-tags">
+            <span class="tag">Fair Work</span>
+            <span class="tag">AI Compliance</span>
+            <span class="tag">Federal Government</span>
+            <span class="tag">Wage Tech</span>
+          </div>
+          <h2 class="feat-title">Sweep — Ending wage theft with AI.</h2>
+          <p class="feat-desc">
+            Wage theft costs Australian workers billions each year. Sweep connects payroll
+            and Modern Award data to automatically flag potential discrepancies before they
+            become legal problems — giving employers confidence and protecting workers' rights.
+          </p>
+          <p class="feat-desc">
+            Built in partnership with Fair Work specialists and funded through a $1.1M Business
+            Research and Innovation Initiative (BRII) grant from the Australian Federal Government.
+            Scaling nationally across multiple industries.
+          </p>
+          <div class="feat-metrics">
+            <div>
+              <div class="feat-metric-val">$1.1M</div>
+              <div class="feat-metric-label">BRII grant awarded</div>
+            </div>
+            <div>
+              <div class="feat-metric-val">National</div>
+              <div class="feat-metric-label">Deployment scope</div>
+            </div>
+            <div>
+              <div class="feat-metric-val">Multi-industry</div>
+              <div class="feat-metric-label">Award coverage</div>
+            </div>
+          </div>
+          <a href="mailto:hello@portable.com.au" class="btn btn-dark btn-arrow">Discuss your project</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       FEATURED CASE: HEAR ME OUT
+  ═══════════════════════════════════════ -->
+  <div class="featured-case" data-tags="all ai mental-health purpose">
+    <div class="container">
+      <div class="featured-grid">
+        <div class="featured-visual vis-hearme fade-up">
+          <span class="vm-badge">Purpose Sector</span>
+          <div class="visual-metrics">
+            <div class="vm-stat">
+              <div class="vm-num">Equity-first</div>
+              <div class="vm-label">Design approach</div>
+            </div>
+            <div class="vm-stat">
+              <div class="vm-num">NLP + AI</div>
+              <div class="vm-label">Technology stack</div>
+            </div>
+          </div>
+        </div>
+        <div class="featured-content fade-up">
+          <div class="feat-tags">
+            <span class="tag">Mental Health</span>
+            <span class="tag">NLP</span>
+            <span class="tag">Conversational AI</span>
+            <span class="tag">Youth</span>
+          </div>
+          <h2 class="feat-title">Hear Me Out — AI guided support for young Australians.</h2>
+          <p class="feat-desc">
+            For young people experiencing trauma, accessing mental health support is too often
+            a barrier in itself. Hear Me Out uses trauma-informed design and natural language
+            processing to connect people with the right support — on their terms, in their language.
+          </p>
+          <p class="feat-desc">
+            Built with accessibility and equity at the centre. Designed for young people where
+            standard mental health services fail most. The approach puts safety, consent and
+            human dignity before everything else.
+          </p>
+          <div class="feat-metrics">
+            <div>
+              <div class="feat-metric-val">Trauma-informed</div>
+              <div class="feat-metric-label">Design methodology</div>
+            </div>
+            <div>
+              <div class="feat-metric-val">Equity-first</div>
+              <div class="feat-metric-label">Accessibility</div>
+            </div>
+          </div>
+          <a href="ai.html" class="btn btn-primary btn-arrow">Our AI approach</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       CASE GRID (remaining projects)
+  ═══════════════════════════════════════ -->
+  <section class="cases-section">
+    <div class="cases-section-header">
+      <p class="eyebrow" style="color:var(--purple);margin-bottom:16px;">More work</p>
+      <h2 class="display display-md">More from the portfolio.</h2>
+    </div>
+    <div class="cases-grid-inner">
+
+      <!-- AI Navigator / CSIRO -->
+      <div class="case-card fade-up" data-tags="all ai government capability">
+        <div class="case-visual-sm cv-nav">
+          <span class="cv-badge">GenAI · CSIRO</span>
+        </div>
+        <div class="case-card-body">
+          <div class="card-tags">
+            <span class="tag">Government Innovation</span>
+            <span class="tag">GenAI</span>
+          </div>
+          <h3 class="card-title">AI Navigator</h3>
+          <p class="card-desc">
+            AI capability and wayfinding tool built with CSIRO, helping government
+            agencies understand their AI readiness, identify adoption pathways, and
+            build internal confidence in responsible implementation.
+          </p>
+          <div class="card-metrics">
+            <div>
+              <div class="cm-val">CSIRO</div>
+              <div class="cm-label">Client</div>
+            </div>
+            <div>
+              <div class="cm-val">Gov-wide</div>
+              <div class="cm-label">Reach</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Childhood Dementia Initiative -->
+      <div class="case-card fade-up" data-tags="all health purpose platform">
+        <div class="case-visual-sm cv-cdi">
+          <span class="cv-badge">Health Sector</span>
+        </div>
+        <div class="case-card-body">
+          <div class="card-tags">
+            <span class="tag">Health</span>
+            <span class="tag">Service Design</span>
+          </div>
+          <h3 class="card-title">Childhood Dementia Information Hub</h3>
+          <p class="card-desc">
+            A digital platform for the Childhood Dementia Initiative — giving families,
+            carers and clinicians access to information, community and support at the
+            moments they need it most.
+          </p>
+          <div class="card-metrics">
+            <div>
+              <div class="cm-val">CDI</div>
+              <div class="cm-label">Client</div>
+            </div>
+            <div>
+              <div class="cm-val">Carers + Clinicians</div>
+              <div class="cm-label">Audience</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wayfinding Australia -->
+      <div class="case-card fade-up" data-tags="all government research service-design">
+        <div class="case-visual-sm cv-way">
+          <span class="cv-badge">Government</span>
+        </div>
+        <div class="case-card-body">
+          <div class="card-tags">
+            <span class="tag">Government Innovation</span>
+            <span class="tag">Research</span>
+          </div>
+          <h3 class="card-title">Are we moving in the right direction?</h3>
+          <p class="card-desc">
+            Wayfinding in Australia — research-led initiative examining how people navigate
+            complex government services. Turning insight into systemic recommendations
+            for service design at scale.
+          </p>
+          <div class="card-metrics">
+            <div>
+              <div class="cm-val">Systemic</div>
+              <div class="cm-label">Impact focus</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       STORYTELLING TEASER
+  ═══════════════════════════════════════ -->
+  <section class="story-teaser" data-tags="all storytelling">
+    <div class="story-teaser-inner">
+      <div>
+        <p class="eyebrow st-eyebrow">Storytelling</p>
+        <h2 class="display display-md st-headline">Change doesn't happen until people move.</h2>
+        <p class="body-lg st-sub">
+          In high-stakes contexts, communication isn't just about understanding —
+          it's about moving people to respond differently. We make films, campaigns
+          and stories that shift behaviour at scale.
+        </p>
+        <a href="mailto:hello@portable.com.au" class="btn btn-outline btn-arrow">Talk to us about storytelling</a>
+      </div>
+      <div class="story-formats">
+        <div class="sf-item">National awareness campaigns</div>
+        <div class="sf-item">Documentaries &amp; interviews</div>
+        <div class="sf-item">Animated explainers</div>
+        <div class="sf-item">Product walkthroughs</div>
+        <div class="sf-item">Impact &amp; case study stories</div>
+        <div class="sf-item">Training &amp; educational films</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       CTA
+  ═══════════════════════════════════════ -->
+  <section class="work-cta">
+    <div class="work-cta-inner">
+      <p class="eyebrow work-cta-eyebrow">Let's work together</p>
+      <h2 class="display display-lg work-cta-headline">Your project could be next.</h2>
+      <p class="body-lg work-cta-sub">
+        Whether you're building something new, scaling something working,
+        or trying to shift a system — we'd love to talk.
+      </p>
+      <a href="mailto:hello@portable.com.au" class="btn btn-green" style="font-size:16px;padding:20px 44px;">hello@portable.com.au</a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="nav-logo" href="index.html" style="margin-bottom:16px;"><img src="logo.png" alt="Portable" style="height:26px;"></a>
+          <p class="footer-tagline">
+            Wherever Portable works, a better world exists.
+            Purpose-driven technology for government and the social sector.
+          </p>
+        </div>
+        <div>
+          <div class="footer-col-title">Services</div>
+          <ul class="footer-links">
+            <li><a href="index.html#how-we-work">Product &amp; Delivery</a></li>
+            <li><a href="index.html#how-we-work">Capability &amp; Staffing</a></li>
+            <li><a href="index.html#how-we-work">Uplift &amp; Training</a></li>
+            <li><a href="ai.html">AI Strategy</a></li>
+            <li><a href="index.html#storytelling">Storytelling</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Work</div>
+          <ul class="footer-links">
+            <li><a href="work.html">Amica</a></li>
+            <li><a href="work.html">Sweep</a></li>
+            <li><a href="work.html">Hear Me Out</a></li>
+            <li><a href="work.html">AI Navigator</a></li>
+            <li><a href="work.html">All case studies</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Company</div>
+          <ul class="footer-links">
+            <li><a href="index.html">About</a></li>
+            <li><a href="index.html">Team</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Insights</a></li>
+            <li><a href="mailto:hello@portable.com.au">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-copy">© 2026 Portable. All rights reserved.</div>
+        <div class="footer-acknowledgement">
+          We acknowledge the Traditional Custodians of the land on which we work,
+          and pay our respects to Elders past and present.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════
+       SCRIPTS
+  ═══════════════════════════════════════ -->
+  <script>
+    // Fade-up scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Nav: transparent over dark hero, dark on scroll
+    const nav = document.querySelector('nav');
+    function updateNav() {
+      if (window.scrollY > 60) {
+        nav.style.background = 'rgba(8,8,8,0.96)';
+        nav.style.backdropFilter = 'blur(16px)';
+        nav.style.borderBottom = '1px solid #1a1a1a';
+      } else {
+        nav.style.background = 'transparent';
+        nav.style.backdropFilter = '';
+        nav.style.borderBottom = '';
+      }
+    }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+
+    // Filter pills
+    const pills = document.querySelectorAll('.filter-pill');
+    const featuredCases = document.querySelectorAll('.featured-case');
+    const caseCards = document.querySelectorAll('.case-card');
+
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        pills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        const filter = pill.dataset.filter;
+
+        featuredCases.forEach(el => {
+          const tags = el.dataset.tags || '';
+          el.classList.toggle('hidden', filter !== 'all' && !tags.includes(filter));
+        });
+        caseCards.forEach(el => {
+          const tags = el.dataset.tags || '';
+          el.classList.toggle('hidden', filter !== 'all' && !tags.includes(filter));
+        });
+
+        // Storytelling teaser
+        const storyTeaser = document.querySelector('.story-teaser');
+        if (storyTeaser) {
+          storyTeaser.style.display = (filter === 'all' || filter === 'storytelling') ? '' : 'none';
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

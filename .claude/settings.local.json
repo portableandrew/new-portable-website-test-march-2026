@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(perl -i -0pe 's/\\(font-family: var\\\\\\(--font-display\\\\\\)\\); font-weight: 900;\\(\\\\s*\\\\n\\\\s*font-weight:\\)/$1;$2/g' \"/Users/andrewapostola/Documents/Website Test Portable/index.html\")",
+      "Bash(perl -i -0pe 's/\\(font-family: var\\\\\\(--font-display\\\\\\)\\); font-weight: 900;\\(\\\\s*\\\\n\\\\s*font-[a-z-]+:[^\\\\n]*\\\\n\\\\s*font-weight:\\)/$1;$2/g' \"/Users/andrewapostola/Documents/Website Test Portable/index.html\")"
+    ]
+  }
+}
