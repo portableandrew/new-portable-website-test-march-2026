@@ -3,452 +3,103 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Training & Uplift — Portable°</title>
+  <title>Training — Portable°</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* ─────────────────────────────────────────
-       TOKENS
-    ───────────────────────────────────────── */
     :root {
-      --lime-dark:    #263212;
-      --lime:         #BEF958;
-      --lime-light:   #EDFCCC;
-      --brown-dark:   #341405;
-      --brown:        #81330C;
-      --brown-light:  #EFD8C2;
-      --pink-dark:    #400E30;
-      --pink:         #FF38C0;
-      --pink-light:   #FFC3F6;
-      --verm-dark:    #471605;
-      --verm:         #EE4811;
-      --verm-light:   #FFC6BF;
-      --blue-dark:    #170045;
-      --blue:         #4B01E6;
-      --blue-light:   #DEDAFF;
-
-      --purple:       var(--blue);
-      --purple-mid:   var(--blue-light);
-      --purple-dark:  var(--blue-dark);
-      --green:        var(--lime);
-      --white:        #FFFFFF;
-      --off-white:    var(--lime-light);
-      --near-black:   var(--blue-dark);
-      --grey:         var(--brown);
-      --light-grey:   var(--brown-light);
-
-      --font-display: 'Inter', sans-serif;
-      --font-body:    'Inter', sans-serif;
-      --font-mono:    'Space Mono', monospace;
-
-      --max-w: 1280px;
-      --gutter: clamp(24px, 5vw, 80px);
-      --section-v: clamp(80px, 10vw, 140px);
-
+      --lime-dark: #263212; --lime: #BEF958; --lime-light: #EDFCCC;
+      --brown-dark: #341405; --brown: #81330C; --brown-light: #EFD8C2;
+      --pink-dark: #400E30; --pink: #FF38C0; --pink-light: #FFC3F6;
+      --verm-dark: #471605; --verm: #EE4811; --verm-light: #FFC6BF;
+      --blue-dark: #170045; --blue: #4B01E6; --blue-light: #DEDAFF;
+      --purple: var(--blue); --purple-mid: var(--blue-light); --purple-dark: var(--blue-dark);
+      --green: var(--lime); --white: #FFFFFF; --off-white: var(--lime-light);
+      --near-black: var(--blue-dark); --grey: var(--brown); --light-grey: var(--brown-light);
+      --font-display: 'Inter', sans-serif; --font-body: 'Inter', sans-serif; --font-mono: 'Space Mono', monospace;
+      --max-w: 1280px; --gutter: clamp(24px, 5vw, 80px); --section-v: clamp(80px, 10vw, 140px);
       --ease: cubic-bezier(0.16, 1, 0.3, 1);
     }
-
-    /* ─────────────────────────────────────────
-       RESET
-    ───────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--font-body);
-      background: var(--white);
-      color: var(--near-black);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
+    body { font-family: var(--font-body); background: var(--white); color: var(--near-black); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
     img { display: block; max-width: 100%; }
     a { text-decoration: none; color: inherit; }
-
-    /* ─────────────────────────────────────────
-       LAYOUT HELPERS
-    ───────────────────────────────────────── */
-    .container {
-      max-width: var(--max-w);
-      margin: 0 auto;
-      padding: 0 var(--gutter);
-    }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--gutter); }
     .section { padding: var(--section-v) 0; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
-
-    /* ─────────────────────────────────────────
-       TYPOGRAPHY
-    ───────────────────────────────────────── */
-    .display {
-      font-family: var(--font-display);
-      font-weight: 900;
-      line-height: 1.08;
-      letter-spacing: -0.025em;
-    }
-    .display-xl  { font-size: clamp(44px, 5.5vw, 88px); line-height: 1.05; }
-    .display-lg  { font-size: clamp(36px, 4vw, 64px);  line-height: 1.1;  }
-    .display-md  { font-size: clamp(28px, 3.2vw, 48px); line-height: 1.15; }
-    .display-sm  { font-size: clamp(22px, 2.4vw, 34px); line-height: 1.2;  }
-
-    .eyebrow {
-      font-family: var(--font-body);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .body-lg  { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.65; font-weight: 400; }
-    .body-md  { font-size: 16px; line-height: 1.65; font-weight: 400; }
-    .body-sm  { font-size: 13px; line-height: 1.6; color: var(--grey); }
-
-    /* ─────────────────────────────────────────
-       BUTTONS
-    ───────────────────────────────────────── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 16px 32px;
-      font-family: var(--font-body);
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      border: none;
-      cursor: pointer;
-      transition: transform 0.2s var(--ease), opacity 0.2s;
-      border-radius: 2px;
-    }
+    .display-xl { font-size: clamp(44px, 5.5vw, 88px); line-height: 1.05; font-family: var(--font-display); font-weight: 900; letter-spacing: -0.025em; }
+    .display-md { font-size: clamp(28px, 3.2vw, 48px); line-height: 1.15; font-family: var(--font-display); font-weight: 900; letter-spacing: -0.025em; }
+    .body-lg { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.65; font-weight: 400; }
+    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; font-family: var(--font-body); font-size: 15px; font-weight: 600; border: none; cursor: pointer; transition: transform 0.2s var(--ease), opacity 0.2s; border-radius: 2px; }
     .btn:hover { transform: translateY(-2px); opacity: 0.9; }
-    .btn-primary   { background: var(--purple); color: var(--white); }
-    .btn-outline   { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.4); }
-    .btn-outline:hover { border-color: white; }
-    .btn-dark      { background: var(--near-black); color: var(--white); }
-    .btn-green     { background: var(--green); color: var(--near-black); }
-    .btn-ghost     { background: transparent; color: var(--near-black); border: 1.5px solid var(--light-grey); }
-    .btn-ghost:hover { border-color: var(--near-black); }
-    .btn-arrow::after { content: '→'; font-size: 18px; }
+    .btn-primary { background: var(--purple); color: var(--white); }
+    .btn-dark { background: var(--near-black); color: var(--white); }
+    .btn-green { background: var(--green); color: var(--near-black); }
+    
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 20px var(--gutter); display: flex; justify-content: space-between; align-items: center; background: transparent; transition: background 0.3s ease; }
+    nav.scrolled { background: rgba(4, 0, 70, 0.85); backdrop-filter: blur(10px); }
+    nav a { color: var(--white); font-size: 14px; font-weight: 500; }
+    nav .logo img { height: 20px; width: auto; filter: invert(1); }
+    .nav-links { display: flex; gap: 40px; align-items: center; }
+    .nav-links a { transition: opacity 0.2s; }
+    .nav-links a:hover { opacity: 0.7; }
 
-    /* ─────────────────────────────────────────
-       FADE-UP ANIMATION
-    ───────────────────────────────────────── */
-    .fade-up {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
-    }
-    .fade-up.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .hero { background: var(--purple-dark); color: var(--white); padding: 160px var(--gutter) var(--section-v); text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 80%, rgba(190, 249, 88, 0.08) 0%, transparent 50%); pointer-events: none; }
+    .hero .container { position: relative; z-index: 1; }
+    .hero .display-xl { color: var(--green); margin-bottom: 24px; }
+    .hero .body-lg { color: rgba(255, 255, 255, 0.85); max-width: 680px; margin: 0 auto; }
 
-    /* ─────────────────────────────────────────
-       NAV
-    ───────────────────────────────────────── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 20px var(--gutter);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: transparent;
-      transition: background 0.3s ease;
-    }
-    nav.scrolled {
-      background: rgba(4, 0, 70, 0.85);
-      backdrop-filter: blur(10px);
-    }
-    nav a {
-      color: var(--white);
-      font-size: 14px;
-      font-weight: 500;
-    }
-    nav .logo img {
-      height: 20px;
-      width: auto;
-      filter: invert(1);
-    }
-    .nav-links {
-      display: flex;
-      gap: 40px;
-      align-items: center;
-    }
-    .nav-links a {
-      transition: opacity 0.2s;
-    }
-    .nav-links a:hover {
-      opacity: 0.7;
-    }
+    .courses-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: var(--section-v); }
+    .course-card { padding: 32px; background: var(--off-white); border-radius: 2px; }
+    .course-title { font-weight: 700; font-size: 16px; margin-bottom: 12px; color: var(--near-black); }
+    .course-desc { font-size: 13px; color: var(--grey); line-height: 1.6; }
 
-    /* ─────────────────────────────────────────
-       HERO
-    ───────────────────────────────────────── */
-    .hero {
-      background: var(--purple-dark);
-      color: var(--white);
-      padding: 160px var(--gutter) var(--section-v);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(circle at 20% 80%, rgba(190, 249, 88, 0.08) 0%, transparent 50%);
-      pointer-events: none;
-    }
-    .hero .container {
-      position: relative;
-      z-index: 1;
-    }
-    .hero .display-xl {
-      color: var(--green);
-      margin-bottom: 24px;
-    }
-    .hero .body-lg {
-      color: rgba(255, 255, 255, 0.85);
-      max-width: 680px;
-      margin: 0 auto;
-    }
+    .section-intro { text-align: center; margin-bottom: 48px; }
+    .section-intro h3 { font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--near-black); }
+    .section-intro p { font-size: 15px; color: var(--grey); max-width: 600px; margin: 0 auto; }
 
-    /* ─────────────────────────────────────────
-       PROGRAMS SECTION
-    ───────────────────────────────────────── */
-    .programs-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 48px;
-    }
-    .program-card {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: center;
-    }
-    .program-card.alt { grid-template-columns: 1fr 1fr; }
-    .program-card.alt .program-content { order: 2; }
-    .program-card.alt .program-visual { order: 1; }
-    .program-visual {
-      background: linear-gradient(135deg, var(--purple-mid) 0%, rgba(190, 249, 88, 0.1) 100%);
-      border-radius: 2px;
-      padding: 60px 40px;
-      text-align: center;
-      color: var(--purple);
-      font-weight: 700;
-      font-size: 28px;
-    }
-    .program-content h3 {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: var(--near-black);
-    }
-    .program-content p {
-      font-size: 15px;
-      line-height: 1.7;
-      color: var(--grey);
-      margin-bottom: 20px;
-    }
-    .program-features {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-bottom: 28px;
-    }
-    .feature-item {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      font-size: 13px;
-      color: var(--near-black);
-    }
-    .feature-icon {
-      flex-shrink: 0;
-      font-weight: 700;
-      color: var(--green);
-    }
+    .workshops-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; margin-bottom: var(--section-v); }
+    .workshop-card { padding: 32px; background: var(--white); border: 1px solid var(--light-grey); border-radius: 2px; }
+    .workshop-title { font-weight: 700; font-size: 16px; margin-bottom: 12px; color: var(--near-black); }
+    .workshop-desc { font-size: 14px; color: var(--grey); line-height: 1.65; }
 
-    /* ─────────────────────────────────────────
-       MODALITIES SECTION
-    ───────────────────────────────────────── */
-    .modalities-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-bottom: var(--section-v);
-    }
-    .modality-card {
-      padding: 32px;
-      border: 1px solid var(--light-grey);
-      border-radius: 2px;
-      transition: all 0.3s var(--ease);
-    }
-    .modality-card:hover {
-      border-color: var(--purple);
-      background: var(--purple-mid);
-    }
-    .modality-icon {
-      font-size: 32px;
-      margin-bottom: 12px;
-    }
-    .modality-name {
-      font-weight: 600;
-      font-size: 15px;
-      margin-bottom: 8px;
-      color: var(--near-black);
-    }
-    .modality-desc {
-      font-size: 13px;
-      color: var(--grey);
-      line-height: 1.5;
-    }
+    .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: var(--section-v); }
+    .benefit-card { padding: 28px; background: var(--off-white); border-radius: 2px; text-align: center; }
+    .benefit-icon { font-size: 32px; margin-bottom: 12px; }
+    .benefit-title { font-weight: 700; font-size: 15px; margin-bottom: 8px; color: var(--near-black); }
+    .benefit-desc { font-size: 13px; color: var(--grey); line-height: 1.5; }
 
-    /* ─────────────────────────────────────────
-       OUTCOMES SECTION
-    ───────────────────────────────────────── */
-    .outcomes-intro {
-      text-align: center;
-      margin-bottom: 48px;
-    }
-    .outcomes-intro h3 {
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: var(--near-black);
-    }
-    .outcomes-intro p {
-      font-size: 15px;
-      color: var(--grey);
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    .outcomes-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-    .outcome-item {
-      padding: 28px;
-      background: var(--off-white);
-      border-radius: 2px;
-    }
-    .outcome-icon {
-      font-size: 24px;
-      margin-bottom: 12px;
-    }
-    .outcome-title {
-      font-weight: 600;
-      font-size: 15px;
-      margin-bottom: 8px;
-      color: var(--near-black);
-    }
-    .outcome-desc {
-      font-size: 13px;
-      color: var(--grey);
-      line-height: 1.5;
-    }
+    .cta-section { background: var(--green); color: var(--near-black); text-align: center; padding: var(--section-v); }
+    .cta-section h2 { font-size: clamp(28px, 3.2vw, 48px); font-weight: 900; margin-bottom: 20px; }
+    .cta-section p { font-size: 16px; margin-bottom: 32px; opacity: 0.8; max-width: 600px; margin-left: auto; margin-right: auto; }
 
-    /* ─────────────────────────────────────────
-       CTA SECTION
-    ───────────────────────────────────────── */
-    .cta-section {
-      background: var(--green);
-      color: var(--near-black);
-      text-align: center;
-      padding: var(--section-v);
-    }
-    .cta-section h2 {
-      font-size: clamp(28px, 3.2vw, 48px);
-      font-weight: 900;
-      margin-bottom: 20px;
-    }
-    .cta-section p {
-      font-size: 16px;
-      margin-bottom: 32px;
-      opacity: 0.8;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+    footer { background: var(--near-black); color: var(--white); padding: 60px var(--gutter) 40px; }
+    footer .container { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; margin-bottom: 60px; }
+    footer h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; color: var(--light-grey); }
+    footer a { display: block; font-size: 14px; color: rgba(255, 255, 255, 0.7); margin-bottom: 10px; transition: color 0.2s; }
+    footer a:hover { color: var(--white); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); max-width: var(--max-w); margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); }
+    .footer-logo { height: 18px; width: auto; filter: invert(1); }
+    .footer-bottom p { font-size: 12px; color: rgba(255, 255, 255, 0.5); }
 
-    /* ─────────────────────────────────────────
-       FOOTER
-    ───────────────────────────────────────── */
-    footer {
-      background: var(--near-black);
-      color: var(--white);
-      padding: 60px var(--gutter) 40px;
-    }
-    footer .container {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 40px;
-      margin-bottom: 60px;
-    }
-    footer h4 {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 16px;
-      color: var(--light-grey);
-    }
-    footer a {
-      display: block;
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 10px;
-      transition: color 0.2s;
-    }
-    footer a:hover {
-      color: var(--white);
-    }
-    .footer-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 40px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      max-width: var(--max-w);
-      margin: 0 auto;
-      padding-left: var(--gutter);
-      padding-right: var(--gutter);
-    }
-    .footer-logo {
-      height: 18px;
-      width: auto;
-      filter: invert(1);
-    }
-    .footer-bottom p {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.5);
-    }
-
-    /* ─────────────────────────────────────────
-       RESPONSIVE
-    ───────────────────────────────────────── */
     @media (max-width: 1024px) {
-      .program-card { grid-template-columns: 1fr; gap: 24px; }
-      .program-card.alt .program-content { order: unset; }
-      .program-card.alt .program-visual { order: unset; }
-      .modalities-grid { grid-template-columns: 1fr 1fr; }
-      .outcomes-grid { grid-template-columns: 1fr 1fr; }
+      .courses-grid { grid-template-columns: 1fr 1fr; }
+      .workshops-grid { grid-template-columns: 1fr; }
+      .benefits-grid { grid-template-columns: 1fr 1fr; }
       footer .container { grid-template-columns: 1fr; }
     }
-
     @media (max-width: 768px) {
-      .modalities-grid { grid-template-columns: 1fr; }
-      .outcomes-grid { grid-template-columns: 1fr; }
+      .courses-grid { grid-template-columns: 1fr; }
+      .benefits-grid { grid-template-columns: 1fr; }
       .nav-links { gap: 20px; font-size: 13px; }
-      .program-visual { padding: 40px 20px; }
     }
   </style>
 </head>
 <body>
-  <!-- NAV -->
   <nav id="nav">
     <div class="logo">
       <a href="index.html"><img src="logo.png" alt="Portable"></a>
@@ -464,212 +115,165 @@
     </div>
   </nav>
 
-  <!-- HERO -->
   <section class="hero">
     <div class="container">
-      <h1 class="display-xl fade-up">Training & Uplift</h1>
-      <p class="body-lg fade-up" style="transition-delay: 0.1s;">Build capability within your organisation. Our comprehensive training programs develop digital skills, leadership, and strategic thinking.</p>
+      <h1 class="display-xl fade-up">Learn With Us</h1>
+      <p class="body-lg fade-up" style="transition-delay: 0.1s;">Build capability in your organisation. Courses, custom training, workshops, and on-demand learning designed for teams working in government and social impact.</p>
     </div>
   </section>
 
-  <!-- PROGRAMS -->
   <section class="section">
     <div class="container">
-      <div class="programs-grid">
-        <!-- Program 1 -->
-        <div class="program-card fade-up">
-          <div class="program-visual">📚 <br>Structured Learning</div>
-          <div class="program-content">
-            <h3>AI Uplift Program</h3>
-            <p>Our flagship capability program helping organisations develop AI literacy and practical implementation skills across teams.</p>
-            <div class="program-features">
-              <div class="feature-item">
-                <div class="feature-icon">✓</div>
-                <div>Tailored for government and social sector</div>
-              </div>
-              <div class="feature-item">
-                <div class="feature-icon">✓</div>
-                <div>Covers strategy, policy, and implementation</div>
-              </div>
-              <div class="feature-item">
-                <div class="feature-icon">✓</div>
-                <div>Executive and technical streams available</div>
-              </div>
-              <div class="feature-item">
-                <div class="feature-icon">✓</div>
-                <div>Ongoing support and coaching included</div>
-              </div>
-            </div>
-            <a href="mailto:hello@portable.com.au" class="btn btn-primary btn-arrow">Learn More</a>
-          </div>
+      <div class="section-intro fade-up">
+        <h3>Courses</h3>
+        <p>Structured learning programs led by our experts, covering the disciplines and methodologies that drive transformational change.</p>
+      </div>
+      <div class="courses-grid fade-up" style="transition-delay: 0.1s;">
+        <div class="course-card">
+          <div class="course-title">Human-Centred Design Foundations</div>
+          <div class="course-desc">Master the principles and practice of design thinking for solving complex social and policy challenges.</div>
         </div>
-
-        <!-- Program 2 -->
-        <div class="program-card alt fade-up" style="transition-delay: 0.1s;">
-          <div class="program-visual">🎯 <br>Executive Masterclasses</div>
-          <div class="program-content">
-            <h3>Executive & Leadership Training</h3>
-            <p>Intensive programs designed for leaders and decision-makers to develop strategic AI and digital leadership capabilities.</p>
-            <div class="program-features">
-              <div class="feature-item">
-                <div class="feature-icon">✓</div>
-                <div>Senior leadership focused</div>
-              </div>
-              <div class="feature-item">
-                <div class="feature-icon">✓</div>
-                <div>Strategic decision-making frameworks</div>
-              </div>
-              <div class="feature-item">
-                <div class="feature-icon">✓</div>
-                <div>Risk and responsible AI governance</div>
-              </div>
-              <div class="feature-item">
-                <div class="feature-icon">✓</div>
-                <div>Change management and adoption strategies</div>
-              </div>
-            </div>
-            <a href="mailto:hello@portable.com.au" class="btn btn-primary btn-arrow">Learn More</a>
-          </div>
+        <div class="course-card">
+          <div class="course-title">Conversations with AI: Foundations</div>
+          <div class="course-desc">Understand AI fundamentals, applications in government and social sectors, and responsible implementation.</div>
         </div>
-
-        <!-- Program 3 -->
-        <div class="program-card fade-up" style="transition-delay: 0.2s;">
-          <div class="program-visual">💻 <br>Technical Skills</div>
-          <div class="program-content">
-            <h3>Technical Development Programs</h3>
-            <p>Deep-dive technical training for engineers, data scientists, and product teams to build implementation expertise.</p>
-            <div class="program-features">
-              <div class="feature-item">
-                <div class="feature-icon">✓</div>
-                <div>Hands-on coding and implementation</div>
-              </div>
-              <div class="feature-item">
-                <div class="feature-icon">✓</div>
-                <div>Tools, frameworks, and best practices</div>
-              </div>
-              <div class="feature-item">
-                <div class="feature-icon">✓</div>
-                <div>Real-world case studies and projects</div>
-              </div>
-              <div class="feature-item">
-                <div class="feature-icon">✓</div>
-                <div>Ongoing mentorship and support</div>
-              </div>
-            </div>
-            <a href="mailto:hello@portable.com.au" class="btn btn-primary btn-arrow">Learn More</a>
-          </div>
+        <div class="course-card">
+          <div class="course-title">Leadership Development</div>
+          <div class="course-desc">Build leadership skills for navigating digital transformation and leading teams through meaningful change.</div>
+        </div>
+        <div class="course-card">
+          <div class="course-title">Unlock Your Co-Design Potential</div>
+          <div class="course-desc">Learn to facilitate collaborative design processes that centre user voices and expertise in solution development.</div>
+        </div>
+        <div class="course-card">
+          <div class="course-title">AI for Leaders</div>
+          <div class="course-desc">Strategic insights for leaders on AI adoption, governance, responsible implementation, and organisational readiness.</div>
+        </div>
+        <div class="course-card">
+          <div class="course-title">Custom Training</div>
+          <div class="course-desc">Tailored curriculum designed around your team's goals, challenges, and environment. Your learning, your way.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- MODALITIES -->
   <section class="section" style="background: var(--off-white);">
     <div class="container">
-      <h2 class="display-md fade-up" style="margin-bottom: 48px;">Learning Modalities</h2>
-      <div class="modalities-grid fade-up" style="transition-delay: 0.1s;">
-        <div class="modality-card">
-          <div class="modality-icon">👥</div>
-          <div class="modality-name">Instructor-Led</div>
-          <div class="modality-desc">Interactive workshops and training delivered by our experts</div>
-        </div>
-        <div class="modality-card">
-          <div class="modality-icon">🎥</div>
-          <div class="modality-name">Online & Self-Paced</div>
-          <div class="modality-desc">Flexible learning modules accessible anytime, anywhere</div>
-        </div>
-        <div class="modality-card">
-          <div class="modality-icon">🤝</div>
-          <div class="modality-name">Cohort-Based</div>
-          <div class="modality-desc">Peer learning with groups working toward shared goals</div>
-        </div>
-        <div class="modality-card">
-          <div class="modality-icon">🎯</div>
-          <div class="modality-name">Project-Based</div>
-          <div class="modality-desc">Learning through real implementation of your organisation's challenges</div>
-        </div>
-        <div class="modality-card">
-          <div class="modality-icon">👨‍🏫</div>
-          <div class="modality-name">Mentorship</div>
-          <div class="modality-desc">One-on-one guidance from our senior specialists</div>
-        </div>
-        <div class="modality-card">
-          <div class="modality-icon">📊</div>
-          <div class="modality-name">Blended Learning</div>
-          <div class="modality-desc">Combined approach mixing workshop, online, and mentoring</div>
-        </div>
+      <div class="section-intro fade-up">
+        <h3>Custom Training & Tailored Learning</h3>
+        <p>From justice to healthcare, technology to policy — no two organisations face the same challenges or have the same learning needs. We design custom training tailored to your team, goals, and environment.</p>
+      </div>
+      <div style="padding: 40px; background: var(--white); border-radius: 2px; margin-bottom: var(--section-v); text-align: center; fade-up;">
+        <p style="font-size: 15px; line-height: 1.7; color: var(--grey); margin-bottom: 24px;">Private versions of existing courses for larger groups • In-person sessions for collaborative skill building • Fully tailored curriculums around your systems and scenarios</p>
+        <a href="mailto:hello@portable.com.au" class="btn btn-primary">Get in Touch</a>
       </div>
     </div>
   </section>
 
-  <!-- OUTCOMES -->
   <section class="section">
     <div class="container">
-      <div class="outcomes-intro fade-up">
-        <h3>What You'll Achieve</h3>
-        <p>Our training programs deliver measurable outcomes that transform how organisations approach digital capability and innovation.</p>
+      <div class="section-intro fade-up">
+        <h3>Facilitated Workshops</h3>
+        <p>High-efficiency workshops that help you gain clarity, get aligned, and move forward. Run by experienced Portable leaders who work on real client projects.</p>
       </div>
-      <div class="outcomes-grid fade-up" style="transition-delay: 0.1s;">
-        <div class="outcome-item">
-          <div class="outcome-icon">📈</div>
-          <div class="outcome-title">Increased Capability</div>
-          <div class="outcome-desc">Teams equipped with practical skills to implement digital and AI solutions</div>
+      <div class="workshops-grid fade-up" style="transition-delay: 0.1s;">
+        <div class="workshop-card">
+          <div class="workshop-title">Discovery Workshops</div>
+          <div class="workshop-desc">Gather and make sense of context to inform and align around a challenge. Surface opportunities and constraints for informed decision-making.</div>
         </div>
-        <div class="outcome-item">
-          <div class="outcome-icon">🎯</div>
-          <div class="outcome-title">Strategic Alignment</div>
-          <div class="outcome-desc">Leadership aligned on digital strategy and responsible innovation</div>
+        <div class="workshop-card">
+          <div class="workshop-title">Scoping Workshops</div>
+          <div class="workshop-desc">Achieve alignment around aims, expectations, and parameters. Define success criteria and establish shared understanding of scope.</div>
         </div>
-        <div class="outcome-item">
-          <div class="outcome-icon">⚡</div>
-          <div class="outcome-title">Accelerated Delivery</div>
-          <div class="outcome-desc">Faster project implementation with reduced dependencies on external support</div>
+        <div class="workshop-card">
+          <div class="workshop-title">Ideation Workshops</div>
+          <div class="workshop-desc">Structured, rapid idea generation to inform and prioritise solutions. Generate options and converge on directions with confidence.</div>
         </div>
-        <div class="outcome-item">
-          <div class="outcome-icon">🔄</div>
-          <div class="outcome-title">Sustainability</div>
-          <div class="outcome-desc">Long-term capability built into your organisation's DNA</div>
-        </div>
-        <div class="outcome-item">
-          <div class="outcome-icon">👥</div>
-          <div class="outcome-title">Team Confidence</div>
-          <div class="outcome-desc">Increased staff confidence and engagement with new technologies</div>
-        </div>
-        <div class="outcome-item">
-          <div class="outcome-icon">💰</div>
-          <div class="outcome-title">Cost Efficiency</div>
-          <div class="outcome-desc">Reduced external consulting requirements and improved delivery efficiency</div>
+        <div class="workshop-card">
+          <div class="workshop-title">Planning Workshops</div>
+          <div class="workshop-desc">Deliver a focused, prioritised, specific and achievable plan. Build team alignment and ownership of next steps.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
+  <section class="section" style="background: var(--off-white);">
+    <div class="container">
+      <div class="section-intro fade-up">
+        <h3>Why Learn With Us</h3>
+      </div>
+      <div class="benefits-grid fade-up" style="transition-delay: 0.1s;">
+        <div class="benefit-card">
+          <div class="benefit-icon">🎓</div>
+          <div class="benefit-title">Led by Our Experts</div>
+          <div class="benefit-desc">Workshops run by experienced Portable leaders who work on real client projects and bring current thinking to every session.</div>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">👥</div>
+          <div class="benefit-title">Intimate Workshop Sizes</div>
+          <div class="benefit-desc">Restricted attendees to ensure quality engagement and skill development. Small enough for real dialogue and application.</div>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">🔧</div>
+          <div class="benefit-title">Hands-On Training</div>
+          <div class="benefit-desc">Combination of theory, practical exercises and discussion. Includes our Ethical Human Centred Design Toolkit for real-world application.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-intro fade-up">
+        <h3>Learn in Your Own Time</h3>
+        <p>Free, on-demand content to explore at your own pace. Videos, webinars, and resources from our research and practice.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: var(--section-v);">
+        <div style="padding: 20px; background: var(--off-white); border-radius: 2px;" class="fade-up" style="transition-delay: 0.1s;">
+          <p style="font-weight: 700; font-size: 14px; color: var(--near-black); margin-bottom: 6px;">Creating the Conditions for Co-Design</p>
+          <p style="font-size: 12px; color: var(--grey);">Video</p>
+        </div>
+        <div style="padding: 20px; background: var(--off-white); border-radius: 2px;" class="fade-up" style="transition-delay: 0.2s;">
+          <p style="font-weight: 700; font-size: 14px; color: var(--near-black); margin-bottom: 6px;">Visibility Webinar</p>
+          <p style="font-size: 12px; color: var(--grey);">Video</p>
+        </div>
+        <div style="padding: 20px; background: var(--off-white); border-radius: 2px;" class="fade-up" style="transition-delay: 0.3s;">
+          <p style="font-weight: 700; font-size: 14px; color: var(--near-black); margin-bottom: 6px;">Business Meets Sustainability</p>
+          <p style="font-size: 12px; color: var(--grey);">Webinar</p>
+        </div>
+        <div style="padding: 20px; background: var(--off-white); border-radius: 2px;" class="fade-up" style="transition-delay: 0.4s;">
+          <p style="font-weight: 700; font-size: 14px; color: var(--near-black); margin-bottom: 6px;">Neurodiversity in Projects</p>
+          <p style="font-size: 12px; color: var(--grey);">Video</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="cta-section">
     <div class="container">
-      <h2 class="fade-up">Ready to Build Capability in Your Organisation?</h2>
-      <p class="fade-up" style="transition-delay: 0.1s;">Let's design a training program tailored to your team's needs and goals.</p>
+      <h2 class="fade-up">Ready to Build Capability?</h2>
+      <p class="fade-up" style="transition-delay: 0.1s;">Let's design a learning experience tailored to your team's needs and goals. Get in touch to discuss your requirements.</p>
       <a href="mailto:hello@portable.com.au" class="btn btn-dark fade-up" style="transition-delay: 0.2s;">Schedule a Conversation</a>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
     <div class="container">
       <div>
         <h4>Company</h4>
-        <a href="index.html">Home</a>
-        <a href="work.html">Work</a>
-        <a href="ai.html">AI</a>
-        <a href="people.html">People</a>
-        <a href="purpose.html">Purpose</a>
+        <a href="purpose.html">About us</a>
+        <a href="people.html">Team</a>
+        <a href="careers.html">Careers</a>
+        <a href="services.html">Services</a>
+        <a href="mailto:hello@portable.com.au">Contact</a>
       </div>
       <div>
         <h4>Services</h4>
         <a href="services.html">Our Services</a>
-        <a href="training.html">Training & Uplift</a>
+        <a href="training.html">Training</a>
+        <a href="ai.html">AI</a>
         <a href="work.html">Case Studies</a>
-        <a href="mailto:hello@portable.com.au">Get in Touch</a>
+        <a href="reports.html">Reports</a>
       </div>
       <div>
         <h4>Connect</h4>
@@ -685,7 +289,6 @@
   </footer>
 
   <script>
-    // Nav scroll effect
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 50) {
@@ -695,7 +298,6 @@
       }
     });
 
-    // Fade-up animation
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {

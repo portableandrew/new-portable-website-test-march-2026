@@ -8,469 +8,84 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* ─────────────────────────────────────────
-       TOKENS
-    ───────────────────────────────────────── */
-    :root {
-      --lime-dark:    #263212;
-      --lime:         #BEF958;
-      --lime-light:   #EDFCCC;
-      --brown-dark:   #341405;
-      --brown:        #81330C;
-      --brown-light:  #EFD8C2;
-      --pink-dark:    #400E30;
-      --pink:         #FF38C0;
-      --pink-light:   #FFC3F6;
-      --verm-dark:    #471605;
-      --verm:         #EE4811;
-      --verm-light:   #FFC6BF;
-      --blue-dark:    #170045;
-      --blue:         #4B01E6;
-      --blue-light:   #DEDAFF;
-
-      --purple:       var(--blue);
-      --purple-mid:   var(--blue-light);
-      --purple-dark:  var(--blue-dark);
-      --green:        var(--lime);
-      --white:        #FFFFFF;
-      --off-white:    var(--lime-light);
-      --near-black:   var(--blue-dark);
-      --grey:         var(--brown);
-      --light-grey:   var(--brown-light);
-
-      --font-display: 'Inter', sans-serif;
-      --font-body:    'Inter', sans-serif;
-      --font-mono:    'Space Mono', monospace;
-
-      --max-w: 1280px;
-      --gutter: clamp(24px, 5vw, 80px);
-      --section-v: clamp(80px, 10vw, 140px);
-
-      --ease: cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    /* ─────────────────────────────────────────
-       RESET
-    ───────────────────────────────────────── */
+    :root { --lime: #BEF958; --lime-light: #EDFCCC; --brown: #81330C; --brown-light: #EFD8C2; --blue-dark: #170045; --blue: #4B01E6; --blue-light: #DEDAFF; --purple: var(--blue); --purple-mid: var(--blue-light); --purple-dark: var(--blue-dark); --green: var(--lime); --white: #FFFFFF; --off-white: var(--lime-light); --near-black: var(--blue-dark); --grey: var(--brown); --light-grey: var(--brown-light); --font-display: 'Inter', sans-serif; --font-body: 'Inter', sans-serif; --max-w: 1280px; --gutter: clamp(24px, 5vw, 80px); --section-v: clamp(80px, 10vw, 140px); --ease: cubic-bezier(0.16, 1, 0.3, 1); }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--font-body);
-      background: var(--white);
-      color: var(--near-black);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
+    body { font-family: var(--font-body); background: var(--white); color: var(--near-black); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
     img { display: block; max-width: 100%; }
     a { text-decoration: none; color: inherit; }
-
-    /* ─────────────────────────────────────────
-       LAYOUT HELPERS
-    ───────────────────────────────────────── */
-    .container {
-      max-width: var(--max-w);
-      margin: 0 auto;
-      padding: 0 var(--gutter);
-    }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--gutter); }
     .section { padding: var(--section-v) 0; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
-
-    /* ─────────────────────────────────────────
-       TYPOGRAPHY
-    ───────────────────────────────────────── */
-    .display {
-      font-family: var(--font-display);
-      font-weight: 900;
-      line-height: 1.08;
-      letter-spacing: -0.025em;
-    }
-    .display-xl  { font-size: clamp(44px, 5.5vw, 88px); line-height: 1.05; }
-    .display-lg  { font-size: clamp(36px, 4vw, 64px);  line-height: 1.1;  }
-    .display-md  { font-size: clamp(28px, 3.2vw, 48px); line-height: 1.15; }
-    .display-sm  { font-size: clamp(22px, 2.4vw, 34px); line-height: 1.2;  }
-
-    .eyebrow {
-      font-family: var(--font-body);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .body-lg  { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.65; font-weight: 400; }
-    .body-md  { font-size: 16px; line-height: 1.65; font-weight: 400; }
-    .body-sm  { font-size: 13px; line-height: 1.6; color: var(--grey); }
-
-    /* ─────────────────────────────────────────
-       BUTTONS
-    ───────────────────────────────────────── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 16px 32px;
-      font-family: var(--font-body);
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      border: none;
-      cursor: pointer;
-      transition: transform 0.2s var(--ease), opacity 0.2s;
-      border-radius: 2px;
-    }
+    .display-xl { font-size: clamp(44px, 5.5vw, 88px); line-height: 1.05; font-family: var(--font-display); font-weight: 900; letter-spacing: -0.025em; }
+    .display-md { font-size: clamp(28px, 3.2vw, 48px); line-height: 1.15; font-family: var(--font-display); font-weight: 900; letter-spacing: -0.025em; }
+    .body-lg { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.65; font-weight: 400; }
+    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; font-family: var(--font-body); font-size: 15px; font-weight: 600; border: none; cursor: pointer; transition: transform 0.2s var(--ease), opacity 0.2s; border-radius: 2px; }
     .btn:hover { transform: translateY(-2px); opacity: 0.9; }
-    .btn-primary   { background: var(--purple); color: var(--white); }
-    .btn-outline   { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.4); }
-    .btn-outline:hover { border-color: white; }
-    .btn-dark      { background: var(--near-black); color: var(--white); }
-    .btn-green     { background: var(--green); color: var(--near-black); }
-    .btn-ghost     { background: transparent; color: var(--near-black); border: 1.5px solid var(--light-grey); }
-    .btn-ghost:hover { border-color: var(--near-black); }
-    .btn-arrow::after { content: '→'; font-size: 18px; }
+    .btn-primary { background: var(--purple); color: var(--white); }
+    .btn-dark { background: var(--near-black); color: var(--white); }
+    
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 20px var(--gutter); display: flex; justify-content: space-between; align-items: center; background: transparent; transition: background 0.3s ease; }
+    nav.scrolled { background: rgba(4, 0, 70, 0.85); backdrop-filter: blur(10px); }
+    nav a { color: var(--white); font-size: 14px; font-weight: 500; }
+    nav .logo img { height: 20px; width: auto; filter: invert(1); }
+    .nav-links { display: flex; gap: 40px; align-items: center; }
+    .nav-links a { transition: opacity 0.2s; }
+    .nav-links a:hover { opacity: 0.7; }
 
-    /* ─────────────────────────────────────────
-       FADE-UP ANIMATION
-    ───────────────────────────────────────── */
-    .fade-up {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
-    }
-    .fade-up.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .hero { background: var(--purple-dark); color: var(--white); padding: 160px var(--gutter) var(--section-v); text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 80%, rgba(190, 249, 88, 0.08) 0%, transparent 50%); pointer-events: none; }
+    .hero .container { position: relative; z-index: 1; }
+    .hero .display-xl { color: var(--green); margin-bottom: 24px; }
+    .hero .body-lg { color: rgba(255, 255, 255, 0.85); max-width: 680px; margin: 0 auto; }
 
-    /* ─────────────────────────────────────────
-       NAV
-    ───────────────────────────────────────── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 20px var(--gutter);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: transparent;
-      transition: background 0.3s ease;
-    }
-    nav.scrolled {
-      background: rgba(4, 0, 70, 0.85);
-      backdrop-filter: blur(10px);
-    }
-    nav a {
-      color: var(--white);
-      font-size: 14px;
-      font-weight: 500;
-    }
-    nav .logo img {
-      height: 20px;
-      width: auto;
-      filter: invert(1);
-    }
-    .nav-links {
-      display: flex;
-      gap: 40px;
-      align-items: center;
-    }
-    .nav-links a {
-      transition: opacity 0.2s;
-    }
-    .nav-links a:hover {
-      opacity: 0.7;
-    }
+    .evp-statement { background: var(--purple); color: var(--white); padding: 60px 48px; text-align: center; border-radius: 2px; margin-bottom: var(--section-v); }
+    .evp-statement p { font-size: clamp(20px, 2.5vw, 28px); font-weight: 700; line-height: 1.4; }
 
-    /* ─────────────────────────────────────────
-       HERO
-    ───────────────────────────────────────── */
-    .hero {
-      background: var(--purple-dark);
-      color: var(--white);
-      padding: 160px var(--gutter) var(--section-v);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(circle at 20% 80%, rgba(190, 249, 88, 0.08) 0%, transparent 50%);
-      pointer-events: none;
-    }
-    .hero .container {
-      position: relative;
-      z-index: 1;
-    }
-    .hero .display-xl {
-      color: var(--green);
-      margin-bottom: 24px;
-    }
-    .hero .body-lg {
-      color: rgba(255, 255, 255, 0.85);
-      max-width: 680px;
-      margin: 0 auto;
-    }
+    .promises-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; margin-bottom: var(--section-v); }
+    .promise-card { padding: 32px; background: var(--off-white); border-radius: 2px; }
+    .promise-title { font-weight: 700; font-size: 16px; margin-bottom: 12px; color: var(--near-black); }
+    .promise-desc { font-size: 14px; line-height: 1.65; color: var(--grey); }
 
-    /* ─────────────────────────────────────────
-       WHY PORTABLE
-    ───────────────────────────────────────── */
-    .reasons-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-      margin-bottom: var(--section-v);
-    }
-    .reason-card {
-      padding: 32px;
-      background: var(--off-white);
-      border-radius: 2px;
-      text-align: center;
-    }
-    .reason-icon {
-      font-size: 40px;
-      margin-bottom: 12px;
-    }
-    .reason-title {
-      font-weight: 600;
-      font-size: 16px;
-      margin-bottom: 8px;
-      color: var(--near-black);
-    }
-    .reason-desc {
-      font-size: 13px;
-      line-height: 1.6;
-      color: var(--grey);
-    }
+    .culture-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: var(--section-v); }
+    .culture-card { padding: 32px; background: var(--white); border: 1px solid var(--light-grey); border-radius: 2px; }
+    .culture-title { font-weight: 700; font-size: 16px; margin-bottom: 16px; color: var(--near-black); }
+    .culture-list { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .culture-item { font-size: 13px; color: var(--grey); line-height: 1.5; }
 
-    /* ─────────────────────────────────────────
-       ROLES SECTION
-    ───────────────────────────────────────── */
-    .roles-intro {
-      text-align: center;
-      margin-bottom: 48px;
-    }
-    .roles-intro h3 {
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: var(--near-black);
-    }
-    .roles-intro p {
-      font-size: 15px;
-      color: var(--grey);
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    .roles-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-    .role-card {
-      padding: 28px 32px;
-      background: var(--white);
-      border: 1px solid var(--light-grey);
-      border-radius: 2px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: all 0.3s var(--ease);
-    }
-    .role-card:hover {
-      border-color: var(--purple);
-      box-shadow: 0 10px 30px rgba(75, 1, 230, 0.08);
-    }
-    .role-info h4 {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 6px;
-      color: var(--near-black);
-    }
-    .role-info p {
-      font-size: 13px;
-      color: var(--grey);
-    }
-    .role-meta {
-      display: flex;
-      gap: 24px;
-      align-items: center;
-    }
-    .role-type {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: var(--purple);
-      letter-spacing: 0.1em;
-    }
+    .values-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: var(--section-v); }
+    .value-card { padding: 24px; background: var(--off-white); border-left: 3px solid var(--green); border-radius: 2px; }
+    .value-num { font-family: monospace; font-size: 11px; font-weight: 700; color: var(--purple); text-transform: uppercase; margin-bottom: 6px; }
+    .value-title { font-weight: 700; font-size: 14px; margin-bottom: 8px; color: var(--near-black); }
+    .value-desc { font-size: 13px; line-height: 1.5; color: var(--grey); }
 
-    /* ─────────────────────────────────────────
-       BENEFITS SECTION
-    ───────────────────────────────────────── */
-    .benefits-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 40px;
-      align-items: center;
-    }
-    .benefits-list {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-    .benefit-item {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-    }
-    .benefit-check {
-      flex-shrink: 0;
-      font-size: 20px;
-      color: var(--green);
-      font-weight: 700;
-    }
-    .benefit-text h4 {
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 4px;
-      color: var(--near-black);
-    }
-    .benefit-text p {
-      font-size: 13px;
-      color: var(--grey);
-      line-height: 1.5;
-    }
-    .benefits-visual {
-      background: linear-gradient(135deg, var(--purple-mid) 0%, rgba(190, 249, 88, 0.1) 100%);
-      border-radius: 2px;
-      padding: 60px 40px;
-      text-align: center;
-      color: var(--purple);
-      font-weight: 700;
-      font-size: 28px;
-    }
+    .cta-section { background: var(--green); color: var(--near-black); text-align: center; padding: var(--section-v); }
+    .cta-section h2 { font-size: clamp(28px, 3.2vw, 48px); font-weight: 900; margin-bottom: 20px; }
+    .cta-section p { font-size: 16px; margin-bottom: 32px; opacity: 0.8; max-width: 600px; margin-left: auto; margin-right: auto; }
 
-    /* ─────────────────────────────────────────
-       CULTURE SECTION
-    ───────────────────────────────────────── */
-    .culture-section {
-      background: var(--off-white);
-      text-align: center;
-      padding: var(--section-v);
-    }
-    .culture-section h3 {
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: var(--near-black);
-    }
-    .culture-section p {
-      font-size: 15px;
-      line-height: 1.7;
-      color: var(--grey);
-      max-width: 700px;
-      margin: 0 auto;
-    }
+    footer { background: var(--near-black); color: var(--white); padding: 60px var(--gutter) 40px; }
+    footer .container { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; margin-bottom: 60px; }
+    footer h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; color: var(--light-grey); }
+    footer a { display: block; font-size: 14px; color: rgba(255, 255, 255, 0.7); margin-bottom: 10px; transition: color 0.2s; }
+    footer a:hover { color: var(--white); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); max-width: var(--max-w); margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); }
+    .footer-logo { height: 18px; width: auto; filter: invert(1); }
+    .footer-bottom p { font-size: 12px; color: rgba(255, 255, 255, 0.5); }
 
-    /* ─────────────────────────────────────────
-       CTA SECTION
-    ───────────────────────────────────────── */
-    .cta-section {
-      background: var(--green);
-      color: var(--near-black);
-      text-align: center;
-      padding: var(--section-v);
-    }
-    .cta-section h2 {
-      font-size: clamp(28px, 3.2vw, 48px);
-      font-weight: 900;
-      margin-bottom: 20px;
-    }
-    .cta-section p {
-      font-size: 16px;
-      margin-bottom: 32px;
-      opacity: 0.8;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* ─────────────────────────────────────────
-       FOOTER
-    ───────────────────────────────────────── */
-    footer {
-      background: var(--near-black);
-      color: var(--white);
-      padding: 60px var(--gutter) 40px;
-    }
-    footer .container {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 40px;
-      margin-bottom: 60px;
-    }
-    footer h4 {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 16px;
-      color: var(--light-grey);
-    }
-    footer a {
-      display: block;
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 10px;
-      transition: color 0.2s;
-    }
-    footer a:hover {
-      color: var(--white);
-    }
-    .footer-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 40px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      max-width: var(--max-w);
-      margin: 0 auto;
-      padding-left: var(--gutter);
-      padding-right: var(--gutter);
-    }
-    .footer-logo {
-      height: 18px;
-      width: auto;
-      filter: invert(1);
-    }
-    .footer-bottom p {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.5);
-    }
-
-    /* ─────────────────────────────────────────
-       RESPONSIVE
-    ───────────────────────────────────────── */
     @media (max-width: 1024px) {
-      .reasons-grid { grid-template-columns: 1fr 1fr; }
-      .benefits-grid { grid-template-columns: 1fr; gap: 32px; }
-      .role-card { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .promises-grid { grid-template-columns: 1fr; }
+      .culture-grid { grid-template-columns: 1fr 1fr; }
+      .values-grid { grid-template-columns: 1fr; }
       footer .container { grid-template-columns: 1fr; }
     }
-
     @media (max-width: 768px) {
-      .reasons-grid { grid-template-columns: 1fr; }
-      .benefits-grid { grid-template-columns: 1fr; }
-      .role-meta { flex-direction: column; align-items: flex-start; }
+      .culture-grid { grid-template-columns: 1fr; }
       .nav-links { gap: 20px; font-size: 13px; }
     }
   </style>
 </head>
 <body>
-  <!-- NAV -->
   <nav id="nav">
     <div class="logo">
       <a href="index.html"><img src="logo.png" alt="Portable"></a>
@@ -486,200 +101,133 @@
     </div>
   </nav>
 
-  <!-- HERO -->
   <section class="hero">
     <div class="container">
-      <h1 class="display-xl fade-up">Join Our Team</h1>
-      <p class="body-lg fade-up" style="transition-delay: 0.1s;">Help us build technology that creates positive change. Work with 65+ talented specialists committed to purpose-driven innovation.</p>
+      <h1 class="display-xl fade-up">Careers at Portable</h1>
+      <p class="body-lg fade-up" style="transition-delay: 0.1s;">Work with talented people on projects that mean something. Enjoy autonomy, flexibility, and the chance to bring your whole self to work.</p>
     </div>
   </section>
 
-  <!-- WHY PORTABLE -->
   <section class="section">
     <div class="container">
-      <h2 class="display-md fade-up" style="margin-bottom: 48px;">Why Work at Portable</h2>
-      <div class="reasons-grid fade-up" style="transition-delay: 0.1s;">
-        <div class="reason-card">
-          <div class="reason-icon">🎯</div>
-          <div class="reason-title">Purpose-Driven Work</div>
-          <div class="reason-desc">Every project creates positive impact. You'll work on technology that matters to government and society.</div>
-        </div>
-        <div class="reason-card">
-          <div class="reason-icon">👥</div>
-          <div class="reason-title">Exceptional Team</div>
-          <div class="reason-desc">Work alongside specialists across 12+ disciplines. Learn from the best in product, design, data, and strategy.</div>
-        </div>
-        <div class="reason-card">
-          <div class="reason-icon">📈</div>
-          <div class="reason-title">Career Growth</div>
-          <div class="reason-desc">We invest in your development with mentorship, training, and opportunities to lead meaningful projects.</div>
-        </div>
+      <div class="evp-statement fade-up">
+        <p>Join Portable and work with talented people on projects which mean something. Enjoy autonomy and flexibility, the chance to bring your whole self to work and the opportunity to learn and grow.</p>
       </div>
     </div>
   </section>
 
-  <!-- OPEN ROLES -->
   <section class="section" style="background: var(--off-white);">
     <div class="container">
-      <div class="roles-intro fade-up">
-        <h3>Current Opportunities</h3>
-        <p>We're hiring talented specialists across our disciplines. Browse open roles below or reach out to discuss your background.</p>
-      </div>
-      <div class="roles-grid fade-up" style="transition-delay: 0.1s;">
-        <div class="role-card">
-          <div class="role-info">
-            <h4>Senior Product Engineer</h4>
-            <p>Full-stack engineer to lead product development across multiple projects</p>
-          </div>
-          <div class="role-meta">
-            <span class="role-type">Full-time</span>
-            <a href="mailto:hello@portable.com.au" class="btn btn-primary btn-arrow" style="font-size: 13px; padding: 12px 24px;">Apply</a>
-          </div>
+      <h2 class="display-md fade-up" style="margin-bottom: 48px;">Our Promises to Our People</h2>
+      <div class="promises-grid fade-up" style="transition-delay: 0.1s;">
+        <div class="promise-card">
+          <div class="promise-title">Committed to Business for Good</div>
+          <div class="promise-desc">As one of Australia's first certified B Corporations, we operate with purpose at our core. This shapes every decision we make about how we treat our people.</div>
         </div>
-        <div class="role-card">
-          <div class="role-info">
-            <h4>Data Scientist / ML Engineer</h4>
-            <p>Build AI and machine learning solutions for government and social sector</p>
-          </div>
-          <div class="role-meta">
-            <span class="role-type">Full-time</span>
-            <a href="mailto:hello@portable.com.au" class="btn btn-primary btn-arrow" style="font-size: 13px; padding: 12px 24px;">Apply</a>
-          </div>
-        </div>
-        <div class="role-card">
-          <div class="role-info">
-            <h4>Product & UX Designer</h4>
-            <p>Design user-centered solutions for government digital services</p>
-          </div>
-          <div class="role-meta">
-            <span class="role-type">Full-time</span>
-            <a href="mailto:hello@portable.com.au" class="btn btn-primary btn-arrow" style="font-size: 13px; padding: 12px 24px;">Apply</a>
-          </div>
-        </div>
-        <div class="role-card">
-          <div class="role-info">
-            <h4>AI Strategy & Policy Specialist</h4>
-            <p>Guide organisations on responsible AI adoption and policy frameworks</p>
-          </div>
-          <div class="role-meta">
-            <span class="role-type">Full-time</span>
-            <a href="mailto:hello@portable.com.au" class="btn btn-primary btn-arrow" style="font-size: 13px; padding: 12px 24px;">Apply</a>
-          </div>
-        </div>
-        <div class="role-card">
-          <div class="role-info">
-            <h4>Project Manager / Delivery Lead</h4>
-            <p>Lead cross-functional teams delivering complex digital transformation projects</p>
-          </div>
-          <div class="role-meta">
-            <span class="role-type">Full-time</span>
-            <a href="mailto:hello@portable.com.au" class="btn btn-primary btn-arrow" style="font-size: 13px; padding: 12px 24px;">Apply</a>
-          </div>
-        </div>
-        <div class="role-card">
-          <div class="role-info">
-            <h4>Business Analyst</h4>
-            <p>Work with government clients to define requirements and design solutions</p>
-          </div>
-          <div class="role-meta">
-            <span class="role-type">Full-time</span>
-            <a href="mailto:hello@portable.com.au" class="btn btn-primary btn-arrow" style="font-size: 13px; padding: 12px 24px;">Apply</a>
-          </div>
+        <div class="promise-card">
+          <div class="promise-title">Purpose-Driven Work</div>
+          <div class="promise-desc">Your work matters. We partner with organisations creating real change in government, justice, health, education and social sectors.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- BENEFITS -->
   <section class="section">
     <div class="container">
-      <h2 class="display-md fade-up" style="margin-bottom: 48px;">We Support You</h2>
-      <div class="benefits-grid fade-up" style="transition-delay: 0.1s;">
-        <div class="benefits-list">
-          <div class="benefit-item">
-            <div class="benefit-check">✓</div>
-            <div class="benefit-text">
-              <h4>Competitive Compensation</h4>
-              <p>Market-leading salaries and performance-based bonuses</p>
-            </div>
-          </div>
-          <div class="benefit-item">
-            <div class="benefit-check">✓</div>
-            <div class="benefit-text">
-              <h4>Health & Wellness</h4>
-              <p>Comprehensive health insurance and mental wellbeing support</p>
-            </div>
-          </div>
-          <div class="benefit-item">
-            <div class="benefit-check">✓</div>
-            <div class="benefit-text">
-              <h4>Flexible Working</h4>
-              <p>Remote-friendly, flexible hours, and 4-week minimum annual leave</p>
-            </div>
-          </div>
-          <div class="benefit-item">
-            <div class="benefit-check">✓</div>
-            <div class="benefit-text">
-              <h4>Professional Development</h4>
-              <p>Annual learning budget and mentorship from senior specialists</p>
-            </div>
-          </div>
-          <div class="benefit-item">
-            <div class="benefit-check">✓</div>
-            <div class="benefit-text">
-              <h4>Equity Opportunity</h4>
-              <p>Share in our success with equity participation</p>
-            </div>
-          </div>
-          <div class="benefit-item">
-            <div class="benefit-check">✓</div>
-            <div class="benefit-text">
-              <h4>Community & Culture</h4>
-              <p>Monthly team gatherings, workshops, and collaborative spaces</p>
-            </div>
+      <h2 class="display-md fade-up" style="margin-bottom: 48px;">Culture That Supports You</h2>
+      <div class="culture-grid fade-up" style="transition-delay: 0.1s;">
+        <div class="culture-card">
+          <div class="culture-title">Take Care of Yourself</div>
+          <div class="culture-list">
+            <div class="culture-item">• Employee Assistance Program with The Mindroom</div>
+            <div class="culture-item">• Career and leadership training</div>
+            <div class="culture-item">• Creative off-sites and social events</div>
+            <div class="culture-item">• Referral bonuses for candidates</div>
           </div>
         </div>
-        <div class="benefits-visual">
-          ❤️ <br>We invest in<br>our people
+        <div class="culture-card">
+          <div class="culture-title">Take Care of Your Family</div>
+          <div class="culture-list">
+            <div class="culture-item">• Flexible work policy based on trust</div>
+            <div class="culture-item">• Work around pick-ups and family needs</div>
+            <div class="culture-item">• Paid parental leave</div>
+            <div class="culture-item">• Part-time arrangements available</div>
+          </div>
+        </div>
+        <div class="culture-card">
+          <div class="culture-title">Grow Your Career</div>
+          <div class="culture-list">
+            <div class="culture-item">• Structured career pathways</div>
+            <div class="culture-item">• Twice-yearly salary reviews</div>
+            <div class="culture-item">• Professional development allowance</div>
+            <div class="culture-item">• Leadership coaching for leaders</div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CULTURE -->
-  <section class="culture-section">
+  <section class="section" style="background: var(--off-white);">
     <div class="container">
-      <h3 class="fade-up">Our Culture</h3>
-      <p class="fade-up" style="transition-delay: 0.1s;">We believe great work comes from great people working together. At Portable, you'll find a culture of collaboration, continuous learning, and shared commitment to making a difference. We celebrate diverse perspectives, encourage experimentation, and support each other's growth. Whether you're mentoring junior team members or being mentored by industry veterans, you'll be part of a community united by purpose.</p>
+      <h2 class="display-md fade-up" style="margin-bottom: 48px;">Our Values</h2>
+      <div class="values-grid fade-up" style="transition-delay: 0.1s;">
+        <div class="value-card">
+          <div class="value-num">01</div>
+          <div class="value-title">We care about doing good work</div>
+          <div class="value-desc">Quality work that matters. Pride in delivery. Collective respect for the plan and for each other.</div>
+        </div>
+        <div class="value-card">
+          <div class="value-num">02</div>
+          <div class="value-title">We try new things</div>
+          <div class="value-desc">Curiosity, creativity, and purposeful experimentation. Safe to fail. Learning through exploration.</div>
+        </div>
+        <div class="value-card">
+          <div class="value-num">03</div>
+          <div class="value-title">We are in it together</div>
+          <div class="value-desc">Team-first mindset. No hero efforts. Commitment to one another. Honest relationships. Fun alongside work.</div>
+        </div>
+        <div class="value-card">
+          <div class="value-num">04</div>
+          <div class="value-title">We learn through feedback</div>
+          <div class="value-desc">Celebrate success. Reflect on failure. Give and receive respectful feedback. Build on strengths.</div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- CTA -->
+  <section class="section">
+    <div class="container fade-up">
+      <h2 style="font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--near-black); text-align: center;">Open Roles</h2>
+      <p style="font-size: 14px; color: var(--grey); text-align: center; margin-bottom: 32px;">We're growing and looking for passionate, talented people to join our team.</p>
+      <p style="text-align: center;"><a href="mailto:hello@portable.com.au" class="btn btn-primary">View Open Positions</a></p>
+    </div>
+  </section>
+
   <section class="cta-section">
     <div class="container">
       <h2 class="fade-up">Ready to Make an Impact?</h2>
-      <p class="fade-up" style="transition-delay: 0.1s;">Don't see a role that fits? We're always interested in hearing from talented people. Send us your CV and tell us how you'd like to contribute.</p>
-      <a href="mailto:careers@portable.com.au?subject=Portable%20Careers%20Inquiry" class="btn btn-dark fade-up" style="transition-delay: 0.2s;">Get in Touch</a>
+      <p class="fade-up" style="transition-delay: 0.1s;">Don't see a role that fits? We're always interested in hearing from talented people. Get in touch.</p>
+      <a href="mailto:careers@portable.com.au" class="btn btn-dark fade-up" style="transition-delay: 0.2s;">Send Your CV</a>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
     <div class="container">
       <div>
         <h4>Company</h4>
-        <a href="index.html">Home</a>
-        <a href="work.html">Work</a>
-        <a href="ai.html">AI</a>
-        <a href="people.html">People</a>
-        <a href="purpose.html">Purpose</a>
+        <a href="purpose.html">About us</a>
+        <a href="people.html">Team</a>
+        <a href="careers.html">Careers</a>
+        <a href="services.html">Services</a>
+        <a href="mailto:hello@portable.com.au">Contact</a>
       </div>
       <div>
         <h4>Services</h4>
         <a href="services.html">Our Services</a>
-        <a href="training.html">Training & Uplift</a>
+        <a href="training.html">Training</a>
+        <a href="ai.html">AI</a>
         <a href="work.html">Case Studies</a>
-        <a href="mailto:hello@portable.com.au">Get in Touch</a>
+        <a href="reports.html">Reports</a>
       </div>
       <div>
         <h4>Connect</h4>
@@ -695,28 +243,9 @@
   </footer>
 
   <script>
-    // Nav scroll effect
     const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        nav.classList.add('scrolled');
-      } else {
-        nav.classList.remove('scrolled');
-      }
-    });
-
-    // Fade-up animation
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '-40px' });
-
-    document.querySelectorAll('.fade-up').forEach(el => {
-      observer.observe(el);
-    });
+    window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 50); });
+    new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.1, rootMargin: '-40px' }).observe(document.querySelectorAll('.fade-up'));
   </script>
 </body>
 </html>

@@ -8,466 +8,121 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* ─────────────────────────────────────────
-       TOKENS
-    ───────────────────────────────────────── */
     :root {
-      --lime-dark:    #263212;
-      --lime:         #BEF958;
-      --lime-light:   #EDFCCC;
-      --brown-dark:   #341405;
-      --brown:        #81330C;
-      --brown-light:  #EFD8C2;
-      --pink-dark:    #400E30;
-      --pink:         #FF38C0;
-      --pink-light:   #FFC3F6;
-      --verm-dark:    #471605;
-      --verm:         #EE4811;
-      --verm-light:   #FFC6BF;
-      --blue-dark:    #170045;
-      --blue:         #4B01E6;
-      --blue-light:   #DEDAFF;
-
-      --purple:       var(--blue);
-      --purple-mid:   var(--blue-light);
-      --purple-dark:  var(--blue-dark);
-      --green:        var(--lime);
-      --white:        #FFFFFF;
-      --off-white:    var(--lime-light);
-      --near-black:   var(--blue-dark);
-      --grey:         var(--brown);
-      --light-grey:   var(--brown-light);
-
-      --font-display: 'Inter', sans-serif;
-      --font-body:    'Inter', sans-serif;
-      --font-mono:    'Space Mono', monospace;
-
-      --max-w: 1280px;
-      --gutter: clamp(24px, 5vw, 80px);
-      --section-v: clamp(80px, 10vw, 140px);
-
+      --lime-dark: #263212; --lime: #BEF958; --lime-light: #EDFCCC;
+      --brown-dark: #341405; --brown: #81330C; --brown-light: #EFD8C2;
+      --pink-dark: #400E30; --pink: #FF38C0; --pink-light: #FFC3F6;
+      --verm-dark: #471605; --verm: #EE4811; --verm-light: #FFC6BF;
+      --blue-dark: #170045; --blue: #4B01E6; --blue-light: #DEDAFF;
+      --purple: var(--blue); --purple-mid: var(--blue-light); --purple-dark: var(--blue-dark);
+      --green: var(--lime); --white: #FFFFFF; --off-white: var(--lime-light);
+      --near-black: var(--blue-dark); --grey: var(--brown); --light-grey: var(--brown-light);
+      --font-display: 'Inter', sans-serif; --font-body: 'Inter', sans-serif; --font-mono: 'Space Mono', monospace;
+      --max-w: 1280px; --gutter: clamp(24px, 5vw, 80px); --section-v: clamp(80px, 10vw, 140px);
       --ease: cubic-bezier(0.16, 1, 0.3, 1);
     }
-
-    /* ─────────────────────────────────────────
-       RESET
-    ───────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--font-body);
-      background: var(--white);
-      color: var(--near-black);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
+    body { font-family: var(--font-body); background: var(--white); color: var(--near-black); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
     img { display: block; max-width: 100%; }
     a { text-decoration: none; color: inherit; }
-
-    /* ─────────────────────────────────────────
-       LAYOUT HELPERS
-    ───────────────────────────────────────── */
-    .container {
-      max-width: var(--max-w);
-      margin: 0 auto;
-      padding: 0 var(--gutter);
-    }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--gutter); }
     .section { padding: var(--section-v) 0; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
-
-    /* ─────────────────────────────────────────
-       TYPOGRAPHY
-    ───────────────────────────────────────── */
-    .display {
-      font-family: var(--font-display);
-      font-weight: 900;
-      line-height: 1.08;
-      letter-spacing: -0.025em;
-    }
-    .display-xl  { font-size: clamp(44px, 5.5vw, 88px); line-height: 1.05; }
-    .display-lg  { font-size: clamp(36px, 4vw, 64px);  line-height: 1.1;  }
-    .display-md  { font-size: clamp(28px, 3.2vw, 48px); line-height: 1.15; }
-    .display-sm  { font-size: clamp(22px, 2.4vw, 34px); line-height: 1.2;  }
-
-    .eyebrow {
-      font-family: var(--font-body);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .body-lg  { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.65; font-weight: 400; }
-    .body-md  { font-size: 16px; line-height: 1.65; font-weight: 400; }
-    .body-sm  { font-size: 13px; line-height: 1.6; color: var(--grey); }
-
-    /* ─────────────────────────────────────────
-       BUTTONS
-    ───────────────────────────────────────── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 16px 32px;
-      font-family: var(--font-body);
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      border: none;
-      cursor: pointer;
-      transition: transform 0.2s var(--ease), opacity 0.2s;
-      border-radius: 2px;
-    }
+    .display { font-family: var(--font-display); font-weight: 900; line-height: 1.08; letter-spacing: -0.025em; }
+    .display-xl { font-size: clamp(44px, 5.5vw, 88px); line-height: 1.05; }
+    .display-md { font-size: clamp(28px, 3.2vw, 48px); line-height: 1.15; }
+    .body-lg { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.65; font-weight: 400; }
+    .body-md { font-size: 16px; line-height: 1.65; font-weight: 400; }
+    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; font-family: var(--font-body); font-size: 15px; font-weight: 600; border: none; cursor: pointer; transition: transform 0.2s var(--ease), opacity 0.2s; border-radius: 2px; }
     .btn:hover { transform: translateY(-2px); opacity: 0.9; }
-    .btn-primary   { background: var(--purple); color: var(--white); }
-    .btn-outline   { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.4); }
-    .btn-outline:hover { border-color: white; }
-    .btn-dark      { background: var(--near-black); color: var(--white); }
-    .btn-green     { background: var(--green); color: var(--near-black); }
-    .btn-ghost     { background: transparent; color: var(--near-black); border: 1.5px solid var(--light-grey); }
-    .btn-ghost:hover { border-color: var(--near-black); }
+    .btn-primary { background: var(--purple); color: var(--white); }
+    .btn-dark { background: var(--near-black); color: var(--white); }
+    .btn-green { background: var(--green); color: var(--near-black); }
     .btn-arrow::after { content: '→'; font-size: 18px; }
 
-    /* ─────────────────────────────────────────
-       FADE-UP ANIMATION
-    ───────────────────────────────────────── */
-    .fade-up {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
-    }
-    .fade-up.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 20px var(--gutter); display: flex; justify-content: space-between; align-items: center; background: transparent; transition: background 0.3s ease; }
+    nav.scrolled { background: rgba(4, 0, 70, 0.85); backdrop-filter: blur(10px); }
+    nav a { color: var(--white); font-size: 14px; font-weight: 500; }
+    nav .logo img { height: 20px; width: auto; filter: invert(1); }
+    .nav-links { display: flex; gap: 40px; align-items: center; }
+    .nav-links a { transition: opacity 0.2s; }
+    .nav-links a:hover { opacity: 0.7; }
 
-    /* ─────────────────────────────────────────
-       NAV
-    ───────────────────────────────────────── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 20px var(--gutter);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: transparent;
-      transition: background 0.3s ease;
-    }
-    nav.scrolled {
-      background: rgba(4, 0, 70, 0.85);
-      backdrop-filter: blur(10px);
-    }
-    nav a {
-      color: var(--white);
-      font-size: 14px;
-      font-weight: 500;
-    }
-    nav .logo img {
-      height: 20px;
-      width: auto;
-      filter: invert(1);
-    }
-    .nav-links {
-      display: flex;
-      gap: 40px;
-      align-items: center;
-    }
-    .nav-links a {
-      transition: opacity 0.2s;
-    }
-    .nav-links a:hover {
-      opacity: 0.7;
-    }
+    .hero { background: var(--purple-dark); color: var(--white); padding: 160px var(--gutter) var(--section-v); text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 80%, rgba(190, 249, 88, 0.08) 0%, transparent 50%); pointer-events: none; }
+    .hero .container { position: relative; z-index: 1; }
+    .hero .display-xl { color: var(--green); margin-bottom: 24px; }
+    .hero .body-lg { color: rgba(255, 255, 255, 0.85); max-width: 680px; margin: 0 auto; }
 
-    /* ─────────────────────────────────────────
-       HERO
-    ───────────────────────────────────────── */
-    .hero {
-      background: var(--purple-dark);
-      color: var(--white);
-      padding: 160px var(--gutter) var(--section-v);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(circle at 20% 80%, rgba(190, 249, 88, 0.08) 0%, transparent 50%);
-      pointer-events: none;
-    }
-    .hero .container {
-      position: relative;
-      z-index: 1;
-    }
-    .hero .display-xl {
-      color: var(--green);
-      margin-bottom: 24px;
-    }
-    .hero .body-lg {
-      color: rgba(255, 255, 255, 0.85);
-      max-width: 680px;
-      margin: 0 auto;
-    }
+    .mission-card { background: var(--purple); color: var(--white); padding: 60px 48px; text-align: center; border-radius: 2px; margin-bottom: var(--section-v); }
+    .mission-card p { font-size: clamp(24px, 3vw, 36px); font-weight: 700; line-height: 1.3; }
 
-    /* ─────────────────────────────────────────
-       MISSION STATEMENT
-    ───────────────────────────────────────── */
-    .mission-card {
-      background: var(--purple);
-      color: var(--white);
-      padding: 60px 48px;
-      text-align: center;
-      border-radius: 2px;
-      margin-bottom: var(--section-v);
-    }
-    .mission-card p {
-      font-size: clamp(24px, 3vw, 36px);
-      font-weight: 700;
-      line-height: 1.3;
-    }
+    .we-care-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; margin-bottom: var(--section-v); }
+    .care-item { padding: 36px; background: var(--off-white); border-radius: 2px; }
+    .care-icon { font-size: 36px; margin-bottom: 12px; }
+    .care-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--near-black); }
+    .care-desc { font-size: 14px; line-height: 1.7; color: var(--grey); }
 
-    /* ─────────────────────────────────────────
-       HISTORY SECTION
-    ───────────────────────────────────────── */
-    .history-timeline {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 48px;
-      position: relative;
-    }
-    .history-timeline::before {
-      content: '';
-      position: absolute;
-      left: 40px;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: var(--light-grey);
-    }
-    .timeline-item {
-      display: grid;
-      grid-template-columns: 100px 1fr;
-      gap: 32px;
-      align-items: flex-start;
-      position: relative;
-    }
-    .timeline-year {
-      font-family: var(--font-mono);
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--purple);
-      padding-top: 4px;
-    }
-    .timeline-year::before {
-      content: '';
-      position: absolute;
-      left: 32px;
-      top: 0;
-      width: 16px;
-      height: 16px;
-      background: var(--green);
-      border-radius: 50%;
-      border: 3px solid var(--white);
-      box-shadow: 0 0 0 1px var(--light-grey);
-    }
-    .timeline-content h3 {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: var(--near-black);
-    }
-    .timeline-content p {
-      font-size: 14px;
-      line-height: 1.65;
-      color: var(--grey);
-    }
+    .values-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; margin-bottom: var(--section-v); }
+    .value-card { padding: 32px; border-left: 3px solid var(--green); background: var(--white); }
+    .value-label { font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--purple); text-transform: uppercase; margin-bottom: 8px; }
+    .value-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--near-black); }
+    .value-desc { font-size: 14px; line-height: 1.65; color: var(--grey); }
 
-    /* ─────────────────────────────────────────
-       IMPACT SECTION
-    ───────────────────────────────────────── */
-    .impact-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-      margin-bottom: var(--section-v);
-    }
-    .impact-card {
-      padding: 32px;
-      background: var(--off-white);
-      border-radius: 2px;
-      text-align: center;
-    }
-    .impact-number {
-      font-family: var(--font-mono);
-      font-size: 42px;
-      font-weight: 700;
-      color: var(--purple);
-      margin-bottom: 8px;
-    }
-    .impact-label {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--near-black);
-      margin-bottom: 12px;
-    }
-    .impact-desc {
-      font-size: 13px;
-      line-height: 1.6;
-      color: var(--grey);
-    }
+    .bcorp-section { background: linear-gradient(135deg, var(--purple-mid) 0%, rgba(190, 249, 88, 0.1) 100%); padding: 48px; border-radius: 2px; margin-bottom: var(--section-v); }
+    .bcorp-section h3 { font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--near-black); }
+    .bcorp-section p { font-size: 15px; line-height: 1.7; color: var(--near-black); margin-bottom: 16px; }
 
-    /* ─────────────────────────────────────────
-       SECTORS SECTION
-    ───────────────────────────────────────── */
-    .sectors-intro {
-      text-align: center;
-      margin-bottom: 48px;
-    }
-    .sectors-intro h3 {
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: var(--near-black);
-    }
-    .sectors-intro p {
-      font-size: 15px;
-      color: var(--grey);
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    .sectors-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-    .sector-item {
-      padding: 28px;
-      border: 1px solid var(--light-grey);
-      border-radius: 2px;
-      transition: all 0.3s var(--ease);
-    }
-    .sector-item:hover {
-      border-color: var(--purple);
-      background: var(--purple-mid);
-    }
-    .sector-icon {
-      font-size: 28px;
-      margin-bottom: 12px;
-    }
-    .sector-name {
-      font-weight: 600;
-      font-size: 15px;
-      margin-bottom: 8px;
-      color: var(--near-black);
-    }
-    .sector-desc {
-      font-size: 13px;
-      color: var(--grey);
-      line-height: 1.5;
-    }
+    .rap-section { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-bottom: var(--section-v); }
+    .rap-content h3 { font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--near-black); }
+    .rap-content p { font-size: 15px; line-height: 1.7; color: var(--grey); margin-bottom: 20px; }
+    .rap-visual { background: linear-gradient(135deg, var(--green) 0%, rgba(75, 1, 230, 0.1) 100%); border-radius: 2px; padding: 60px 40px; text-align: center; color: var(--purple); font-weight: 700; font-size: 32px; }
 
-    /* ─────────────────────────────────────────
-       CTA SECTION
-    ───────────────────────────────────────── */
-    .cta-section {
-      background: var(--green);
-      color: var(--near-black);
-      text-align: center;
-      padding: var(--section-v);
-    }
-    .cta-section h2 {
-      font-size: clamp(28px, 3.2vw, 48px);
-      font-weight: 900;
-      margin-bottom: 20px;
-    }
-    .cta-section p {
-      font-size: 16px;
-      margin-bottom: 32px;
-      opacity: 0.8;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+    .rd-section { background: var(--off-white); padding: var(--section-v); }
+    .rd-intro { text-align: center; margin-bottom: 48px; }
+    .rd-intro h3 { font-size: 24px; font-weight: 700; margin-bottom: 16px; color: var(--near-black); }
+    .rd-intro p { font-size: 15px; color: var(--grey); max-width: 600px; margin: 0 auto; }
+    .rd-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .rd-item { padding: 20px; background: var(--white); border: 1px solid var(--light-grey); border-radius: 2px; font-size: 13px; font-weight: 600; color: var(--near-black); }
 
-    /* ─────────────────────────────────────────
-       FOOTER
-    ───────────────────────────────────────── */
-    footer {
-      background: var(--near-black);
-      color: var(--white);
-      padding: 60px var(--gutter) 40px;
-    }
-    footer .container {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 40px;
-      margin-bottom: 60px;
-    }
-    footer h4 {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 16px;
-      color: var(--light-grey);
-    }
-    footer a {
-      display: block;
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 10px;
-      transition: color 0.2s;
-    }
-    footer a:hover {
-      color: var(--white);
-    }
-    .footer-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 40px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      max-width: var(--max-w);
-      margin: 0 auto;
-      padding-left: var(--gutter);
-      padding-right: var(--gutter);
-    }
-    .footer-logo {
-      height: 18px;
-      width: auto;
-      filter: invert(1);
-    }
-    .footer-bottom p {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.5);
-    }
+    .giving-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: var(--section-v); }
+    .giving-card { padding: 32px; background: var(--white); border: 1px solid var(--light-grey); border-radius: 2px; }
+    .giving-icon { font-size: 32px; margin-bottom: 12px; }
+    .giving-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--near-black); }
+    .giving-desc { font-size: 14px; line-height: 1.65; color: var(--grey); margin-bottom: 16px; }
+    .giving-stat { font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--purple); }
 
-    /* ─────────────────────────────────────────
-       RESPONSIVE
-    ───────────────────────────────────────── */
+    .cta-section { background: var(--green); color: var(--near-black); text-align: center; padding: var(--section-v); }
+    .cta-section h2 { font-size: clamp(28px, 3.2vw, 48px); font-weight: 900; margin-bottom: 20px; }
+    .cta-section p { font-size: 16px; margin-bottom: 32px; opacity: 0.8; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+    footer { background: var(--near-black); color: var(--white); padding: 60px var(--gutter) 40px; }
+    footer .container { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; margin-bottom: 60px; }
+    footer h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; color: var(--light-grey); }
+    footer a { display: block; font-size: 14px; color: rgba(255, 255, 255, 0.7); margin-bottom: 10px; transition: color 0.2s; }
+    footer a:hover { color: var(--white); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); max-width: var(--max-w); margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); }
+    .footer-logo { height: 18px; width: auto; filter: invert(1); }
+    .footer-bottom p { font-size: 12px; color: rgba(255, 255, 255, 0.5); }
+
     @media (max-width: 1024px) {
-      .impact-grid { grid-template-columns: 1fr 1fr; }
-      .sectors-grid { grid-template-columns: 1fr 1fr; }
-      .history-timeline::before { left: 30px; }
-      .timeline-year::before { left: 22px; }
+      .we-care-grid { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: 1fr; }
+      .rap-section { grid-template-columns: 1fr; }
+      .giving-grid { grid-template-columns: 1fr 1fr; }
+      .rd-grid { grid-template-columns: repeat(2, 1fr); }
       footer .container { grid-template-columns: 1fr; }
     }
-
     @media (max-width: 768px) {
-      .impact-grid { grid-template-columns: 1fr; }
-      .sectors-grid { grid-template-columns: 1fr; }
+      .giving-grid { grid-template-columns: 1fr; }
+      .rd-grid { grid-template-columns: 1fr; }
       .nav-links { gap: 20px; font-size: 13px; }
-      .mission-card { padding: 40px 24px; }
     }
   </style>
 </head>
 <body>
-  <!-- NAV -->
   <nav id="nav">
     <div class="logo">
       <a href="index.html"><img src="logo.png" alt="Portable"></a>
@@ -483,159 +138,174 @@
     </div>
   </nav>
 
-  <!-- HERO -->
   <section class="hero">
     <div class="container">
       <h1 class="display-xl fade-up">Our Purpose</h1>
-      <p class="body-lg fade-up" style="transition-delay: 0.1s;">We believe technology is the most powerful tool for creating positive change. Since 2004, we've dedicated ourselves to this mission.</p>
+      <p class="body-lg fade-up" style="transition-delay: 0.1s;">Seek out areas of social need and policy failure. Make transformational change using research, design and technology.</p>
     </div>
   </section>
 
-  <!-- MISSION -->
   <section class="section">
     <div class="container">
       <div class="mission-card fade-up">
-        <p>Wherever Portable works, a better world exists</p>
+        <p>We position ourselves between those with the power to make change and those who need it</p>
       </div>
     </div>
   </section>
 
-  <!-- HISTORY -->
-  <section class="section" style="background: var(--off-white);">
-    <div class="container">
-      <h2 class="display-md fade-up" style="margin-bottom: 48px;">Our Journey</h2>
-      <div class="history-timeline fade-up" style="transition-delay: 0.1s;">
-        <div class="timeline-item">
-          <div class="timeline-year">2004</div>
-          <div class="timeline-content">
-            <h3>Founded with Purpose</h3>
-            <p>Portable was established with a singular mission: to use technology to create meaningful change for government and purpose-driven organisations.</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-year">2008</div>
-          <div class="timeline-content">
-            <h3>Expanding Impact</h3>
-            <p>Expanded into product delivery and capability building, recognising that sustainable change requires more than just technology.</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-year">2015</div>
-          <div class="timeline-content">
-            <h3>Introducing Uplift Programs</h3>
-            <p>Launched comprehensive training and capability uplift programs to empower organisations to build their own digital capacity.</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-year">2020</div>
-          <div class="timeline-content">
-            <h3>Leading AI Responsibly</h3>
-            <p>Established AI research and strategy practice, focusing on responsible AI implementation in government and social sectors.</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-year">2024</div>
-          <div class="timeline-content">
-            <h3>Scaling GenAI Solutions</h3>
-            <p>Launched AI with Portable — a comprehensive GenAI capability program helping organisations unlock the potential of artificial intelligence ethically.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- IMPACT METRICS -->
   <section class="section">
     <div class="container">
-      <h2 class="display-md fade-up" style="margin-bottom: 48px;">Our Impact</h2>
-      <div class="impact-grid fade-up" style="transition-delay: 0.1s;">
-        <div class="impact-card">
-          <div class="impact-number">20+</div>
-          <div class="impact-label">Years</div>
-          <div class="impact-desc">Creating positive change through technology</div>
+      <h2 class="display-md fade-up" style="margin-bottom: 48px;">We Care About</h2>
+      <div class="we-care-grid fade-up" style="transition-delay: 0.1s;">
+        <div class="care-item">
+          <div class="care-icon">🧠</div>
+          <div class="care-title">Mental Health</div>
+          <div class="care-desc">Youth mental health services and person-centred care. Working with Orygen and Headspace on transformative digital approaches to mental wellbeing.</div>
         </div>
-        <div class="impact-card">
-          <div class="impact-number">$100M+</div>
-          <div class="impact-label">Value Created</div>
-          <div class="impact-desc">Direct and indirect benefits for communities</div>
+        <div class="care-item">
+          <div class="care-icon">🎓</div>
+          <div class="care-title">Education</div>
+          <div class="care-desc">Human-centred design in public schooling. Our mission: help unlearn traditional systems and design education that works for all learners.</div>
         </div>
-        <div class="impact-card">
-          <div class="impact-number">6</div>
-          <div class="impact-label">Sectors</div>
-          <div class="impact-desc">Government, health, justice, education, environment, social</div>
+        <div class="care-item">
+          <div class="care-icon">⚖️</div>
+          <div class="care-title">Access to Justice</div>
+          <div class="care-desc">A 10-year journey in justice system design. Online dispute resolution, family violence systems, legal accessibility. Making justice work for vulnerable people.</div>
+        </div>
+        <div class="care-item">
+          <div class="care-icon">🕊️</div>
+          <div class="care-title">Death and Ageing</div>
+          <div class="care-desc">Systems thinking and human-centred design for end-of-life care and aged care. Published dedicated research on societal approaches to mortality.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTORS -->
   <section class="section" style="background: var(--off-white);">
     <div class="container">
-      <div class="sectors-intro fade-up">
-        <h3>Where We Create Change</h3>
-        <p>We partner with organisations across critical sectors to build technology that serves people and communities.</p>
-      </div>
-      <div class="sectors-grid fade-up" style="transition-delay: 0.1s;">
-        <div class="sector-item">
-          <div class="sector-icon">🏛️</div>
-          <div class="sector-name">Government</div>
-          <div class="sector-desc">Digital transformation and service delivery for federal, state, and local government</div>
+      <h2 class="display-md fade-up" style="margin-bottom: 48px;">Our Values</h2>
+      <div class="values-grid fade-up" style="transition-delay: 0.1s;">
+        <div class="value-card">
+          <div class="value-label">01</div>
+          <div class="value-title">We care about doing good work</div>
+          <div class="value-desc">Quality work that matters. Pride in delivery. Not ticking the box. Collective respect for the plan and for each other's contributions.</div>
         </div>
-        <div class="sector-item">
-          <div class="sector-icon">🏥</div>
-          <div class="sector-name">Health</div>
-          <div class="sector-desc">Healthcare systems and digital health platforms improving patient outcomes</div>
+        <div class="value-card">
+          <div class="value-label">02</div>
+          <div class="value-title">We try new things</div>
+          <div class="value-desc">Curiosity, creativity, and purposeful experimentation. Safe to fail. We celebrate the learning that comes from exploration and thoughtful risk-taking.</div>
         </div>
-        <div class="sector-item">
-          <div class="sector-icon">⚖️</div>
-          <div class="sector-name">Justice</div>
-          <div class="sector-desc">Justice sector digital initiatives for better outcomes and accessibility</div>
+        <div class="value-card">
+          <div class="value-label">03</div>
+          <div class="value-title">We are in it together</div>
+          <div class="value-desc">Team-first mindset. No hero efforts. Commitment to one another. Honest relationships. Fun alongside work. We succeed because of each other.</div>
         </div>
-        <div class="sector-item">
-          <div class="sector-icon">🎓</div>
-          <div class="sector-name">Education</div>
-          <div class="sector-desc">EdTech platforms and educational technology infrastructure</div>
-        </div>
-        <div class="sector-item">
-          <div class="sector-icon">🌱</div>
-          <div class="sector-name">Environment</div>
-          <div class="sector-desc">Environmental conservation and sustainability technology solutions</div>
-        </div>
-        <div class="sector-item">
-          <div class="sector-icon">❤️</div>
-          <div class="sector-name">Social Impact</div>
-          <div class="sector-desc">NGOs and community organisations creating social change</div>
+        <div class="value-card">
+          <div class="value-label">04</div>
+          <div class="value-title">We learn through feedback</div>
+          <div class="value-desc">Celebrate success. Reflect on failure. Give and receive respectful feedback. Build on strengths. We grow through honest, caring dialogue.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
+  <section class="section">
+    <div class="container">
+      <div class="bcorp-section fade-up">
+        <h3>Proud to B-Corp</h3>
+        <p>Portable is one of Australia's first certified B Corporations. This recognition signals our commitment to creating value across customers, employees, community and environment — not just shareholders.</p>
+        <p>B-Corp certification means we're driven by a mission to use technology to help transform sectors and industries. It's a commitment to workplace equality and redefining what matters in business.</p>
+        <a href="#" class="btn btn-dark">View B-Corp Directory</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background: var(--off-white);">
+    <div class="container">
+      <div class="rap-section fade-up">
+        <div class="rap-content">
+          <h3>Committed to Reconciliation</h3>
+          <p>Our Reconciliation Action Plan represents a meaningful step forward in our long-standing commitment to First Nations partnership and cultural safety.</p>
+          <p>The RAP is our roadmap for listening, learning and acting toward justice and equity. It guides how we work, who we partner with, and how we contribute to reconciliation.</p>
+          <a href="#" class="btn btn-primary">Read Our RAP</a>
+        </div>
+        <div class="rap-visual">
+          🤝<br>In partnership<br>for country
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rd-section">
+    <div class="container">
+      <div class="rd-intro fade-up">
+        <h3>R&D for a Purpose</h3>
+        <p>Beyond client work, Portable runs an active program of self-initiated research. We explore areas we care about, contribute to government inquiries and commissions, and publish findings publicly.</p>
+      </div>
+      <div class="rd-grid fade-up" style="transition-delay: 0.1s;">
+        <div class="rd-item">Access to Justice</div>
+        <div class="rd-item">Government Innovation</div>
+        <div class="rd-item">Death and Ageing</div>
+        <div class="rd-item">Education</div>
+        <div class="rd-item">Future of Work</div>
+        <div class="rd-item">Rethinking Not-for-Profits</div>
+        <div class="rd-item">Taking Back Retail</div>
+        <div class="rd-item">New Infrastructure</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="display-md fade-up" style="margin-bottom: 48px;">Giving Back</h2>
+      <div class="giving-grid fade-up" style="transition-delay: 0.1s;">
+        <div class="giving-card">
+          <div class="giving-icon">🙌</div>
+          <div class="giving-title">Pro Bono Work</div>
+          <div class="giving-desc">Contributing hours to under-resourced causes and organisations that align with our values.</div>
+          <div class="giving-stat">100s of hours annually</div>
+        </div>
+        <div class="giving-card">
+          <div class="giving-icon">💚</div>
+          <div class="giving-title">Charitable Donations</div>
+          <div class="giving-desc">Supporting causes we care about. Recent partners: Change the Record, Bushfire Appeal.</div>
+          <div class="giving-stat">% of profits donated</div>
+        </div>
+        <div class="giving-card">
+          <div class="giving-icon">💰</div>
+          <div class="giving-title">Micro-Loans via Kiva</div>
+          <div class="giving-desc">Lending to entrepreneurs globally through Kiva's microfinance platform since July 2020.</div>
+          <div class="giving-stat">$250K+ loaned</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="cta-section">
     <div class="container">
       <h2 class="fade-up">Let's Create Something Meaningful Together</h2>
-      <p class="fade-up" style="transition-delay: 0.1s;">Whether you're government, a social enterprise, or a purpose-driven organisation, we'd love to explore how we can help.</p>
+      <p class="fade-up" style="transition-delay: 0.1s;">Whether you're government, a social enterprise, or a purpose-driven organisation, we'd love to explore how we can help create transformational change.</p>
       <a href="mailto:hello@portable.com.au" class="btn btn-dark fade-up" style="transition-delay: 0.2s;">Get in Touch</a>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
     <div class="container">
       <div>
         <h4>Company</h4>
-        <a href="index.html">Home</a>
-        <a href="work.html">Work</a>
-        <a href="ai.html">AI</a>
-        <a href="people.html">People</a>
-        <a href="purpose.html">Purpose</a>
+        <a href="purpose.html">About us</a>
+        <a href="people.html">Team</a>
+        <a href="careers.html">Careers</a>
+        <a href="services.html">Services</a>
+        <a href="mailto:hello@portable.com.au">Contact</a>
       </div>
       <div>
         <h4>Services</h4>
         <a href="services.html">Our Services</a>
-        <a href="training.html">Training & Uplift</a>
+        <a href="training.html">Training</a>
+        <a href="ai.html">AI</a>
         <a href="work.html">Case Studies</a>
-        <a href="mailto:hello@portable.com.au">Get in Touch</a>
+        <a href="reports.html">Reports</a>
       </div>
       <div>
         <h4>Connect</h4>
@@ -651,7 +321,6 @@
   </footer>
 
   <script>
-    // Nav scroll effect
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 50) {
@@ -661,7 +330,6 @@
       }
     });
 
-    // Fade-up animation
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
