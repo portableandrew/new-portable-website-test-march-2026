@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technology — Portable°</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ─────────────────────────────────────────
+       TOKENS
+    ───────────────────────────────────────── */
+    :root {
+      --lime-dark:    #263212;
+      --lime:         #BEF958;
+      --lime-light:   #EDFCCC;
+      --brown-dark:   #341405;
+      --brown:        #81330C;
+      --brown-light:  #EFD8C2;
+      --pink-dark:    #400E30;
+      --pink:         #FF38C0;
+      --pink-light:   #FFC3F6;
+      --verm-dark:    #471605;
+      --verm:         #EE4811;
+      --verm-light:   #FFC6BF;
+      --blue-dark:    #170045;
+      --blue:         #4B01E6;
+      --blue-light:   #DEDAFF;
+
+      --purple:       var(--blue);
+      --purple-mid:   var(--blue-light);
+      --purple-dark:  var(--blue-dark);
+      --green:        var(--lime);
+      --white:        #FFFFFF;
+      --off-white:    var(--lime-light);
+      --near-black:   var(--blue-dark);
+      --grey:         var(--brown);
+      --light-grey:   var(--brown-light);
+
+      --font-display: 'Inter', sans-serif;
+      --font-body:    'Inter', sans-serif;
+      --font-mono:    'Space Mono', monospace;
+
+      --max-w: 1280px;
+      --gutter: clamp(24px, 5vw, 80px);
+      --section-v: clamp(80px, 10vw, 140px);
+
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ─────────────────────────────────────────
+       RESET
+    ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--white);
+      color: var(--near-black);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ─────────────────────────────────────────
+       LAYOUT HELPERS
+    ───────────────────────────────────────── */
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+    .section { padding: var(--section-v) 0; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+    /* ─────────────────────────────────────────
+       TYPOGRAPHY
+    ───────────────────────────────────────── */
+    .display {
+      font-family: var(--font-display);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+    }
+    .display-xl  { font-size: clamp(44px, 5.5vw, 88px); line-height: 1.05; }
+    .display-lg  { font-size: clamp(36px, 4vw, 64px);  line-height: 1.1;  }
+    .display-md  { font-size: clamp(28px, 3.2vw, 48px); line-height: 1.15; }
+    .display-sm  { font-size: clamp(22px, 2.4vw, 34px); line-height: 1.2;  }
+
+    .eyebrow {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .body-lg  { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.65; font-weight: 400; }
+    .body-md  { font-size: 16px; line-height: 1.65; font-weight: 400; }
+    .body-sm  { font-size: 13px; line-height: 1.6; color: var(--grey); }
+
+    /* ─────────────────────────────────────────
+       BUTTONS
+    ───────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s var(--ease), opacity 0.2s;
+      border-radius: 2px;
+    }
+    .btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+    .btn-primary   { background: var(--purple); color: var(--white); }
+    .btn-outline   { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.4); }
+    .btn-outline:hover { border-color: white; }
+    .btn-dark      { background: var(--near-black); color: var(--white); }
+    .btn-green     { background: var(--green); color: var(--near-black); }
+
+    .btn-arrow::after { content: '\2192'; font-size: 18px; }
+
+    /* ─────────────────────────────────────────
+       NAV
+    ───────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px var(--gutter);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+    }
+    .nav-logo img {
+      height: 14px;
+      width: auto;
+      display: block;
+      filter: invert(1);
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
+      opacity: 0.75;
+      transition: opacity 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .nav-links a.active { opacity: 1; }
+    .nav-cta {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      border: 1.5px solid rgba(255,255,255,0.5);
+      padding: 10px 22px;
+      border-radius: 2px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .nav-cta:hover { background: var(--white); color: var(--near-black); border-color: var(--white); }
+
+    /* ─────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      background: var(--purple-dark);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-content {
+      padding: 160px var(--gutter) 100px;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-eyebrow {
+      color: var(--green);
+      margin-bottom: 32px;
+    }
+    .hero-headline {
+      color: var(--white);
+      margin-bottom: 32px;
+    }
+    .hero-sub {
+      color: rgba(255,255,255,0.7);
+      max-width: 480px;
+      margin-bottom: 48px;
+    }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    .hero-shape-wrap {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(0px);
+    }
+    .blob-1 {
+      width: 520px; height: 520px;
+      background: radial-gradient(circle at 35% 40%, var(--green) 0%, transparent 60%),
+                  radial-gradient(circle at 70% 60%, var(--pink) 0%, transparent 55%);
+      animation: morph1 8s var(--ease) infinite alternate;
+      opacity: 0.9;
+    }
+    .blob-2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle at 60% 30%, var(--purple-mid) 0%, transparent 60%),
+                  radial-gradient(circle at 30% 70%, var(--green) 0%, transparent 60%);
+      animation: morph2 10s var(--ease) infinite alternate;
+      opacity: 0.7;
+      top: 20%;
+    }
+    .shape-layers {
+      position: absolute;
+      width: 460px;
+      height: 460px;
+    }
+    .shape-layer {
+      position: absolute;
+      inset: 0;
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+      border: 1.5px solid rgba(255,255,255,0.12);
+    }
+    .shape-layer:nth-child(1)  { transform: scale(1.0)  rotate(0deg);    animation: spin 18s linear infinite; }
+    .shape-layer:nth-child(2)  { transform: scale(0.88) rotate(15deg);   animation: spin 22s linear infinite reverse; }
+    .shape-layer:nth-child(3)  { transform: scale(0.76) rotate(30deg);   animation: spin 16s linear infinite; }
+    .shape-layer:nth-child(4)  { transform: scale(0.64) rotate(45deg);   animation: spin 20s linear infinite reverse; }
+    .shape-layer:nth-child(5)  { transform: scale(0.52) rotate(60deg);   animation: spin 24s linear infinite; }
+    .shape-layer:nth-child(6)  { transform: scale(0.40) rotate(75deg);   animation: spin 14s linear infinite reverse; }
+    .shape-layer:nth-child(7)  { transform: scale(0.28) rotate(90deg);   animation: spin 19s linear infinite; }
+
+    @keyframes morph1 {
+      0%   { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: scale(1) rotate(0deg); }
+      50%  { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; transform: scale(1.05) rotate(5deg); }
+      100% { border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%; transform: scale(0.95) rotate(-3deg); }
+    }
+    @keyframes morph2 {
+      0%   { border-radius: 50% 50% 30% 70% / 40% 60% 40% 60%; transform: scale(1) rotate(0deg) translate(20px, -20px); }
+      100% { border-radius: 70% 30% 60% 40% / 60% 40% 60% 40%; transform: scale(1.08) rotate(-8deg) translate(-20px, 20px); }
+    }
+    @keyframes spin {
+      from { transform-origin: center; }
+      to { transform-origin: center; }
+    }
+    @keyframes rotate { to { transform: rotate(360deg); } }
+
+    /* ─────────────────────────────────────────
+       INTRO / POSITIONING
+    ───────────────────────────────────────── */
+    #intro {
+      background: var(--white);
+      padding: var(--section-v) 0;
+    }
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: end;
+    }
+    .intro-headline { color: var(--near-black); }
+    .intro-right { padding-bottom: 8px; }
+    .intro-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--light-grey);
+      border: 1px solid var(--light-grey);
+      margin-top: 48px;
+    }
+    .stat-cell {
+      background: var(--white);
+      padding: 32px 28px;
+    }
+    .stat-number {
+      font-family: var(--font-mono);
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 700;
+      color: var(--purple);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-label { font-size: 13px; color: var(--grey); font-weight: 500; }
+
+    /* ─────────────────────────────────────────
+       PILLARS — 5 CAPABILITY CARDS
+    ───────────────────────────────────────── */
+    #pillars {
+      background: var(--near-black);
+      padding: var(--section-v) 0;
+    }
+    .section-header { margin-bottom: 64px; }
+    .section-header .eyebrow { margin-bottom: 16px; }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .pillar-card {
+      padding: 48px 40px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s var(--ease);
+    }
+    .pillar-card:hover { transform: translateY(-4px); }
+    .pillar-card:nth-child(1) { background: #111111; }
+    .pillar-card:nth-child(2) { background: #161616; }
+    .pillar-card:nth-child(3) { background: var(--purple); }
+    .pillar-card:nth-child(4) { background: #161616; }
+    .pillar-card:nth-child(5) { background: #111111; }
+
+    .pillar-num {
+      font-family: var(--font-display);
+      font-size: 52px;
+      font-weight: 800;
+      color: var(--green);
+      line-height: 1;
+      margin-bottom: 24px;
+    }
+    .pillar-card:nth-child(3) .pillar-num { color: rgba(255,255,255,0.4); }
+    .pillar-name {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .pillar-tagline {
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 32px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+    .pillar-divider {
+      width: 40px; height: 2px;
+      background: var(--green);
+      margin-bottom: 32px;
+    }
+    .pillar-card:nth-child(3) .pillar-divider { background: rgba(255,255,255,0.4); }
+    .pillar-points { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .pillar-points li {
+      font-size: 14px;
+      color: rgba(255,255,255,0.65);
+      padding-left: 16px;
+      position: relative;
+    }
+    .pillar-points li::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 8px;
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+    .pillar-card:nth-child(3) .pillar-points li::before { background: rgba(255,255,255,0.5); }
+
+    /* ─────────────────────────────────────────
+       HOW WE WORK — CO-SOURCED DELIVERY
+    ───────────────────────────────────────── */
+    #how-we-work {
+      background: var(--white);
+      padding: var(--section-v) 0;
+    }
+    .how-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .how-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--light-grey);
+      border: 1px solid var(--light-grey);
+    }
+    .how-card {
+      background: var(--white);
+      padding: 40px 32px;
+      transition: background 0.2s;
+    }
+    .how-card:hover { background: var(--off-white); }
+    .how-card-num {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--purple);
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+    .how-card-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--near-black);
+      margin-bottom: 10px;
+    }
+    .how-card-body { font-size: 14px; color: #555; line-height: 1.65; }
+
+    /* ─────────────────────────────────────────
+       WHY PORTABLE TECHNOLOGY
+    ───────────────────────────────────────── */
+    #why {
+      background: var(--off-white);
+      padding: var(--section-v) 0;
+    }
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--light-grey);
+      margin-top: 56px;
+    }
+    .why-card {
+      background: var(--off-white);
+      padding: 48px 44px;
+    }
+    .why-card:nth-child(even) { background: var(--white); }
+    .why-num {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--purple);
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+    .why-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .why-body { font-size: 15px; line-height: 1.65; color: #555; }
+
+    /* ─────────────────────────────────────────
+       CTA
+    ───────────────────────────────────────── */
+    #cta {
+      background: var(--purple);
+      padding: var(--section-v) 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-bg-shape {
+      position: absolute;
+      right: -200px;
+      top: -200px;
+      width: 800px;
+      height: 800px;
+    }
+    .cta-bg-blob {
+      position: absolute;
+      inset: 0;
+      border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
+      background: radial-gradient(circle at 40% 40%, var(--pink) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 70%, var(--green) 0%, transparent 50%);
+      opacity: 0.3;
+      animation: morph1 10s var(--ease) infinite alternate;
+    }
+    .cta-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .cta-eyebrow { color: rgba(255,255,255,0.6); margin-bottom: 24px; }
+    .cta-headline { color: var(--white); margin-bottom: 24px; }
+    .cta-sub { color: rgba(255,255,255,0.65); margin-bottom: 56px; }
+    .cta-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 64px;
+    }
+    .cta-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 32px 28px;
+      text-align: left;
+      transition: background 0.2s;
+    }
+    .cta-card:hover { background: rgba(255,255,255,0.12); }
+    .cta-card-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .cta-card-desc { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 20px; }
+    .cta-card-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .cta-card-link::after { content: '\2192'; }
+
+    /* ─────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────── */
+    footer {
+      background: var(--near-black);
+      padding: 60px 0 40px;
+      border-top: 1px solid #1a1a1a;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+    .footer-brand .nav-logo { font-size: 22px; display: block; margin-bottom: 16px; }
+    .footer-tagline { font-size: 13px; color: #555; line-height: 1.6; max-width: 240px; }
+    .footer-col-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #444;
+      margin-bottom: 20px;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-size: 14px; color: #666; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 32px;
+      border-top: 1px solid #1a1a1a;
+    }
+    .footer-copy { font-size: 12px; color: #444; }
+    .footer-acknowledgement { font-size: 12px; color: #333; max-width: 400px; text-align: right; line-height: 1.5; }
+
+    /* ─────────────────────────────────────────
+       SCROLLING ANIMATIONS
+    ───────────────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-up:nth-child(2) { transition-delay: 0.1s; }
+    .fade-up:nth-child(3) { transition-delay: 0.2s; }
+    .fade-up:nth-child(4) { transition-delay: 0.3s; }
+    .fade-up:nth-child(5) { transition-delay: 0.4s; }
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .pillars-grid { grid-template-columns: repeat(2, 1fr); }
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      #hero { grid-template-columns: 1fr; }
+      .hero-shape-wrap { display: none; }
+      .hero-content { padding-top: 120px; }
+      .intro-grid, .how-grid { grid-template-columns: 1fr; gap: 48px; }
+      .pillars-grid, .grid-3, .why-grid { grid-template-columns: 1fr; }
+      .how-cards { grid-template-columns: 1fr; }
+      .cta-cards { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      nav .nav-links { display: none; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+      .footer-acknowledgement { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       NAV
+  ═══════════════════════════════════════ -->
+  <nav>
+    <a class="nav-logo" href="index.html"><img src="logo.png" alt="Portable"></a>
+    <ul class="nav-links">
+      <li><a href="work.html">Work</a></li>
+      <li><a href="ai.html">AI</a></li>
+      <li><a href="people.html">People</a></li>
+      <li><a href="purpose.html">Purpose</a></li>
+      <li><a href="training.html">Training</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="technology.html" class="active">Technology</a></li>
+    </ul>
+    <a href="mailto:hello@portable.com.au" class="nav-cta">Start a conversation</a>
+  </nav>
+
+  <!-- ═══════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-content">
+      <p class="eyebrow hero-eyebrow">Technology</p>
+      <h1 class="display display-xl hero-headline">
+        Technology<br>capability<br>that<br>compounds.
+      </h1>
+      <p class="body-lg hero-sub">
+        Co-sourced delivery that ships production-grade systems while
+        building your team's capacity to own them. We embed, we build,
+        we leave you stronger.
+      </p>
+      <div class="hero-actions">
+        <a href="mailto:hello@portable.com.au" class="btn btn-green btn-arrow">Start a conversation</a>
+        <a href="#pillars" class="btn btn-outline">Explore capabilities</a>
+      </div>
+    </div>
+
+    <div class="hero-shape-wrap">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="shape-layers">
+        <div class="shape-layer"></div>
+        <div class="shape-layer"></div>
+        <div class="shape-layer"></div>
+        <div class="shape-layer"></div>
+        <div class="shape-layer"></div>
+        <div class="shape-layer"></div>
+        <div class="shape-layer"></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       INTRO / POSITIONING
+  ═══════════════════════════════════════ -->
+  <section id="intro" class="section">
+    <div class="container">
+      <div class="intro-grid">
+        <div class="intro-left">
+          <p class="eyebrow" style="color:var(--purple);margin-bottom:20px;">What sets us apart</p>
+          <h2 class="display display-lg intro-headline">
+            We build.<br>We embed.<br>We uplift.
+          </h2>
+        </div>
+        <div class="intro-right">
+          <p class="body-lg" style="color:#333;margin-bottom:24px;">
+            Portable Technology is an ethical technology consultancy. We solve hard
+            engineering problems while teaching your teams to problem-solve independently.
+            Every engagement is designed to end with your organisation more capable
+            than when we arrived.
+          </p>
+          <p class="body-md" style="color:#666;">
+            We don't just deploy engineers. We embed specialists who pair with your
+            people, transfer knowledge by design, and build the culture and practices
+            that make good engineering sustainable. The goal is always the same:
+            leave your teams stronger.
+          </p>
+          <div class="intro-stats fade-up">
+            <div class="stat-cell">
+              <div class="stat-number">40+</div>
+              <div class="stat-label">Organisations supported</div>
+            </div>
+            <div class="stat-cell">
+              <div class="stat-number">65</div>
+              <div class="stat-label">Specialists onshore</div>
+            </div>
+            <div class="stat-cell">
+              <div class="stat-number">DORA</div>
+              <div class="stat-label">Metrics-tracked delivery</div>
+            </div>
+            <div class="stat-cell">
+              <div class="stat-number">100%</div>
+              <div class="stat-label">All onshore</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       CORE PILLARS — 5 CAPABILITY AREAS
+  ═══════════════════════════════════════ -->
+  <section id="pillars">
+    <div class="container">
+      <div class="section-header">
+        <p class="eyebrow" style="color:var(--green);margin-bottom:16px;">What we do</p>
+        <h2 class="display display-lg" style="color:var(--white);max-width:700px;">
+          Five disciplines. One integrated capability.
+        </h2>
+        <p class="body-lg" style="color:rgba(255,255,255,0.5);margin-top:20px;max-width:560px;">
+          Each practice reinforces the others. Software that ships fast because the
+          pipelines are solid. Teams that move confidently because observability
+          gives them real-time feedback. Infrastructure that scales because it was
+          built to be disposable.
+        </p>
+      </div>
+      <div class="pillars-grid">
+
+        <!-- 01 Software Development -->
+        <div class="pillar-card fade-up">
+          <div class="pillar-num">01</div>
+          <div class="pillar-name">Software Development</div>
+          <div class="pillar-tagline">Robust, scalable, maintainable code</div>
+          <div class="pillar-divider"></div>
+          <ul class="pillar-points">
+            <li>Test-driven development and code quality</li>
+            <li>Security patterns built into every layer</li>
+            <li>Modern iterative delivery</li>
+            <li>API development and integration</li>
+            <li>CI/CD from day one</li>
+            <li>Growing internal technical capability</li>
+          </ul>
+        </div>
+
+        <!-- 02 Delivery Leadership -->
+        <div class="pillar-card fade-up">
+          <div class="pillar-num">02</div>
+          <div class="pillar-name">Delivery Leadership</div>
+          <div class="pillar-tagline">Culture, trust and performance</div>
+          <div class="pillar-divider"></div>
+          <ul class="pillar-points">
+            <li>Psychological safety, trust and culture</li>
+            <li>Team and organisational agility</li>
+            <li>Aligning activity to value</li>
+            <li>Product management and prioritisation</li>
+            <li>Minimising key person risk</li>
+            <li>Improving productivity and flow</li>
+            <li>Destination employer practices</li>
+          </ul>
+        </div>
+
+        <!-- 03 DevSecOps -->
+        <div class="pillar-card fade-up">
+          <div class="pillar-num">03</div>
+          <div class="pillar-name">DevSecOps</div>
+          <div class="pillar-tagline">Secure, fast, continuously improving</div>
+          <div class="pillar-divider"></div>
+          <ul class="pillar-points">
+            <li>CI/CD pipeline design and optimisation</li>
+            <li>Monitoring, logging and alerting</li>
+            <li>Infrastructure-as-code</li>
+            <li>Speed and engineering efficiency</li>
+            <li>Testing throughout delivery</li>
+            <li>DORA metrics benchmarking</li>
+            <li>Continuous improvement culture</li>
+          </ul>
+        </div>
+
+        <!-- 04 Observability -->
+        <div class="pillar-card fade-up">
+          <div class="pillar-num">04</div>
+          <div class="pillar-name">Observability</div>
+          <div class="pillar-tagline">See everything. Fix faster. Ship with confidence.</div>
+          <div class="pillar-divider"></div>
+          <ul class="pillar-points">
+            <li>Single pane of glass monitoring</li>
+            <li>Faster issue identification and resolution</li>
+            <li>Reduced context switching</li>
+            <li>Greater deployment confidence</li>
+            <li>Faster system performance feedback</li>
+            <li>Reduced on-call burden</li>
+            <li>Increased engineering capacity for innovation</li>
+          </ul>
+        </div>
+
+        <!-- 05 Cloud Engineering -->
+        <div class="pillar-card fade-up">
+          <div class="pillar-num">05</div>
+          <div class="pillar-name">Cloud Engineering</div>
+          <div class="pillar-tagline">Sustainable, resilient, cost-efficient infrastructure</div>
+          <div class="pillar-divider"></div>
+          <ul class="pillar-points">
+            <li>Effective cloud maintenance</li>
+            <li>Pets to cattle architecture</li>
+            <li>Automated deployment pipelines</li>
+            <li>Automated compliance and governance</li>
+            <li>Faster feature delivery</li>
+            <li>Improved development hygiene</li>
+            <li>Cost optimisation and right-sizing</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       HOW WE WORK — CO-SOURCED DELIVERY
+  ═══════════════════════════════════════ -->
+  <section id="how-we-work" class="section">
+    <div class="container">
+      <div class="how-grid">
+        <div>
+          <p class="eyebrow" style="color:var(--purple);margin-bottom:20px;">How we work</p>
+          <h2 class="display display-lg" style="margin-bottom:28px;">
+            Co-sourced<br>delivery.
+          </h2>
+          <p class="body-lg" style="color:#333;margin-bottom:24px;">
+            We don't build in isolation and hand over. We embed specialists into your
+            existing teams, work alongside your people, and transfer knowledge through
+            pairing, coaching and practice. When the engagement ends, your teams own
+            the systems and the skills to evolve them.
+          </p>
+          <p class="body-md" style="color:#666;">
+            This is not staff augmentation. It is deliberate capability building
+            wrapped inside production delivery. You get working software and a
+            stronger team at the same time.
+          </p>
+        </div>
+        <div class="how-cards">
+          <div class="how-card fade-up">
+            <div class="how-card-num">01</div>
+            <div class="how-card-title">Embed &amp; pair</div>
+            <div class="how-card-body">
+              Our specialists sit inside your team. They pair with your engineers,
+              share context, and build trust. Knowledge transfers through doing,
+              not documentation.
+            </div>
+          </div>
+          <div class="how-card fade-up">
+            <div class="how-card-num">02</div>
+            <div class="how-card-title">Ship &amp; uplift</div>
+            <div class="how-card-body">
+              Every sprint delivers working software and measurable capability growth.
+              We track both velocity and team independence as first-class metrics.
+            </div>
+          </div>
+          <div class="how-card fade-up">
+            <div class="how-card-num">03</div>
+            <div class="how-card-title">Coach &amp; scale</div>
+            <div class="how-card-body">
+              Delivery leads coach your emerging leaders. Engineering managers learn
+              to build hiring pipelines, run retrospectives, and sustain culture
+              without external dependency.
+            </div>
+          </div>
+          <div class="how-card fade-up">
+            <div class="how-card-num">04</div>
+            <div class="how-card-title">Exit &amp; sustain</div>
+            <div class="how-card-body">
+              We plan the exit from day one. Runbooks, playbooks and capability
+              roadmaps ensure your team can operate, maintain and evolve the
+              systems independently.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       WHY PORTABLE TECHNOLOGY
+  ═══════════════════════════════════════ -->
+  <section id="why" class="section">
+    <div class="container">
+      <p class="eyebrow" style="color:var(--purple);">Why Portable Technology</p>
+      <h2 class="display display-lg" style="margin-top:16px;max-width:700px;">
+        Consulting firms talk about transformation. We measure it.
+      </h2>
+      <div class="why-grid">
+        <div class="why-card fade-up">
+          <div class="why-num">01</div>
+          <div class="why-title">Co-sourced, not outsourced</div>
+          <div class="why-body">We embed inside your teams. Your engineers pair with ours. Knowledge transfers through practice, not slide decks. When we leave, you own the capability and the code.</div>
+        </div>
+        <div class="why-card fade-up">
+          <div class="why-num">02</div>
+          <div class="why-title">DORA-tracked delivery</div>
+          <div class="why-body">We benchmark against DORA metrics from day one. Deployment frequency, lead time, change failure rate and mean time to recovery are measured, reported and improved every sprint.</div>
+        </div>
+        <div class="why-card fade-up">
+          <div class="why-num">03</div>
+          <div class="why-title">All onshore. All senior.</div>
+          <div class="why-body">No offshore handoffs. No juniors learning on your project. Every specialist we embed has deep production experience across cloud, security, delivery and modern engineering practice.</div>
+        </div>
+        <div class="why-card fade-up">
+          <div class="why-num">04</div>
+          <div class="why-title">Built to exit</div>
+          <div class="why-body">Every engagement is designed to end. We plan the transition from the first week, build runbooks and playbooks as we go, and track team independence as a core delivery metric. The goal is always self-sufficiency.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       CTA
+  ═══════════════════════════════════════ -->
+  <section id="cta">
+    <div class="cta-bg-shape"><div class="cta-bg-blob"></div></div>
+    <div class="container">
+      <div class="cta-content">
+        <p class="eyebrow cta-eyebrow">Let's work together</p>
+        <h2 class="display display-lg cta-headline">
+          Let's build something that lasts.
+        </h2>
+        <p class="body-lg cta-sub">
+          Whether you need embedded engineers, DevSecOps transformation, or a
+          partner to build your team's long-term capability — we'd like to hear
+          what you're working on.
+        </p>
+        <a href="mailto:hello@portable.com.au" class="btn btn-green" style="font-size:16px;padding:20px 44px;">
+          hello@portable.com.au
+        </a>
+        <div class="cta-cards">
+          <div class="cta-card">
+            <div class="cta-card-title">Start a conversation</div>
+            <div class="cta-card-desc">Tell us what you're working on. We'll tell you how we can help.</div>
+            <a href="mailto:hello@portable.com.au" class="cta-card-link">Get in touch</a>
+          </div>
+          <div class="cta-card">
+            <div class="cta-card-title">See our work</div>
+            <div class="cta-card-desc">Government delivery, platform engineering and production AI systems.</div>
+            <a href="work.html" class="cta-card-link">View case studies</a>
+          </div>
+          <div class="cta-card">
+            <div class="cta-card-title">Join the team</div>
+            <div class="cta-card-desc">We're always looking for senior engineers who care about the work.</div>
+            <a href="careers.html" class="cta-card-link">View open roles</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="nav-logo" href="index.html" style="margin-bottom:16px;"><img src="logo.png" alt="Portable" style="height:13px;"></a>
+          <p class="footer-tagline">
+            Wherever Portable works, a better world exists.
+            Purpose-driven technology for government and the social sector.
+          </p>
+        </div>
+        <div>
+          <div class="footer-col-title">Services</div>
+          <ul class="footer-links">
+            <li><a href="services.html">Our Services</a></li>
+            <li><a href="training.html">Training &amp; Uplift</a></li>
+            <li><a href="ai.html">AI Strategy</a></li>
+            <li><a href="work.html">Case Studies</a></li>
+            <li><a href="mailto:hello@portable.com.au">Get in Touch</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Work</div>
+          <ul class="footer-links">
+            <li><a href="work.html">Amica</a></li>
+            <li><a href="work.html">Sweep</a></li>
+            <li><a href="work.html">Hear Me Out</a></li>
+            <li><a href="work.html">AI Navigator</a></li>
+            <li><a href="work.html">All case studies</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Company</div>
+          <ul class="footer-links">
+            <li><a href="purpose.html">About us</a></li>
+            <li><a href="people.html">Team</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="mailto:hello@portable.com.au">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-copy">&copy; 2025 Portable. All rights reserved.</div>
+        <div class="footer-acknowledgement">
+          We acknowledge the Traditional Custodians of the land on which we work,
+          and pay our respects to Elders past and present.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════
+       SCROLL ANIMATIONS
+  ═══════════════════════════════════════ -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Nav: transparent over hero, dark on scroll
+    const nav = document.querySelector('nav');
+    function updateNav() {
+      if (window.scrollY > 60) {
+        nav.style.background = 'rgba(8,8,8,0.96)';
+        nav.style.backdropFilter = 'blur(16px)';
+        nav.style.borderBottom = '1px solid #1a1a1a';
+      } else {
+        nav.style.background = 'transparent';
+        nav.style.backdropFilter = '';
+        nav.style.borderBottom = '';
+      }
+    }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+  </script>
+
+</body>
+</html>

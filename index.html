@@ -274,31 +274,6 @@
     }
     @keyframes rotate { to { transform: rotate(360deg); } }
 
-    /* ─────────────────────────────────────────
-       MARQUEE
-    ───────────────────────────────────────── */
-    .marquee-wrap {
-      background: var(--near-black);
-      overflow: hidden;
-      padding: 20px 0;
-      border-top: 1px solid #1a1a1a;
-    }
-    .marquee-track {
-      display: flex;
-      width: max-content;
-      animation: marquee 30s linear infinite;
-    }
-    .marquee-item {
-      white-space: nowrap;
-      padding: 0 40px;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--grey);
-    }
-    .marquee-item span { color: var(--green); margin-right: 40px; }
-    @keyframes marquee { to { transform: translateX(-50%); } }
 
     /* ─────────────────────────────────────────
        INTRO / POSITIONING
@@ -483,6 +458,66 @@
       margin-bottom: 10px;
     }
     .ai-card-body { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+    /* ─────────────────────────────────────────
+       TECHNOLOGY SECTION
+    ───────────────────────────────────────── */
+    #technology {
+      background: #0A0A0A;
+      padding: var(--section-v) 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .tech-bg-glow {
+      position: absolute;
+      right: -120px;
+      bottom: -120px;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(190,249,88,0.08) 0%, transparent 60%);
+    }
+    .tech-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .tech-left .eyebrow { color: var(--green); margin-bottom: 24px; }
+    .tech-headline { color: var(--white); margin-bottom: 28px; }
+    .tech-sub { color: rgba(255,255,255,0.6); margin-bottom: 40px; }
+    .tech-capabilities {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+    .tech-cap {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 24px;
+      transition: background 0.2s;
+    }
+    .tech-cap:hover { background: rgba(255,255,255,0.07); }
+    .tech-cap-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .tech-cap-desc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+    .tech-proof {
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 40px;
+    }
+    .tech-proof-stat .stat-number { color: var(--green); font-size: 36px; }
+    .tech-proof-stat .stat-label { color: rgba(255,255,255,0.45); font-size: 12px; }
 
     /* ─────────────────────────────────────────
        CASE STUDIES
@@ -901,7 +936,7 @@
       #hero { grid-template-columns: 1fr; }
       .hero-shape-wrap { display: none; }
       .hero-content { padding-top: 120px; }
-      .intro-grid, .ai-grid, .story-grid { grid-template-columns: 1fr; gap: 48px; }
+      .intro-grid, .ai-grid, .story-grid, .tech-grid { grid-template-columns: 1fr; gap: 48px; }
       .pillars-grid, .grid-3, .cases-grid, .sectors-grid, .why-grid { grid-template-columns: 1fr; }
       .cta-cards { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr; }
@@ -926,6 +961,7 @@
       <li><a href="purpose.html">Purpose</a></li>
       <li><a href="training.html">Training</a></li>
       <li><a href="services.html">Services</a></li>
+      <li><a href="technology.html">Technology</a></li>
     </ul>
     <a href="mailto:hello@portable.com.au" class="nav-cta">Start a conversation</a>
   </nav>
@@ -941,7 +977,7 @@
       </h1>
       <p class="body-lg hero-sub">
         Purpose-driven design, engineering and AI for government
-        and the social sector. We embed, we build, we grow.
+        and emerging sectors. We engage, we build, we grow.
       </p>
       <div class="hero-actions">
         <a href="work.html" class="btn btn-green btn-arrow">See our work</a>
@@ -964,32 +1000,6 @@
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════
-       MARQUEE
-  ═══════════════════════════════════════ -->
-  <div class="marquee-wrap">
-    <div class="marquee-track">
-      <!-- Repeated twice for seamless loop -->
-      <span class="marquee-item"><span>★</span> Product</span>
-      <span class="marquee-item"><span>★</span> Capability</span>
-      <span class="marquee-item"><span>★</span> Uplift</span>
-      <span class="marquee-item"><span>★</span> AI Strategy</span>
-      <span class="marquee-item"><span>★</span> Government</span>
-      <span class="marquee-item"><span>★</span> Access to Justice</span>
-      <span class="marquee-item"><span>★</span> Service Design</span>
-      <span class="marquee-item"><span>★</span> Storytelling</span>
-      <span class="marquee-item"><span>★</span> Mental Health</span>
-      <span class="marquee-item"><span>★</span> Product</span>
-      <span class="marquee-item"><span>★</span> Capability</span>
-      <span class="marquee-item"><span>★</span> Uplift</span>
-      <span class="marquee-item"><span>★</span> AI Strategy</span>
-      <span class="marquee-item"><span>★</span> Government</span>
-      <span class="marquee-item"><span>★</span> Access to Justice</span>
-      <span class="marquee-item"><span>★</span> Service Design</span>
-      <span class="marquee-item"><span>★</span> Storytelling</span>
-      <span class="marquee-item"><span>★</span> Mental Health</span>
-    </div>
-  </div>
 
   <!-- ═══════════════════════════════════════
        INTRO / POSITIONING
@@ -1068,30 +1078,30 @@
         </div>
         <div class="pillar-card fade-up">
           <div class="pillar-num">02</div>
-          <div class="pillar-name">Capability</div>
-          <div class="pillar-tagline">Teams that scale</div>
+          <div class="pillar-name">Capability &amp; Uplift</div>
+          <div class="pillar-tagline">Teams that scale — skills that stick</div>
           <div class="pillar-divider"></div>
           <ul class="pillar-points">
             <li>Embedded consultants (Midnyte City)</li>
             <li>Surge capacity on demand</li>
-            <li>Senior engineers &amp; UX designers</li>
-            <li>Product managers &amp; delivery leads</li>
-            <li>Data engineers</li>
-            <li>Day-one productive specialists</li>
+            <li>Senior engineers, UX designers &amp; delivery leads</li>
+            <li>Skills transfer by design — coaching &amp; pairing</li>
+            <li>Capability roadmaps &amp; playbooks</li>
+            <li>Self-sufficient teams from day one</li>
           </ul>
         </div>
         <div class="pillar-card fade-up">
           <div class="pillar-num">03</div>
-          <div class="pillar-name">Uplift</div>
-          <div class="pillar-tagline">Skills that stick</div>
+          <div class="pillar-name">Story, Voice &amp; Message</div>
+          <div class="pillar-tagline">Amplify what matters</div>
           <div class="pillar-divider"></div>
           <ul class="pillar-points">
-            <li>Skills transfer by design</li>
-            <li>Coaching &amp; pairing</li>
-            <li>Sprint retrospectives &amp; workshops</li>
-            <li>Capability roadmaps</li>
-            <li>Self-sufficient teams</li>
-            <li>Documented practices &amp; playbooks</li>
+            <li>National awareness campaigns</li>
+            <li>Documentaries &amp; interviews</li>
+            <li>Animated stories &amp; explainers</li>
+            <li>Case study &amp; impact films</li>
+            <li>Training &amp; educational video</li>
+            <li>Motion design for products &amp; services</li>
           </ul>
         </div>
       </div>
@@ -1154,6 +1164,68 @@
               Develop your people, processes and operating models so AI sustains and
               scales without us. From GenAI foundations to executive masterclasses.
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       TECHNOLOGY
+  ═══════════════════════════════════════ -->
+  <section id="technology">
+    <div class="tech-bg-glow"></div>
+    <div class="container">
+      <div class="tech-grid">
+        <div class="tech-left">
+          <p class="eyebrow" style="color:var(--green);">Technology</p>
+          <h2 class="display display-lg tech-headline">
+            Engineering that<br>delivers — not<br>just deploys.
+          </h2>
+          <p class="body-lg tech-sub">
+            We build production-grade systems with modern engineering practices.
+            Cloud-native, secure by design, and built to scale — with the team
+            culture and delivery leadership to make it stick.
+          </p>
+          <a href="technology.html" class="btn btn-green btn-arrow">Explore our technology capability</a>
+          <div class="tech-proof">
+            <div class="tech-proof-stat">
+              <div class="stat-number" style="color:var(--green);font-size:36px;">40+</div>
+              <div class="stat-label" style="color:rgba(255,255,255,0.45);font-size:12px;">Organisations<br>supported</div>
+            </div>
+            <div style="border-left:1px solid rgba(255,255,255,0.1);padding-left:32px;flex:1;">
+              <p style="font-size:14px;color:rgba(255,255,255,0.6);line-height:1.6;">
+                Co-sourced delivery that builds your capability while shipping product.
+                From embedded engineers to DevSecOps transformation — we accelerate
+                and leave your teams stronger.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="tech-capabilities">
+          <div class="tech-cap fade-up">
+            <div class="tech-cap-title">Software Development</div>
+            <div class="tech-cap-desc">Robust, scalable code. TDD, CI/CD, API development and modern iterative delivery.</div>
+          </div>
+          <div class="tech-cap fade-up">
+            <div class="tech-cap-title">Delivery Leadership</div>
+            <div class="tech-cap-desc">Culture, trust and performance. Agile coaching, product management and team agility.</div>
+          </div>
+          <div class="tech-cap fade-up">
+            <div class="tech-cap-title">DevSecOps</div>
+            <div class="tech-cap-desc">CI/CD pipelines, infrastructure-as-code, DORA metrics and security at every stage.</div>
+          </div>
+          <div class="tech-cap fade-up">
+            <div class="tech-cap-title">Observability</div>
+            <div class="tech-cap-desc">Single-pane monitoring, faster resolution, deployment confidence and reduced on-call burden.</div>
+          </div>
+          <div class="tech-cap fade-up">
+            <div class="tech-cap-title">Cloud Engineering</div>
+            <div class="tech-cap-desc">Cloud-native architecture, automated compliance, cost optimisation and resilient infrastructure.</div>
+          </div>
+          <div class="tech-cap fade-up">
+            <div class="tech-cap-title">Data &amp; Integration</div>
+            <div class="tech-cap-desc">Data engineering, API integration, platform modernisation and legacy system migration.</div>
           </div>
         </div>
       </div>
