@@ -479,35 +479,83 @@
     }
     .tech-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
+      grid-template-columns: 1fr;
+      gap: 56px;
       position: relative;
       z-index: 2;
     }
     .tech-left .eyebrow { color: var(--green); margin-bottom: 24px; }
     .tech-headline { color: var(--white); margin-bottom: 28px; }
     .tech-sub { color: rgba(255,255,255,0.6); margin-bottom: 40px; }
-    .tech-capabilities {
+    /* ── Capability Map ── */
+    .cap-map {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      grid-column: 1 / -1;
+    }
+    .cap-map-header {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2px;
+      margin-bottom: 2px;
+    }
+    .cap-map-header-cell {
+      padding: 18px 14px;
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #0A0A0A;
+      text-transform: uppercase;
+    }
+    .cap-map-header-cell:nth-child(1) { background: var(--green); }
+    .cap-map-header-cell:nth-child(2) { background: #A8E6FF; }
+    .cap-map-header-cell:nth-child(3) { background: #FFB8E6; }
+    .cap-map-header-cell:nth-child(4) { background: #FFD4A8; }
+    .cap-map-header-cell:nth-child(5) { background: #D4C8FF; }
+    .cap-map-body {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
       gap: 2px;
     }
-    .tech-cap {
+    .cap-map-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .cap-map-item {
+      padding: 12px 14px;
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: rgba(255,255,255,0.72);
       background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 24px;
-      transition: background 0.2s;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: background 0.2s, color 0.2s;
+      font-weight: 500;
     }
-    .tech-cap:hover { background: rgba(255,255,255,0.07); }
-    .tech-cap-title {
-      font-family: var(--font-display);
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 6px;
+    .cap-map-item:hover {
+      background: rgba(255,255,255,0.09);
+      color: rgba(255,255,255,0.95);
     }
-    .tech-cap-desc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+    .cap-map-label {
+      text-align: center;
+      margin-top: 20px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+    @media (max-width: 900px) {
+      .cap-map-header, .cap-map-body { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .cap-map-header, .cap-map-body { grid-template-columns: 1fr 1fr; }
+      .cap-map-header-cell { font-size: 11px; padding: 12px 8px; }
+      .cap-map-item { font-size: 11px; padding: 10px; }
+    }
     .tech-proof {
       display: flex;
       gap: 32px;
@@ -1015,9 +1063,9 @@
         </div>
         <div class="intro-right">
           <p class="body-lg" style="color:#333;margin-bottom:24px;">
-            Portable is a purpose-driven technology company. We design and build digital
-            products, embed specialist capability, and grow the teams that run them —
-            for government, legal aid, health, education and the social sector.
+            Portable is a purpose-driven design &amp; technology company. We design and build digital
+            products, embed specialist capability, and grow the teams that run them,
+            for government, growing start-ups and mature organisations across health, education and the social sector.
           </p>
           <p class="body-md" style="color:#666;">
             We combine deep sector knowledge with genuine engineering and design craft.
@@ -1078,7 +1126,7 @@
         </div>
         <div class="pillar-card fade-up">
           <div class="pillar-num">02</div>
-          <div class="pillar-name">Capability &amp; Uplift</div>
+          <div class="pillar-name">Capability</div>
           <div class="pillar-tagline">Teams that scale — skills that stick</div>
           <div class="pillar-divider"></div>
           <ul class="pillar-points">
@@ -1092,7 +1140,7 @@
         </div>
         <div class="pillar-card fade-up">
           <div class="pillar-num">03</div>
-          <div class="pillar-name">Story, Voice &amp; Message</div>
+          <div class="pillar-name">Storytelling</div>
           <div class="pillar-tagline">Amplify what matters</div>
           <div class="pillar-divider"></div>
           <ul class="pillar-points">
@@ -1177,56 +1225,73 @@
     <div class="tech-bg-glow"></div>
     <div class="container">
       <div class="tech-grid">
-        <div class="tech-left">
+        <div class="tech-left fade-up">
           <p class="eyebrow" style="color:var(--green);">Technology</p>
           <h2 class="display display-lg tech-headline">
-            Engineering that<br>delivers — not<br>just deploys.
+            Engineering that delivers —<br>not just deploys.
           </h2>
-          <p class="body-lg tech-sub">
+          <p class="body-lg tech-sub" style="max-width:720px;">
             We build production-grade systems with modern engineering practices.
             Cloud-native, secure by design, and built to scale — with the team
             culture and delivery leadership to make it stick.
           </p>
           <a href="technology.html" class="btn btn-green btn-arrow">Explore our technology capability</a>
-          <div class="tech-proof">
-            <div class="tech-proof-stat">
-              <div class="stat-number" style="color:var(--green);font-size:36px;">40+</div>
-              <div class="stat-label" style="color:rgba(255,255,255,0.45);font-size:12px;">Organisations<br>supported</div>
-            </div>
-            <div style="border-left:1px solid rgba(255,255,255,0.1);padding-left:32px;flex:1;">
-              <p style="font-size:14px;color:rgba(255,255,255,0.6);line-height:1.6;">
-                Co-sourced delivery that builds your capability while shipping product.
-                From embedded engineers to DevSecOps transformation — we accelerate
-                and leave your teams stronger.
-              </p>
-            </div>
-          </div>
         </div>
-        <div class="tech-capabilities">
-          <div class="tech-cap fade-up">
-            <div class="tech-cap-title">Software Development</div>
-            <div class="tech-cap-desc">Robust, scalable code. TDD, CI/CD, API development and modern iterative delivery.</div>
+        <div class="cap-map fade-up">
+          <div class="cap-map-header">
+            <div class="cap-map-header-cell">Software Development</div>
+            <div class="cap-map-header-cell">Delivery Leadership</div>
+            <div class="cap-map-header-cell">DevSecOps</div>
+            <div class="cap-map-header-cell">Observability</div>
+            <div class="cap-map-header-cell">Cloud Engineering</div>
           </div>
-          <div class="tech-cap fade-up">
-            <div class="tech-cap-title">Delivery Leadership</div>
-            <div class="tech-cap-desc">Culture, trust and performance. Agile coaching, product management and team agility.</div>
+          <div class="cap-map-body">
+            <div class="cap-map-col">
+              <div class="cap-map-item">Test-driven development &amp; code quality</div>
+              <div class="cap-map-item">Security patterns built into every layer</div>
+              <div class="cap-map-item">Modern iterative delivery</div>
+              <div class="cap-map-item">API development &amp; integration</div>
+              <div class="cap-map-item">CI/CD from day one</div>
+              <div class="cap-map-item">Growing internal technical capability</div>
+            </div>
+            <div class="cap-map-col">
+              <div class="cap-map-item">Psychological safety, trust &amp; culture</div>
+              <div class="cap-map-item">Team &amp; organisational agility</div>
+              <div class="cap-map-item">Aligning activity to value</div>
+              <div class="cap-map-item">Product management &amp; prioritisation</div>
+              <div class="cap-map-item">Minimising key person risk</div>
+              <div class="cap-map-item">Improving productivity &amp; flow</div>
+              <div class="cap-map-item">Destination employer practices</div>
+            </div>
+            <div class="cap-map-col">
+              <div class="cap-map-item">CI/CD pipeline design &amp; optimisation</div>
+              <div class="cap-map-item">Monitoring, logging &amp; alerting</div>
+              <div class="cap-map-item">Infrastructure-as-code</div>
+              <div class="cap-map-item">Speed &amp; engineering efficiency</div>
+              <div class="cap-map-item">Testing throughout delivery</div>
+              <div class="cap-map-item">DORA metrics benchmarking</div>
+              <div class="cap-map-item">Continuous improvement culture</div>
+            </div>
+            <div class="cap-map-col">
+              <div class="cap-map-item">Single pane of glass monitoring</div>
+              <div class="cap-map-item">Faster issue identification &amp; resolution</div>
+              <div class="cap-map-item">Reduced context switching</div>
+              <div class="cap-map-item">Greater deployment confidence</div>
+              <div class="cap-map-item">Faster system performance feedback</div>
+              <div class="cap-map-item">Reduced on-call burden</div>
+              <div class="cap-map-item">Increased engineering capacity</div>
+            </div>
+            <div class="cap-map-col">
+              <div class="cap-map-item">Effective cloud maintenance</div>
+              <div class="cap-map-item">Pets to cattle architecture</div>
+              <div class="cap-map-item">Automated deployment pipelines</div>
+              <div class="cap-map-item">Automated compliance &amp; governance</div>
+              <div class="cap-map-item">Faster feature delivery</div>
+              <div class="cap-map-item">Improved development hygiene</div>
+              <div class="cap-map-item">Cost optimisation &amp; right-sizing</div>
+            </div>
           </div>
-          <div class="tech-cap fade-up">
-            <div class="tech-cap-title">DevSecOps</div>
-            <div class="tech-cap-desc">CI/CD pipelines, infrastructure-as-code, DORA metrics and security at every stage.</div>
-          </div>
-          <div class="tech-cap fade-up">
-            <div class="tech-cap-title">Observability</div>
-            <div class="tech-cap-desc">Single-pane monitoring, faster resolution, deployment confidence and reduced on-call burden.</div>
-          </div>
-          <div class="tech-cap fade-up">
-            <div class="tech-cap-title">Cloud Engineering</div>
-            <div class="tech-cap-desc">Cloud-native architecture, automated compliance, cost optimisation and resilient infrastructure.</div>
-          </div>
-          <div class="tech-cap fade-up">
-            <div class="tech-cap-title">Data &amp; Integration</div>
-            <div class="tech-cap-desc">Data engineering, API integration, platform modernisation and legacy system migration.</div>
-          </div>
+          <p class="cap-map-label">Portable Technology — Capability Map</p>
         </div>
       </div>
     </div>
