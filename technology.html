@@ -13,7 +13,7 @@
     .container{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}.section{padding:var(--section) 0}.fade{opacity:0;transform:translateY(20px);transition:opacity .65s var(--ease),transform .65s var(--ease)}.fade.visible{opacity:1;transform:translateY(0)}
 
     /* ── Nav ── */
-    .nav{position:fixed;inset:0 0 auto 0;z-index:30;padding:20px var(--gutter);display:flex;justify-content:space-between;align-items:center;background:rgba(23,0,69,.92);backdrop-filter:blur(8px)}.nav-logo img{height:14px;filter:brightness(0) invert(1)}.nav-links{display:flex;gap:28px;color:#fff;font-size:14px}.nav-links a{opacity:.82}.nav-links a.active,.nav-links a:hover{opacity:1}
+    .nav{position:fixed;inset:0 0 auto 0;z-index:30;background:rgba(23,0,69,.92);backdrop-filter:blur(8px)}.nav-inner{max-width:var(--max);margin:0 auto;padding:20px var(--gutter);display:flex;justify-content:space-between;align-items:center}.nav-logo img{height:14px;filter:brightness(0) invert(1)}.nav-links{display:flex;gap:28px;color:#fff;font-size:14px}.nav-links a{opacity:.82}.nav-links a.active,.nav-links a:hover{opacity:1}
 
     /* ── Hero ── */
     .hero{margin-top:74px;min-height:76vh;display:grid;grid-template-columns:minmax(90px,18%) 1fr}.rail{background:#f2f2f2;position:relative;border-right:1px solid rgba(23,0,69,.08)}.rail:before{content:"";position:absolute;inset:11% -130% 12% 16%;background:repeating-radial-gradient(circle at 0 50%,transparent 0 44px,rgba(75,1,230,.16) 44px 45px)}.rail img{position:absolute;left:16px;bottom:18px;width:68px}
@@ -47,9 +47,9 @@
   </style>
 </head>
 <body>
-  <nav class="nav"><a class="nav-logo" href="index.html"><img src="logo.png" alt="Portable"></a><div class="nav-links"><a href="work.html">Work</a><a href="services.html">Services</a><a href="people.html">People</a><a href="purpose.html">Purpose</a><a href="training.html">Training</a><a href="reports.html">Reports</a><a href="ai.html">AI</a><a class="active" href="technology.html">Technology</a></div></nav>
+  <nav class="nav"><div class="nav-inner"><a class="nav-logo" href="index.html"><img src="logo.png" alt="Portable"></a><div class="nav-links"><a href="work.html">Work</a><a href="services.html">Services</a><a href="people.html">People</a><a href="purpose.html">Purpose</a><a href="training.html">Training</a><a href="reports.html">Reports</a><a href="ai.html">AI</a><a class="active" href="technology.html">Technology</a></div></div></nav>
 
-  <header class="hero"><aside class="rail"><img src="logo.png" alt="Portable"></aside><div class="hero-main"><div class="fade"><p class="kicker">Technology</p><h1>Technology capability that compounds.</h1><p class="hero-sub">Co-sourced delivery that ships production-grade systems while building your team's capacity to own them. We embed, we build, we leave you stronger.</p></div></div></header>
+  <header class="hero"><aside class="rail"></aside><div class="hero-main"><div class="fade"><p class="kicker">Technology</p><h1>Technology capability that compounds.</h1><p class="hero-sub">Co-sourced delivery that ships production-grade systems while building your team's capacity to own them. We embed, we build, we leave you stronger.</p></div></div></header>
 
   <section class="section intro"><div class="container"><p class="fade">We build. We embed. We uplift. Portable Technology is an ethical technology consultancy that solves hard engineering problems while teaching your teams to problem-solve independently.</p></div></section>
 
