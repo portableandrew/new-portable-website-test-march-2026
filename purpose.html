@@ -6,341 +6,182 @@
   <title>Purpose — Portable°</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --lime-dark: #263212; --lime: #BEF958; --lime-light: #EDFCCC;
-      --brown-dark: #341405; --brown: #81330C; --brown-light: #EFD8C2;
-      --pink-dark: #400E30; --pink: #FF38C0; --pink-light: #FFC3F6;
-      --verm-dark: #471605; --verm: #EE4811; --verm-light: #FFC6BF;
-      --blue-dark: #170045; --blue: #4B01E6; --blue-light: #DEDAFF;
-      --purple: var(--blue); --purple-mid: var(--blue-light); --purple-dark: var(--blue-dark);
-      --green: var(--lime); --white: #FFFFFF; --off-white: var(--lime-light);
-      --near-black: var(--blue-dark); --grey: var(--brown); --light-grey: var(--brown-light);
-      --font-display: 'Inter', sans-serif; --font-body: 'Inter', sans-serif; --font-mono: 'Space Mono', monospace;
-      --max-w: 1280px; --gutter: clamp(24px, 5vw, 80px); --section-v: clamp(80px, 10vw, 140px);
+      --lime: #BEF958; --lime-light: #EDFCCC; --brown: #81330C; --brown-light: #EFD8C2;
+      --pink: #FF38C0; --pink-light: #FFC3F6; --verm: #EE4811; --verm-light: #FFC6BF;
+      --blue-dark: #170045; --blue: #4B01E6; --blue-light: #DEDAFF; --ink: #170045;
+      --max: 1240px; --gutter: clamp(20px, 4vw, 64px); --section: clamp(68px, 10vw, 130px);
       --ease: cubic-bezier(0.16, 1, 0.3, 1);
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { font-family: var(--font-body); background: var(--white); color: var(--near-black); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Inter, sans-serif; color: var(--ink); background: #fff; }
+    a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
-    a { text-decoration: none; color: inherit; }
-    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--gutter); }
-    .section { padding: var(--section-v) 0; }
-    .display { font-family: var(--font-display); font-weight: 900; line-height: 1.08; letter-spacing: -0.025em; }
-    .display-xl { font-size: clamp(44px, 5.5vw, 88px); line-height: 1.05; }
-    .display-md { font-size: clamp(28px, 3.2vw, 48px); line-height: 1.15; }
-    .body-lg { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.65; font-weight: 400; }
-    .body-md { font-size: 16px; line-height: 1.65; font-weight: 400; }
-    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
-    .fade-up.visible { opacity: 1; transform: translateY(0); }
-    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; font-family: var(--font-body); font-size: 15px; font-weight: 600; border: none; cursor: pointer; transition: transform 0.2s var(--ease), opacity 0.2s; border-radius: 2px; }
-    .btn:hover { transform: translateY(-2px); opacity: 0.9; }
-    .btn-primary { background: var(--purple); color: var(--white); }
-    .btn-dark { background: var(--near-black); color: var(--white); }
-    .btn-green { background: var(--green); color: var(--near-black); }
-    .btn-arrow::after { content: '→'; font-size: 18px; }
+    .container { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+    .section { padding: var(--section) 0; }
+    .fade { opacity: 0; transform: translateY(22px); transition: .65s var(--ease); transition-property: opacity, transform; }
+    .fade.visible { opacity: 1; transform: translateY(0); }
 
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 20px var(--gutter); display: flex; justify-content: space-between; align-items: center; background: transparent; transition: background 0.3s ease; }
-    nav.scrolled { background: rgba(4, 0, 70, 0.85); backdrop-filter: blur(10px); }
-    nav a { color: var(--white); font-size: 14px; font-weight: 500; }
-    nav .logo img { height: 20px; width: auto; filter: invert(1); }
-    .nav-links { display: flex; gap: 40px; align-items: center; }
-    .nav-links a { transition: opacity 0.2s; }
-    .nav-links a:hover { opacity: 0.7; }
+    .nav { position: fixed; inset: 0 0 auto 0; z-index: 30; background: rgba(23,0,69,.92); backdrop-filter: blur(8px); padding: 20px var(--gutter); display: flex; justify-content: space-between; align-items: center; }
+    .nav-logo img { height: 14px; filter: brightness(0) invert(1); }
+    .nav-links { display: flex; gap: 28px; color: #fff; font-size: 14px; }
+    .nav-links a { opacity: .82; }
+    .nav-links a.active, .nav-links a:hover { opacity: 1; }
 
-    .hero { background: var(--purple-dark); color: var(--white); padding: 160px var(--gutter) var(--section-v); text-align: center; position: relative; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 80%, rgba(190, 249, 88, 0.08) 0%, transparent 50%); pointer-events: none; }
-    .hero .container { position: relative; z-index: 1; }
-    .hero .display-xl { color: var(--green); margin-bottom: 24px; }
-    .hero .body-lg { color: rgba(255, 255, 255, 0.85); max-width: 680px; margin: 0 auto; }
-
-    .mission-card { background: var(--purple); color: var(--white); padding: 60px 48px; text-align: center; border-radius: 2px; margin-bottom: var(--section-v); }
-    .mission-card p { font-size: clamp(24px, 3vw, 36px); font-weight: 700; line-height: 1.3; }
-
-    .we-care-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; margin-bottom: var(--section-v); }
-    .care-item { padding: 36px; background: var(--off-white); border-radius: 2px; }
-    .care-icon { font-size: 36px; margin-bottom: 12px; }
-    .care-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--near-black); }
-    .care-desc { font-size: 14px; line-height: 1.7; color: var(--grey); }
-
-    .values-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; margin-bottom: var(--section-v); }
-    .value-card { padding: 32px; border-left: 3px solid var(--green); background: var(--white); }
-    .value-label { font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--purple); text-transform: uppercase; margin-bottom: 8px; }
-    .value-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--near-black); }
-    .value-desc { font-size: 14px; line-height: 1.65; color: var(--grey); }
-
-    .bcorp-section { background: linear-gradient(135deg, var(--purple-mid) 0%, rgba(190, 249, 88, 0.1) 100%); padding: 48px; border-radius: 2px; margin-bottom: var(--section-v); }
-    .bcorp-section h3 { font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--near-black); }
-    .bcorp-section p { font-size: 15px; line-height: 1.7; color: var(--near-black); margin-bottom: 16px; }
-
-    .rap-section { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-bottom: var(--section-v); }
-    .rap-content h3 { font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--near-black); }
-    .rap-content p { font-size: 15px; line-height: 1.7; color: var(--grey); margin-bottom: 20px; }
-    .rap-visual { background: linear-gradient(135deg, var(--green) 0%, rgba(75, 1, 230, 0.1) 100%); border-radius: 2px; padding: 60px 40px; text-align: center; color: var(--purple); font-weight: 700; font-size: 32px; }
-
-    .rd-section { background: var(--off-white); padding: var(--section-v); }
-    .rd-intro { text-align: center; margin-bottom: 48px; }
-    .rd-intro h3 { font-size: 24px; font-weight: 700; margin-bottom: 16px; color: var(--near-black); }
-    .rd-intro p { font-size: 15px; color: var(--grey); max-width: 600px; margin: 0 auto; }
-    .rd-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-    .rd-item { padding: 20px; background: var(--white); border: 1px solid var(--light-grey); border-radius: 2px; font-size: 13px; font-weight: 600; color: var(--near-black); }
-
-    .giving-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: var(--section-v); }
-    .giving-card { padding: 32px; background: var(--white); border: 1px solid var(--light-grey); border-radius: 2px; }
-    .giving-icon { font-size: 32px; margin-bottom: 12px; }
-    .giving-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--near-black); }
-    .giving-desc { font-size: 14px; line-height: 1.65; color: var(--grey); margin-bottom: 16px; }
-    .giving-stat { font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--purple); }
-
-    .cta-section { background: var(--green); color: var(--near-black); text-align: center; padding: var(--section-v); }
-    .cta-section h2 { font-size: clamp(28px, 3.2vw, 48px); font-weight: 900; margin-bottom: 20px; }
-    .cta-section p { font-size: 16px; margin-bottom: 32px; opacity: 0.8; max-width: 600px; margin-left: auto; margin-right: auto; }
-
-    footer { background: var(--near-black); color: var(--white); padding: 60px var(--gutter) 40px; }
-    footer .container { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; margin-bottom: 60px; }
-    footer h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; color: var(--light-grey); }
-    footer a { display: block; font-size: 14px; color: rgba(255, 255, 255, 0.7); margin-bottom: 10px; transition: color 0.2s; }
-    footer a:hover { color: var(--white); }
-    .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); max-width: var(--max-w); margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); }
-    .footer-logo { height: 18px; width: auto; filter: invert(1); }
-    .footer-bottom p { font-size: 12px; color: rgba(255, 255, 255, 0.5); }
-
-    @media (max-width: 1024px) {
-      .we-care-grid { grid-template-columns: 1fr; }
-      .values-grid { grid-template-columns: 1fr; }
-      .rap-section { grid-template-columns: 1fr; }
-      .giving-grid { grid-template-columns: 1fr 1fr; }
-      .rd-grid { grid-template-columns: repeat(2, 1fr); }
-      footer .container { grid-template-columns: 1fr; }
+    .hero { margin-top: 74px; min-height: 82vh; display: grid; grid-template-columns: minmax(90px, 18%) 1fr; }
+    .rail { background: #f2f2f2; position: relative; border-right: 1px solid rgba(23,0,69,.08); }
+    .rail:before {
+      content: ""; position: absolute; inset: 12% -130% 12% 16%;
+      background: repeating-radial-gradient(circle at 0 50%, transparent 0 44px, rgba(75,1,230,.16) 44px 45px);
     }
-    @media (max-width: 768px) {
-      .giving-grid { grid-template-columns: 1fr; }
-      .rd-grid { grid-template-columns: 1fr; }
-      .nav-links { gap: 20px; font-size: 13px; }
+    .rail img { position: absolute; left: 16px; bottom: 18px; width: 68px; }
+    .hero-main {
+      background:
+        radial-gradient(850px 500px at 84% 40%, rgba(255,56,192,.58), transparent 62%),
+        radial-gradient(600px 420px at 58% 100%, rgba(190,249,88,.46), transparent 58%),
+        linear-gradient(150deg, #4B01E6 0%, #4E5FE1 48%, #4B01E6 100%);
+      color: #fff; display: flex; align-items: flex-end; padding: clamp(44px, 8vw, 100px); position: relative; overflow: hidden;
+    }
+    .kicker { font: 700 11px/1.2 "Space Mono", monospace; text-transform: uppercase; letter-spacing: .17em; opacity: .85; margin-bottom: 20px; }
+    h1 { font-size: clamp(46px, 8.2vw, 118px); line-height: .93; letter-spacing: -0.035em; max-width: 980px; }
+    .hero-sub { margin-top: 24px; max-width: 620px; font-size: clamp(18px, 1.8vw, 24px); line-height: 1.5; color: rgba(255,255,255,.9); }
+
+    .manifesto { background: #efefef; }
+    .manifesto p { max-width: 900px; font-size: clamp(26px, 3.1vw, 46px); line-height: 1.2; letter-spacing: -0.02em; }
+
+    .pillars { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 16px; margin-top: 34px; }
+    .pillar { padding: 26px; min-height: 220px; }
+    .pillar h3 { font-size: clamp(24px, 2.2vw, 34px); line-height: 1.02; margin-bottom: 12px; letter-spacing: -0.02em; }
+    .pillar p { font-size: 15px; line-height: 1.62; }
+    .p1 { background: var(--lime-light); }
+    .p2 { background: var(--blue-light); }
+    .p3 { background: var(--pink-light); }
+    .p4 { background: var(--verm-light); }
+
+    .values { background: var(--blue-dark); color: #fff; }
+    .values h2 { font-size: clamp(38px, 4.4vw, 68px); line-height: .95; letter-spacing: -0.03em; }
+    .value-grid { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .value { border: 1px solid rgba(255,255,255,.2); padding: 20px; background: rgba(255,255,255,.03); }
+    .value .id { font: 700 12px/1 "Space Mono", monospace; letter-spacing: .12em; color: var(--lime); }
+    .value h4 { margin: 10px 0 8px; font-size: 25px; letter-spacing: -0.02em; }
+    .value p { color: rgba(255,255,255,.86); line-height: 1.56; }
+
+    .commitments { background: #f2f2f2; }
+    .commitments-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; }
+    .commit { background: #fff; border: 1px solid rgba(23,0,69,.12); padding: 24px; min-height: 220px; }
+    .commit h4 { font-size: 24px; line-height: 1.05; margin-bottom: 10px; letter-spacing: -0.02em; }
+    .commit p { color: rgba(23,0,69,.8); line-height: 1.58; }
+
+    .cta { background: linear-gradient(90deg, var(--lime) 0%, #d7fb95 40%, var(--lime-light) 100%); color: var(--blue-dark); padding: 56px 0; }
+    .cta-wrap { display: flex; justify-content: space-between; gap: 24px; align-items: center; }
+    .cta h2 { font-size: clamp(32px, 4vw, 60px); line-height: .95; letter-spacing: -0.03em; }
+    .btn { display: inline-flex; align-items: center; padding: 14px 24px; border: 1px solid rgba(23,0,69,.25); background: rgba(255,255,255,.55); font-weight: 600; }
+
+    footer { background: #0d0620; color: rgba(255,255,255,.72); padding: 36px var(--gutter) 32px; }
+    .footer-inner { max-width: var(--max); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .footer-inner img { height: 18px; filter: brightness(0) invert(1); }
+
+    @media (max-width: 1020px) {
+      .pillars { grid-template-columns: 1fr 1fr; }
+      .commitments-grid { grid-template-columns: 1fr; }
+      .value-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 760px) {
+      .hero { grid-template-columns: 92px 1fr; min-height: 70vh; }
+      .nav-links { gap: 14px; font-size: 12px; }
+      .pillars { grid-template-columns: 1fr; }
+      .cta-wrap { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
 <body>
-  <nav id="nav">
-    <div class="logo">
-      <a href="index.html"><img src="logo.png" alt="Portable"></a>
-    </div>
+  <nav class="nav">
+    <a class="nav-logo" href="index.html"><img src="logo.png" alt="Portable"></a>
     <div class="nav-links">
       <a href="work.html">Work</a>
-      <a href="ai.html">AI</a>
-      <a href="people.html">People</a>
-      <a href="purpose.html">Purpose</a>
-      <a href="training.html">Training</a>
       <a href="services.html">Services</a>
-      <a href="mailto:hello@portable.com.au">hello@portable.com.au</a>
+      <a href="people.html">People</a>
+      <a class="active" href="purpose.html">Purpose</a>
+      <a href="training.html">Training</a>
+      <a href="reports.html">Reports</a>
+      <a href="ai.html">AI</a>
     </div>
   </nav>
 
-  <section class="hero">
+  <header class="hero">
+    <aside class="rail"><img src="logo.png" alt="Portable"></aside>
+    <div class="hero-main">
+      <div class="fade">
+        <p class="kicker">Purpose</p>
+        <h1>Make better systems for people who rely on them most.</h1>
+        <p class="hero-sub">Portable exists to bridge policy ambition and lived experience. We design and build practical change in areas where better outcomes matter deeply.</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="section manifesto">
     <div class="container">
-      <h1 class="display-xl fade-up">Our Purpose</h1>
-      <p class="body-lg fade-up" style="transition-delay: 0.1s;">Seek out areas of social need and policy failure. Make transformational change using research, design and technology.</p>
+      <p class="fade">We position ourselves between those with the power to make change and those who need it.</p>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <div class="mission-card fade-up">
-        <p>We position ourselves between those with the power to make change and those who need it</p>
+      <p class="kicker fade" style="color:var(--blue)">What We Stand For</p>
+      <div class="pillars">
+        <article class="pillar p1 fade"><h3>Mental Health</h3><p>Improving youth and community mental health through more human digital services, better pathways and stronger trust in care systems.</p></article>
+        <article class="pillar p2 fade"><h3>Education</h3><p>Designing equitable learning systems that are easier to navigate for students, educators and families across diverse contexts.</p></article>
+        <article class="pillar p3 fade"><h3>Access to Justice</h3><p>Making legal and justice experiences clearer, fairer and more accessible through service redesign and practical technology.</p></article>
+        <article class="pillar p4 fade"><h3>Ageing & End of Life</h3><p>Supporting people and carers with clearer pathways, better information and more compassionate service systems.</p></article>
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section values">
     <div class="container">
-      <h2 class="display-md fade-up" style="margin-bottom: 48px;">We Care About</h2>
-      <div class="we-care-grid fade-up" style="transition-delay: 0.1s;">
-        <div class="care-item">
-          <div class="care-icon">🧠</div>
-          <div class="care-title">Mental Health</div>
-          <div class="care-desc">Youth mental health services and person-centred care. Working with Orygen and Headspace on transformative digital approaches to mental wellbeing.</div>
-        </div>
-        <div class="care-item">
-          <div class="care-icon">🎓</div>
-          <div class="care-title">Education</div>
-          <div class="care-desc">Human-centred design in public schooling. Our mission: help unlearn traditional systems and design education that works for all learners.</div>
-        </div>
-        <div class="care-item">
-          <div class="care-icon">⚖️</div>
-          <div class="care-title">Access to Justice</div>
-          <div class="care-desc">A 10-year journey in justice system design. Online dispute resolution, family violence systems, legal accessibility. Making justice work for vulnerable people.</div>
-        </div>
-        <div class="care-item">
-          <div class="care-icon">🕊️</div>
-          <div class="care-title">Death and Ageing</div>
-          <div class="care-desc">Systems thinking and human-centred design for end-of-life care and aged care. Published dedicated research on societal approaches to mortality.</div>
-        </div>
+      <p class="kicker fade">Values In Practice</p>
+      <h2 class="fade">How we choose to work.</h2>
+      <div class="value-grid">
+        <article class="value fade"><p class="id">01</p><h4>Do work that matters</h4><p>We take on problems where quality and integrity have real social consequences.</p></article>
+        <article class="value fade"><p class="id">02</p><h4>Try new things</h4><p>We use careful experimentation to find better ways through complexity.</p></article>
+        <article class="value fade"><p class="id">03</p><h4>Be in it together</h4><p>We design with partners and communities, not around them.</p></article>
+        <article class="value fade"><p class="id">04</p><h4>Learn through feedback</h4><p>We measure, reflect and adjust so each release gets stronger.</p></article>
       </div>
     </div>
   </section>
 
-  <section class="section" style="background: var(--off-white);">
+  <section class="section commitments">
     <div class="container">
-      <h2 class="display-md fade-up" style="margin-bottom: 48px;">Our Values</h2>
-      <div class="values-grid fade-up" style="transition-delay: 0.1s;">
-        <div class="value-card">
-          <div class="value-label">01</div>
-          <div class="value-title">We care about doing good work</div>
-          <div class="value-desc">Quality work that matters. Pride in delivery. Not ticking the box. Collective respect for the plan and for each other's contributions.</div>
-        </div>
-        <div class="value-card">
-          <div class="value-label">02</div>
-          <div class="value-title">We try new things</div>
-          <div class="value-desc">Curiosity, creativity, and purposeful experimentation. Safe to fail. We celebrate the learning that comes from exploration and thoughtful risk-taking.</div>
-        </div>
-        <div class="value-card">
-          <div class="value-label">03</div>
-          <div class="value-title">We are in it together</div>
-          <div class="value-desc">Team-first mindset. No hero efforts. Commitment to one another. Honest relationships. Fun alongside work. We succeed because of each other.</div>
-        </div>
-        <div class="value-card">
-          <div class="value-label">04</div>
-          <div class="value-title">We learn through feedback</div>
-          <div class="value-desc">Celebrate success. Reflect on failure. Give and receive respectful feedback. Build on strengths. We grow through honest, caring dialogue.</div>
-        </div>
+      <p class="kicker fade" style="color:var(--blue)">Commitments</p>
+      <div class="commitments-grid">
+        <article class="commit fade"><h4>B Corp accountability</h4><p>We hold ourselves accountable to people, community and environment, not just commercial output.</p></article>
+        <article class="commit fade"><h4>Reconciliation in action</h4><p>Our RAP commitments shape how we partner, hire, design and invest in long-term change.</p></article>
+        <article class="commit fade"><h4>Research for the public good</h4><p>We run self-initiated research and publish insights that help improve systems beyond individual projects.</p></article>
       </div>
     </div>
   </section>
 
-  <section class="section">
-    <div class="container">
-      <div class="bcorp-section fade-up">
-        <h3>Proud to B-Corp</h3>
-        <p>Portable is one of Australia's first certified B Corporations. This recognition signals our commitment to creating value across customers, employees, community and environment — not just shareholders.</p>
-        <p>B-Corp certification means we're driven by a mission to use technology to help transform sectors and industries. It's a commitment to workplace equality and redefining what matters in business.</p>
-        <a href="#" class="btn btn-dark">View B-Corp Directory</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" style="background: var(--off-white);">
-    <div class="container">
-      <div class="rap-section fade-up">
-        <div class="rap-content">
-          <h3>Committed to Reconciliation</h3>
-          <p>Our Reconciliation Action Plan represents a meaningful step forward in our long-standing commitment to First Nations partnership and cultural safety.</p>
-          <p>The RAP is our roadmap for listening, learning and acting toward justice and equity. It guides how we work, who we partner with, and how we contribute to reconciliation.</p>
-          <a href="#" class="btn btn-primary">Read Our RAP</a>
-        </div>
-        <div class="rap-visual">
-          🤝<br>In partnership<br>for country
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="rd-section">
-    <div class="container">
-      <div class="rd-intro fade-up">
-        <h3>R&D for a Purpose</h3>
-        <p>Beyond client work, Portable runs an active program of self-initiated research. We explore areas we care about, contribute to government inquiries and commissions, and publish findings publicly.</p>
-      </div>
-      <div class="rd-grid fade-up" style="transition-delay: 0.1s;">
-        <div class="rd-item">Access to Justice</div>
-        <div class="rd-item">Government Innovation</div>
-        <div class="rd-item">Death and Ageing</div>
-        <div class="rd-item">Education</div>
-        <div class="rd-item">Future of Work</div>
-        <div class="rd-item">Rethinking Not-for-Profits</div>
-        <div class="rd-item">Taking Back Retail</div>
-        <div class="rd-item">New Infrastructure</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <h2 class="display-md fade-up" style="margin-bottom: 48px;">Giving Back</h2>
-      <div class="giving-grid fade-up" style="transition-delay: 0.1s;">
-        <div class="giving-card">
-          <div class="giving-icon">🙌</div>
-          <div class="giving-title">Pro Bono Work</div>
-          <div class="giving-desc">Contributing hours to under-resourced causes and organisations that align with our values.</div>
-          <div class="giving-stat">100s of hours annually</div>
-        </div>
-        <div class="giving-card">
-          <div class="giving-icon">💚</div>
-          <div class="giving-title">Charitable Donations</div>
-          <div class="giving-desc">Supporting causes we care about. Recent partners: Change the Record, Bushfire Appeal.</div>
-          <div class="giving-stat">% of profits donated</div>
-        </div>
-        <div class="giving-card">
-          <div class="giving-icon">💰</div>
-          <div class="giving-title">Micro-Loans via Kiva</div>
-          <div class="giving-desc">Lending to entrepreneurs globally through Kiva's microfinance platform since July 2020.</div>
-          <div class="giving-stat">$250K+ loaned</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="cta-section">
-    <div class="container">
-      <h2 class="fade-up">Let's Create Something Meaningful Together</h2>
-      <p class="fade-up" style="transition-delay: 0.1s;">Whether you're government, a social enterprise, or a purpose-driven organisation, we'd love to explore how we can help create transformational change.</p>
-      <a href="mailto:hello@portable.com.au" class="btn btn-dark fade-up" style="transition-delay: 0.2s;">Get in Touch</a>
+  <section class="cta">
+    <div class="container cta-wrap fade">
+      <h2>Looking for a purpose-aligned delivery partner?</h2>
+      <a class="btn" href="mailto:hello@portable.com.au">Start a conversation</a>
     </div>
   </section>
 
   <footer>
-    <div class="container">
-      <div>
-        <h4>Company</h4>
-        <a href="purpose.html">About us</a>
-        <a href="people.html">Team</a>
-        <a href="careers.html">Careers</a>
-        <a href="services.html">Services</a>
-        <a href="mailto:hello@portable.com.au">Contact</a>
-      </div>
-      <div>
-        <h4>Services</h4>
-        <a href="services.html">Our Services</a>
-        <a href="training.html">Training</a>
-        <a href="ai.html">AI</a>
-        <a href="work.html">Case Studies</a>
-        <a href="reports.html">Reports</a>
-      </div>
-      <div>
-        <h4>Connect</h4>
-        <a href="mailto:hello@portable.com.au">hello@portable.com.au</a>
-        <a href="https://linkedin.com/company/portable" target="_blank">LinkedIn</a>
-        <a href="https://portable.com.au" target="_blank">portable.com.au</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <img src="logo.png" alt="Portable" class="footer-logo">
+    <div class="footer-inner">
+      <img src="logo.png" alt="Portable">
       <p>© 2026 Portable. All rights reserved.</p>
     </div>
   </footer>
 
   <script>
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        nav.classList.add('scrolled');
-      } else {
-        nav.classList.remove('scrolled');
-      }
-    });
-
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '-40px' });
-
-    document.querySelectorAll('.fade-up').forEach(el => {
-      observer.observe(el);
-    });
+      entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.14 });
+    document.querySelectorAll('.fade').forEach((el) => observer.observe(el));
   </script>
 </body>
 </html>

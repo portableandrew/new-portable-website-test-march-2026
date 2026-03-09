@@ -6,701 +6,229 @@
   <title>Services — Portable°</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* ─────────────────────────────────────────
-       TOKENS
-    ───────────────────────────────────────── */
     :root {
-      --lime-dark:    #263212;
-      --lime:         #BEF958;
-      --lime-light:   #EDFCCC;
-      --brown-dark:   #341405;
-      --brown:        #81330C;
-      --brown-light:  #EFD8C2;
-      --pink-dark:    #400E30;
-      --pink:         #FF38C0;
-      --pink-light:   #FFC3F6;
-      --verm-dark:    #471605;
-      --verm:         #EE4811;
-      --verm-light:   #FFC6BF;
-      --blue-dark:    #170045;
-      --blue:         #4B01E6;
-      --blue-light:   #DEDAFF;
-
-      --purple:       var(--blue);
-      --purple-mid:   var(--blue-light);
-      --purple-dark:  var(--blue-dark);
-      --green:        var(--lime);
-      --white:        #FFFFFF;
-      --off-white:    var(--lime-light);
-      --near-black:   var(--blue-dark);
-      --grey:         var(--brown);
-      --light-grey:   var(--brown-light);
-
-      --font-display: 'Inter', sans-serif;
-      --font-body:    'Inter', sans-serif;
-      --font-mono:    'Space Mono', monospace;
-
-      --max-w: 1280px;
-      --gutter: clamp(24px, 5vw, 80px);
-      --section-v: clamp(80px, 10vw, 140px);
-
+      --lime-dark: #263212;
+      --lime: #BEF958;
+      --lime-light: #EDFCCC;
+      --brown-dark: #341405;
+      --brown: #81330C;
+      --brown-light: #EFD8C2;
+      --pink-dark: #400E30;
+      --pink: #FF38C0;
+      --pink-light: #FFC3F6;
+      --verm-dark: #471605;
+      --verm: #EE4811;
+      --verm-light: #FFC6BF;
+      --blue-dark: #170045;
+      --blue: #4B01E6;
+      --blue-light: #DEDAFF;
+      --white: #fff;
+      --ink: var(--blue-dark);
+      --muted: #645973;
+      --max: 1240px;
+      --gutter: clamp(20px, 4vw, 64px);
+      --section: clamp(68px, 10vw, 130px);
       --ease: cubic-bezier(0.16, 1, 0.3, 1);
     }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Inter, sans-serif; color: var(--ink); background: var(--white); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
 
-    /* ─────────────────────────────────────────
-       RESET
-    ───────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--font-body);
-      background: var(--white);
-      color: var(--near-black);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-    img { display: block; max-width: 100%; }
-    a { text-decoration: none; color: inherit; }
+    .container { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+    .section { padding: var(--section) 0; }
+    .fade { opacity: 0; transform: translateY(22px); transition: opacity 0.65s var(--ease), transform 0.65s var(--ease); }
+    .fade.visible { opacity: 1; transform: translateY(0); }
 
-    /* ─────────────────────────────────────────
-       LAYOUT HELPERS
-    ───────────────────────────────────────── */
-    .container {
-      max-width: var(--max-w);
-      margin: 0 auto;
-      padding: 0 var(--gutter);
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+      padding: 20px var(--gutter); display: flex; justify-content: space-between; align-items: center;
+      background: rgba(23, 0, 69, 0.92); backdrop-filter: blur(10px);
     }
-    .section { padding: var(--section-v) 0; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+    .nav-logo img { height: 14px; filter: brightness(0) invert(1); }
+    .nav-links { display: flex; gap: 28px; align-items: center; color: #fff; font-size: 14px; }
+    .nav-links a { opacity: 0.8; transition: opacity .2s; }
+    .nav-links a:hover, .nav-links a.active { opacity: 1; }
 
-    /* ─────────────────────────────────────────
-       TYPOGRAPHY
-    ───────────────────────────────────────── */
-    .display {
-      font-family: var(--font-display);
-      font-weight: 900;
-      line-height: 1.08;
-      letter-spacing: -0.025em;
-    }
-    .display-xl  { font-size: clamp(44px, 5.5vw, 88px); line-height: 1.05; }
-    .display-lg  { font-size: clamp(36px, 4vw, 64px);  line-height: 1.1;  }
-    .display-md  { font-size: clamp(28px, 3.2vw, 48px); line-height: 1.15; }
-    .display-sm  { font-size: clamp(22px, 2.4vw, 34px); line-height: 1.2;  }
-
-    .eyebrow {
-      font-family: var(--font-body);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .body-lg  { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.65; font-weight: 400; }
-    .body-md  { font-size: 16px; line-height: 1.65; font-weight: 400; }
-    .body-sm  { font-size: 13px; line-height: 1.6; color: var(--grey); }
-
-    /* ─────────────────────────────────────────
-       BUTTONS
-    ───────────────────────────────────────── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 16px 32px;
-      font-family: var(--font-body);
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      border: none;
-      cursor: pointer;
-      transition: transform 0.2s var(--ease), opacity 0.2s;
-      border-radius: 2px;
-    }
-    .btn:hover { transform: translateY(-2px); opacity: 0.9; }
-    .btn-primary   { background: var(--purple); color: var(--white); }
-    .btn-outline   { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.4); }
-    .btn-outline:hover { border-color: white; }
-    .btn-dark      { background: var(--near-black); color: var(--white); }
-    .btn-green     { background: var(--green); color: var(--near-black); }
-    .btn-ghost     { background: transparent; color: var(--near-black); border: 1.5px solid var(--light-grey); }
-    .btn-ghost:hover { border-color: var(--near-black); }
-    .btn-arrow::after { content: '→'; font-size: 18px; }
-
-    /* ─────────────────────────────────────────
-       FADE-UP ANIMATION
-    ───────────────────────────────────────── */
-    .fade-up {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
-    }
-    .fade-up.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ─────────────────────────────────────────
-       NAV
-    ───────────────────────────────────────── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 20px var(--gutter);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: transparent;
-      transition: background 0.3s ease;
-    }
-    nav.scrolled {
-      background: rgba(4, 0, 70, 0.85);
-      backdrop-filter: blur(10px);
-    }
-    nav a {
-      color: var(--white);
-      font-size: 14px;
-      font-weight: 500;
-    }
-    nav .logo img {
-      height: 20px;
-      width: auto;
-      filter: invert(1);
-    }
-    .nav-links {
-      display: flex;
-      gap: 40px;
-      align-items: center;
-    }
-    .nav-links a {
-      transition: opacity 0.2s;
-    }
-    .nav-links a:hover {
-      opacity: 0.7;
-    }
-
-    /* ─────────────────────────────────────────
-       HERO
-    ───────────────────────────────────────── */
     .hero {
-      background: var(--purple-dark);
-      color: var(--white);
-      padding: 160px var(--gutter) var(--section-v);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+      min-height: 86vh; display: grid; grid-template-columns: minmax(90px, 18%) 1fr;
+      margin-top: 74px;
     }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(circle at 20% 80%, rgba(190, 249, 88, 0.08) 0%, transparent 50%);
+    .rail {
+      background: #f4f4f4; position: relative; overflow: hidden;
+      border-right: 1px solid rgba(23, 0, 69, 0.08);
+    }
+    .rail::before {
+      content: ""; position: absolute; inset: 8% -130% 10% 20%;
+      background:
+        repeating-radial-gradient(circle at 0 50%, transparent 0 45px, rgba(75,1,230,.20) 45px 46px);
+      opacity: 0.5;
+    }
+    .rail-logo { position: absolute; left: 16px; bottom: 18px; width: 68px; }
+
+    .hero-main {
+      position: relative; overflow: hidden; color: #fff;
+      background:
+        radial-gradient(1200px 620px at 85% 62%, rgba(255,56,192,.55), transparent 62%),
+        radial-gradient(720px 420px at 40% 100%, rgba(190,249,88,.35), transparent 58%),
+        linear-gradient(160deg, #4B01E6 0%, #4E5FE1 45%, #4B01E6 100%);
+      padding: clamp(44px, 8vw, 100px);
+      display: flex; align-items: flex-end;
+    }
+    .hero-main::after {
+      content: ""; position: absolute; inset: auto -15% -30% 8%; height: 70%;
+      background: radial-gradient(ellipse at center, rgba(255,195,246,0.55) 0%, rgba(255,195,246,0.12) 45%, transparent 70%);
+      filter: blur(6px);
       pointer-events: none;
     }
-    .hero .container {
-      position: relative;
-      z-index: 1;
+    .hero-copy { position: relative; z-index: 1; max-width: 840px; }
+    .kicker { font: 700 11px/1.2 "Space Mono", monospace; letter-spacing: .18em; text-transform: uppercase; opacity: .85; margin-bottom: 20px; }
+    h1 { font-size: clamp(44px, 8vw, 116px); line-height: .94; letter-spacing: -0.035em; font-weight: 900; }
+    .hero-sub { margin-top: 26px; max-width: 560px; color: rgba(255,255,255,.87); font-size: clamp(18px, 1.8vw, 24px); line-height: 1.5; }
+
+    .statement { background: #efefef; }
+    .statement p { max-width: 760px; font-size: clamp(24px, 3vw, 40px); line-height: 1.24; letter-spacing: -0.02em; }
+
+    .service-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 34px; }
+    .card { padding: 28px; min-height: 280px; display: flex; flex-direction: column; justify-content: space-between; }
+    .card .num { font: 700 12px/1 "Space Mono", monospace; letter-spacing: .15em; opacity: .8; }
+    .card h3 { margin: 16px 0 12px; font-size: clamp(24px, 2.3vw, 34px); line-height: 1.05; letter-spacing: -0.02em; }
+    .card p { font-size: 15px; line-height: 1.6; color: rgba(23,0,69,.82); }
+    .card-lime { background: var(--lime-light); }
+    .card-blue { background: var(--blue-light); }
+    .card-pink { background: var(--pink-light); }
+    .card-verm { background: var(--verm-light); }
+    .card-brown { background: var(--brown-light); }
+    .card-dark { background: var(--blue-dark); color: #fff; }
+    .card-dark p { color: rgba(255,255,255,.85); }
+
+    .process {
+      background: var(--blue-dark);
+      color: #fff;
     }
-    .hero .display-xl {
-      color: var(--green);
-      margin-bottom: 24px;
+    .process h2 { font-size: clamp(36px, 4vw, 62px); line-height: 1; letter-spacing: -0.03em; }
+    .steps { margin-top: 30px; display: grid; gap: 14px; }
+    .step {
+      display: grid; grid-template-columns: 62px 1fr; gap: 16px; align-items: start;
+      padding: 20px; border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.03);
     }
-    .hero .body-lg {
-      color: rgba(255, 255, 255, 0.85);
-      max-width: 680px;
-      margin: 0 auto;
+    .step .id { font: 700 16px/1 "Space Mono", monospace; color: var(--lime); }
+    .step h4 { font-size: 22px; margin-bottom: 6px; letter-spacing: -0.02em; }
+    .step p { color: rgba(255,255,255,0.82); line-height: 1.55; }
+
+    .cta {
+      background: linear-gradient(90deg, var(--lime) 0%, #d2fb88 45%, var(--lime-light) 100%);
+      color: var(--blue-dark);
+      padding: 56px 0;
+    }
+    .cta-wrap { display: flex; align-items: center; justify-content: space-between; gap: 22px; }
+    .cta h2 { font-size: clamp(30px, 4vw, 56px); line-height: 1; letter-spacing: -0.03em; }
+    .cta p { margin-top: 12px; max-width: 620px; font-size: 16px; line-height: 1.6; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; padding: 14px 24px;
+      border: 1px solid rgba(23,0,69,.25); font-weight: 600; white-space: nowrap;
+      background: rgba(255,255,255,.52);
     }
 
-    /* ─────────────────────────────────────────
-       SERVICE CARDS
-    ───────────────────────────────────────── */
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-      margin-bottom: var(--section-v);
-    }
-    .service-card {
-      padding: 36px;
-      background: var(--white);
-      border: 1px solid var(--light-grey);
-      border-radius: 2px;
-      transition: all 0.3s var(--ease);
-    }
-    .service-card:hover {
-      border-color: var(--purple);
-      box-shadow: 0 20px 40px rgba(75, 1, 230, 0.08);
-    }
-    .service-icon {
-      font-size: 40px;
-      margin-bottom: 16px;
-    }
-    .service-title {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: var(--near-black);
-    }
-    .service-desc {
-      font-size: 14px;
-      line-height: 1.7;
-      color: var(--grey);
-      margin-bottom: 24px;
-    }
-    .service-features {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-      margin-bottom: 24px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--light-grey);
-    }
-    .feature-text {
-      font-size: 13px;
-      color: var(--near-black);
-    }
-    .feature-text::before {
-      content: '→';
-      margin-right: 8px;
-      color: var(--green);
-      font-weight: 700;
-    }
+    footer { background: #0d0620; color: rgba(255,255,255,.7); padding: 36px var(--gutter) 32px; }
+    .footer-inner { max-width: var(--max); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .footer-inner img { height: 18px; filter: brightness(0) invert(1); }
 
-    /* ─────────────────────────────────────────
-       ENGAGEMENT MODELS
-    ───────────────────────────────────────── */
-    .models-intro {
-      text-align: center;
-      margin-bottom: 48px;
+    @media (max-width: 1040px) {
+      .service-grid { grid-template-columns: 1fr 1fr; }
+      .cta-wrap { flex-direction: column; align-items: flex-start; }
     }
-    .models-intro h3 {
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: var(--near-black);
-    }
-    .models-intro p {
-      font-size: 15px;
-      color: var(--grey);
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    .models-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-      margin-bottom: var(--section-v);
-    }
-    .model-card {
-      padding: 32px;
-      background: var(--off-white);
-      border-radius: 2px;
-    }
-    .model-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: var(--near-black);
-    }
-    .model-desc {
-      font-size: 14px;
-      line-height: 1.65;
-      color: var(--grey);
-      margin-bottom: 16px;
-    }
-    .model-timeline {
-      font-size: 12px;
-      color: var(--grey);
-      font-family: var(--font-mono);
-    }
-
-    /* ─────────────────────────────────────────
-       PROCESS SECTION
-    ───────────────────────────────────────── */
-    .process-steps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 32px;
-      position: relative;
-    }
-    .process-steps::before {
-      content: '';
-      position: absolute;
-      top: 40px;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: var(--light-grey);
-      z-index: 0;
-    }
-    .process-step {
-      position: relative;
-      z-index: 1;
-    }
-    .step-number {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 80px;
-      height: 80px;
-      background: var(--green);
-      border-radius: 50%;
-      color: var(--near-black);
-      font-family: var(--font-mono);
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-    .step-title {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: var(--near-black);
-    }
-    .step-desc {
-      font-size: 13px;
-      line-height: 1.6;
-      color: var(--grey);
-    }
-
-    /* ─────────────────────────────────────────
-       CTA SECTION
-    ───────────────────────────────────────── */
-    .cta-section {
-      background: var(--purple);
-      color: var(--white);
-      text-align: center;
-      padding: var(--section-v);
-    }
-    .cta-section h2 {
-      font-size: clamp(28px, 3.2vw, 48px);
-      font-weight: 900;
-      margin-bottom: 20px;
-    }
-    .cta-section p {
-      font-size: 16px;
-      margin-bottom: 32px;
-      opacity: 0.9;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* ─────────────────────────────────────────
-       FOOTER
-    ───────────────────────────────────────── */
-    footer {
-      background: var(--near-black);
-      color: var(--white);
-      padding: 60px var(--gutter) 40px;
-    }
-    footer .container {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 40px;
-      margin-bottom: 60px;
-    }
-    footer h4 {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 16px;
-      color: var(--light-grey);
-    }
-    footer a {
-      display: block;
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 10px;
-      transition: color 0.2s;
-    }
-    footer a:hover {
-      color: var(--white);
-    }
-    .footer-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 40px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      max-width: var(--max-w);
-      margin: 0 auto;
-      padding-left: var(--gutter);
-      padding-right: var(--gutter);
-    }
-    .footer-logo {
-      height: 18px;
-      width: auto;
-      filter: invert(1);
-    }
-    .footer-bottom p {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.5);
-    }
-
-    /* ─────────────────────────────────────────
-       RESPONSIVE
-    ───────────────────────────────────────── */
-    @media (max-width: 1024px) {
-      .services-grid { grid-template-columns: 1fr 1fr; }
-      .models-grid { grid-template-columns: 1fr; }
-      .process-steps { grid-template-columns: repeat(2, 1fr); }
-      .process-steps::before { display: none; }
-      footer .container { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 768px) {
-      .services-grid { grid-template-columns: 1fr; }
-      .models-grid { grid-template-columns: 1fr; }
-      .process-steps { grid-template-columns: 1fr; }
-      .nav-links { gap: 20px; font-size: 13px; }
+    @media (max-width: 800px) {
+      .hero { grid-template-columns: 92px 1fr; min-height: 74vh; }
+      .nav-links { gap: 14px; font-size: 12px; }
+      .service-grid { grid-template-columns: 1fr; }
+      .step { grid-template-columns: 48px 1fr; }
     }
   </style>
 </head>
 <body>
-  <!-- NAV -->
-  <nav id="nav">
-    <div class="logo">
-      <a href="index.html"><img src="logo.png" alt="Portable"></a>
-    </div>
+  <nav class="nav">
+    <a class="nav-logo" href="index.html"><img src="logo.png" alt="Portable"></a>
     <div class="nav-links">
       <a href="work.html">Work</a>
-      <a href="ai.html">AI</a>
+      <a class="active" href="services.html">Services</a>
       <a href="people.html">People</a>
       <a href="purpose.html">Purpose</a>
       <a href="training.html">Training</a>
-      <a href="services.html">Services</a>
-      <a href="mailto:hello@portable.com.au">hello@portable.com.au</a>
+      <a href="reports.html">Reports</a>
+      <a href="ai.html">AI</a>
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section class="hero">
+  <header class="hero">
+    <aside class="rail"><img class="rail-logo" src="logo.png" alt="Portable"></aside>
+    <div class="hero-main">
+      <div class="hero-copy fade">
+        <p class="kicker">Services</p>
+        <h1>Design, engineer and launch what people actually need.</h1>
+        <p class="hero-sub">We pair strategy, design, storytelling and technology to move from policy intent to real-world outcomes in health, justice, education and community services.</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="section statement">
     <div class="container">
-      <h1 class="display-xl fade-up">Our Services</h1>
-      <p class="body-lg fade-up" style="transition-delay: 0.1s;">Comprehensive offerings to deliver meaningful change. From product delivery to capability building to responsible AI implementation.</p>
+      <p class="fade">Our teams work where systems are complex, stakes are high, and implementation has to hold up under pressure.</p>
     </div>
   </section>
 
-  <!-- SERVICES -->
   <section class="section">
     <div class="container">
-      <div class="services-grid">
-        <!-- Service 1 -->
-        <div class="service-card fade-up">
-          <div class="service-icon">🚀</div>
-          <div class="service-title">Product & Delivery</div>
-          <div class="service-desc">End-to-end product development and delivery services for government and social impact organisations.</div>
-          <div class="service-features">
-            <div class="feature-text">Digital transformation</div>
-            <div class="feature-text">Service redesign</div>
-            <div class="feature-text">Agile delivery</div>
-            <div class="feature-text">Full-stack engineering</div>
-          </div>
-          <a href="work.html" class="btn btn-primary btn-arrow">View Case Studies</a>
-        </div>
-
-        <!-- Service 2 -->
-        <div class="service-card fade-up" style="transition-delay: 0.1s;">
-          <div class="service-icon">📊</div>
-          <div class="service-title">Capability & Staffing</div>
-          <div class="service-desc">Build internal teams and augment capacity with our experienced specialists across disciplines.</div>
-          <div class="service-features">
-            <div class="feature-text">Team augmentation</div>
-            <div class="feature-text">Specialist placement</div>
-            <div class="feature-text">Skills assessment</div>
-            <div class="feature-text">Knowledge transfer</div>
-          </div>
-          <a href="people.html" class="btn btn-primary btn-arrow">Meet Our People</a>
-        </div>
-
-        <!-- Service 3 -->
-        <div class="service-card fade-up" style="transition-delay: 0.2s;">
-          <div class="service-icon">🎓</div>
-          <div class="service-title">Training & Uplift</div>
-          <div class="service-desc">Develop digital and AI capability within your organisation through structured learning programs.</div>
-          <div class="service-features">
-            <div class="feature-text">AI masterclasses</div>
-            <div class="feature-text">Technical training</div>
-            <div class="feature-text">Leadership development</div>
-            <div class="feature-text">Ongoing mentorship</div>
-          </div>
-          <a href="training.html" class="btn btn-primary btn-arrow">Explore Programs</a>
-        </div>
-
-        <!-- Service 4 -->
-        <div class="service-card fade-up">
-          <div class="service-icon">🧠</div>
-          <div class="service-title">AI Strategy & Policy</div>
-          <div class="service-desc">Strategic guidance on AI adoption, policy frameworks, and responsible implementation.</div>
-          <div class="service-features">
-            <div class="feature-text">AI strategy development</div>
-            <div class="feature-text">Policy frameworks</div>
-            <div class="feature-text">Risk assessment</div>
-            <div class="feature-text">Governance design</div>
-          </div>
-          <a href="ai.html" class="btn btn-primary btn-arrow">AI with Portable</a>
-        </div>
-
-        <!-- Service 5 -->
-        <div class="service-card fade-up" style="transition-delay: 0.1s;">
-          <div class="service-icon">🤖</div>
-          <div class="service-title">GenAI Implementation</div>
-          <div class="service-desc">Build and deploy generative AI solutions responsibly, with ongoing support and optimization.</div>
-          <div class="service-features">
-            <div class="feature-text">Solution architecture</div>
-            <div class="feature-text">Custom model development</div>
-            <div class="feature-text">Integration & deployment</div>
-            <div class="feature-text">Optimization & support</div>
-          </div>
-          <a href="ai.html" class="btn btn-primary btn-arrow">Learn More</a>
-        </div>
-
-        <!-- Service 6 -->
-        <div class="service-card fade-up" style="transition-delay: 0.2s;">
-          <div class="service-icon">🎯</div>
-          <div class="service-title">Responsible Innovation</div>
-          <div class="service-desc">Design and implement technology ethically, with focus on fairness, transparency, and accountability.</div>
-          <div class="service-features">
-            <div class="feature-text">Ethical review</div>
-            <div class="feature-text">Bias assessment</div>
-            <div class="feature-text">Impact evaluation</div>
-            <div class="feature-text">Stakeholder engagement</div>
-          </div>
-          <a href="purpose.html" class="btn btn-primary btn-arrow">Our Purpose</a>
-        </div>
+      <p class="kicker fade" style="color:var(--blue)">Core Offerings</p>
+      <div class="service-grid">
+        <article class="card card-lime fade"><div class="num">01</div><div><h3>Strategy</h3><p>Set direction, define measurable outcomes and align executive, service and delivery teams around a clear operating plan.</p></div></article>
+        <article class="card card-blue fade"><div class="num">02</div><div><h3>Human-Centred Design</h3><p>Translate lived experience into practical service, product and policy improvements through research, prototyping and testing.</p></div></article>
+        <article class="card card-pink fade"><div class="num">03</div><div><h3>Digital Products</h3><p>Design and build secure, scalable platforms that reduce friction for frontline teams and improve access for the public.</p></div></article>
+        <article class="card card-verm fade"><div class="num">04</div><div><h3>Creative & Storytelling</h3><p>Create campaigns, content and visual systems that make complex policy and service change understandable and usable.</p></div></article>
+        <article class="card card-brown fade"><div class="num">05</div><div><h3>Service Transformation</h3><p>Redesign end-to-end service journeys, handoffs and governance so new models can run reliably after launch.</p></div></article>
+        <article class="card card-dark fade"><div class="num">06</div><div><h3>AI Capability</h3><p>Help teams adopt AI safely and responsibly with governance, practical use-cases and internal capability uplift.</p></div></article>
       </div>
     </div>
   </section>
 
-  <!-- ENGAGEMENT MODELS -->
-  <section class="section" style="background: var(--off-white);">
+  <section class="section process">
     <div class="container">
-      <div class="models-intro fade-up">
-        <h3>How We Work Together</h3>
-        <p>We offer flexible engagement models tailored to your organisation's needs and timeline.</p>
-      </div>
-      <div class="models-grid fade-up" style="transition-delay: 0.1s;">
-        <div class="model-card">
-          <div class="model-title">Time & Materials</div>
-          <div class="model-desc">Flexible engagement with our team dedicated to your project, scaling up or down as needs evolve.</div>
-          <div class="model-timeline">Ideal for ongoing projects with evolving scope</div>
-        </div>
-        <div class="model-card">
-          <div class="model-title">Fixed Scope</div>
-          <div class="model-desc">Defined deliverables and outcomes with fixed budget and timeline for predictability.</div>
-          <div class="model-timeline">Ideal for well-defined projects</div>
-        </div>
-        <div class="model-card">
-          <div class="model-title">Hybrid Model</div>
-          <div class="model-desc">Combination of fixed core work with flexibility for discovery and scope adjustments.</div>
-          <div class="model-timeline">Ideal for strategic projects with some uncertainty</div>
-        </div>
-        <div class="model-card">
-          <div class="model-title">Staffing & Augmentation</div>
-          <div class="model-desc">Place our specialists within your team on flexible terms, integrated with your processes.</div>
-          <div class="model-timeline">Ideal for building internal capacity</div>
-        </div>
+      <p class="kicker fade">How We Deliver</p>
+      <h2 class="fade">Clear method. Fast momentum.</h2>
+      <div class="steps">
+        <article class="step fade"><div class="id">01</div><div><h4>Diagnose</h4><p>Map the policy, technology and service context. Identify constraints, risks and the highest-value opportunity.</p></div></article>
+        <article class="step fade"><div class="id">02</div><div><h4>Design</h4><p>Co-design options with users and delivery teams. Prototype critical moments before committing to full build.</p></div></article>
+        <article class="step fade"><div class="id">03</div><div><h4>Deliver</h4><p>Ship working products and capabilities with embedded change support, governance and practical rollout plans.</p></div></article>
+        <article class="step fade"><div class="id">04</div><div><h4>Scale</h4><p>Measure outcomes, tune operations and strengthen internal capability so impact continues beyond project completion.</p></div></article>
       </div>
     </div>
   </section>
 
-  <!-- PROCESS -->
-  <section class="section">
-    <div class="container">
-      <h2 class="display-md fade-up" style="margin-bottom: 48px;">Our Process</h2>
-      <div class="process-steps fade-up" style="transition-delay: 0.1s;">
-        <div class="process-step">
-          <div class="step-number">1</div>
-          <div class="step-title">Discovery</div>
-          <div class="step-desc">We deeply understand your challenge, context, and goals through interviews and discovery workshops.</div>
-        </div>
-        <div class="process-step">
-          <div class="step-number">2</div>
-          <div class="step-title">Strategy</div>
-          <div class="step-desc">We develop a strategic approach tailored to your unique situation and desired outcomes.</div>
-        </div>
-        <div class="process-step">
-          <div class="step-number">3</div>
-          <div class="step-title">Delivery</div>
-          <div class="step-desc">We execute through iterative, agile delivery with regular collaboration and feedback.</div>
-        </div>
-        <div class="process-step">
-          <div class="step-number">4</div>
-          <div class="step-title">Transition</div>
-          <div class="step-desc">We ensure sustainable handover, with knowledge transfer and ongoing support as needed.</div>
-        </div>
+  <section class="cta">
+    <div class="container cta-wrap fade">
+      <div>
+        <h2>Need a partner for high-stakes delivery?</h2>
+        <p>We work with organisations that need to turn ambition into implementation without losing quality, pace or trust.</p>
       </div>
+      <a class="btn" href="mailto:hello@portable.com.au">Start a conversation</a>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="cta-section">
-    <div class="container">
-      <h2 class="fade-up">Let's Explore What's Possible</h2>
-      <p class="fade-up" style="transition-delay: 0.1s;">Get in touch to discuss how we can help your organisation create meaningful impact through technology.</p>
-      <a href="mailto:hello@portable.com.au" class="btn btn-outline fade-up" style="transition-delay: 0.2s;">Start a Conversation</a>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
   <footer>
-    <div class="container">
-      <div>
-        <h4>Company</h4>
-        <a href="index.html">Home</a>
-        <a href="work.html">Work</a>
-        <a href="ai.html">AI</a>
-        <a href="people.html">People</a>
-        <a href="purpose.html">Purpose</a>
-      </div>
-      <div>
-        <h4>Services</h4>
-        <a href="services.html">Our Services</a>
-        <a href="training.html">Training & Uplift</a>
-        <a href="work.html">Case Studies</a>
-        <a href="mailto:hello@portable.com.au">Get in Touch</a>
-      </div>
-      <div>
-        <h4>Connect</h4>
-        <a href="mailto:hello@portable.com.au">hello@portable.com.au</a>
-        <a href="https://linkedin.com/company/portable" target="_blank">LinkedIn</a>
-        <a href="https://portable.com.au" target="_blank">portable.com.au</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <img src="logo.png" alt="Portable" class="footer-logo">
+    <div class="footer-inner">
+      <img src="logo.png" alt="Portable">
       <p>© 2026 Portable. All rights reserved.</p>
     </div>
   </footer>
 
   <script>
-    // Nav scroll effect
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        nav.classList.add('scrolled');
-      } else {
-        nav.classList.remove('scrolled');
-      }
-    });
-
-    // Fade-up animation
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '-40px' });
-
-    document.querySelectorAll('.fade-up').forEach(el => {
-      observer.observe(el);
-    });
+      entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.14 });
+    document.querySelectorAll('.fade').forEach((el) => observer.observe(el));
   </script>
 </body>
 </html>
