@@ -544,6 +544,156 @@
     .tech-proof-stat .stat-label { color: rgba(255,255,255,0.45); font-size: 12px; }
 
     /* ─────────────────────────────────────────
+       DESIGN SECTION
+    ───────────────────────────────────────── */
+    #design {
+      background: #1A0033;
+      padding: var(--section-v) 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .design-bg-glow {
+      position: absolute;
+      left: -160px;
+      top: -80px;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,56,192,0.18) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .design-bg-glow-2 {
+      position: absolute;
+      right: -100px;
+      bottom: -100px;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(238,72,17,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .design-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .design-left .eyebrow { color: var(--pink); margin-bottom: 24px; }
+    .design-headline { color: var(--white); margin-bottom: 24px; }
+    .design-sub { color: rgba(255,255,255,0.62); margin-bottom: 36px; font-size: 17px; line-height: 1.65; }
+    .design-capabilities {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 36px;
+    }
+    .design-cap {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--pink);
+      background: rgba(255,56,192,0.1);
+      border: 1px solid rgba(255,56,192,0.22);
+      padding: 6px 14px;
+    }
+    .design-proof {
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .design-proof-stat .stat-number { color: var(--pink); font-size: 36px; }
+    .design-proof-stat .stat-label { color: rgba(255,255,255,0.45); font-size: 12px; }
+    /* Featured case study card */
+    .design-feature {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,56,192,0.18);
+      overflow: hidden;
+    }
+    .design-feature-header {
+      background: linear-gradient(135deg, #3D0060 0%, #7B0040 50%, #A81020 100%);
+      padding: 40px 36px 32px;
+      position: relative;
+      overflow: hidden;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .design-feature-orb {
+      position: absolute;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      top: -100px; right: -80px;
+      background: radial-gradient(circle, rgba(255,56,192,0.5) 0%, rgba(238,72,17,0.3) 40%, transparent 70%);
+    }
+    .design-feature-label {
+      position: relative;
+      z-index: 2;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 12px;
+    }
+    .design-feature-title {
+      position: relative;
+      z-index: 2;
+      font-size: clamp(22px,2.2vw,30px);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .design-feature-body { padding: 28px 36px 32px; }
+    .design-feature-desc {
+      font-size: 14px;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.62);
+      margin-bottom: 24px;
+    }
+    .design-feature-outcomes {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .design-outcome {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.78);
+      line-height: 1.5;
+    }
+    .design-outcome::before {
+      content: '→';
+      color: var(--pink);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .design-feature-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--pink);
+    }
+    .design-feature-cta:hover { opacity: 0.8; }
+    @media (max-width: 900px) {
+      .design-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+
+    /* ─────────────────────────────────────────
        CASE STUDIES
     ───────────────────────────────────────── */
     #work {
@@ -986,6 +1136,7 @@
       <li><a href="training.html">Training</a></li>
       <li><a href="services.html">Services</a></li>
       <li><a href="technology.html">Technology</a></li>
+      <li><a href="design.html">Design</a></li>
     </ul>
     <a href="mailto:hello@portable.com.au" class="nav-cta">Start a conversation</a>
   </nav>
@@ -1482,6 +1633,75 @@
       </div>
       <div class="cases-cta">
         <a href="work.html" class="btn btn-primary btn-arrow">View all our work</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       DESIGN
+  ═══════════════════════════════════════ -->
+  <section id="design">
+    <div class="design-bg-glow"></div>
+    <div class="design-bg-glow-2"></div>
+    <div class="container">
+      <div class="design-grid">
+
+        <div class="design-left fade-up">
+          <p class="eyebrow">Strategic Design &amp; Research</p>
+          <h2 class="display display-lg design-headline">
+            Design that<br>changes<br>behaviour.
+          </h2>
+          <p class="design-sub">
+            We combine deep research, service design and behaviour change
+            to reshape how people experience complex systems — in health,
+            education, justice and government.
+          </p>
+          <div class="design-capabilities">
+            <span class="design-cap">Service Design</span>
+            <span class="design-cap">Behaviour Change</span>
+            <span class="design-cap">Co-design</span>
+            <span class="design-cap">Research &amp; Insights</span>
+            <span class="design-cap">Policy Design</span>
+            <span class="design-cap">UX &amp; Prototyping</span>
+          </div>
+          <a href="design.html" class="btn btn-primary btn-arrow">Explore Design with Portable</a>
+          <div class="design-proof">
+            <div class="design-proof-stat">
+              <div class="stat-number" style="color:var(--pink);font-size:36px;">15+</div>
+              <div class="stat-label" style="color:rgba(255,255,255,0.45);font-size:12px;">Years of design<br>in complex systems</div>
+            </div>
+            <div style="border-left:1px solid rgba(255,255,255,0.1);padding-left:32px;flex:1;">
+              <p style="font-size:14px;color:rgba(255,255,255,0.6);line-height:1.6;">
+                From state-wide wellbeing strategy to youth mental health tools — design
+                that moves from insight to real-world impact.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="design-feature fade-up">
+          <div class="design-feature-header">
+            <div class="design-feature-orb"></div>
+            <p class="design-feature-label">Featured project — Victorian Government</p>
+            <h3 class="design-feature-title">Victoria Statewide<br>Wellbeing Strategy</h3>
+          </div>
+          <div class="design-feature-body">
+            <p class="design-feature-desc">
+              A state-wide strategy to improve the wellbeing of all Victorians.
+              We led deep community research, systems mapping and co-design
+              with government, community organisations and lived experience voices
+              to shape policy that reflects real human needs.
+            </p>
+            <div class="design-feature-outcomes">
+              <div class="design-outcome">Statewide community engagement spanning diverse populations and geographies</div>
+              <div class="design-outcome">Systems mapping connecting health, housing, education and justice</div>
+              <div class="design-outcome">Co-designed policy framework grounded in lived experience</div>
+              <div class="design-outcome">Research synthesis influencing Victorian Government strategy</div>
+            </div>
+            <a href="design.html" class="design-feature-cta">See our design work →</a>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>

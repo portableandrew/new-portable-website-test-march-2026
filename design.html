@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design — Portable°</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--lime:#BEF958;--lime-light:#EDFCCC;--brown:#81330C;--pink:#FF38C0;--pink-light:#FFC3F6;--verm:#EE4811;--verm-light:#FFC6BF;--blue-dark:#170045;--blue:#4B01E6;--blue-light:#DEDAFF;--ink:#170045;--max:1240px;--gutter:clamp(20px,4vw,64px);--section:clamp(68px,10vw,130px);--ease:cubic-bezier(0.16,1,0.3,1)}
+    *{box-sizing:border-box;margin:0;padding:0}body{font-family:Inter,sans-serif;color:var(--ink);background:#fff}a{text-decoration:none;color:inherit}img{display:block;max-width:100%}
+    .container{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}.section{padding:var(--section) 0}.fade{opacity:0;transform:translateY(20px);transition:opacity .65s var(--ease),transform .65s var(--ease)}.fade.visible{opacity:1;transform:translateY(0)}
+
+    /* ── Nav ── */
+    .nav{position:fixed;inset:0 0 auto 0;z-index:30;background:rgba(23,0,69,.92);backdrop-filter:blur(8px)}.nav-inner{max-width:var(--max);margin:0 auto;padding:20px var(--gutter);display:flex;justify-content:space-between;align-items:center}.nav-logo img{height:14px;filter:brightness(0) invert(1)}.nav-links{display:flex;gap:28px;color:#fff;font-size:14px}.nav-links a{opacity:.82}.nav-links a.active,.nav-links a:hover{opacity:1}
+
+    /* ── Hero ── */
+    .hero{margin-top:74px;min-height:76vh;display:grid;grid-template-columns:minmax(90px,18%) 1fr}.rail{background:#f2f2f2;position:relative;border-right:1px solid rgba(23,0,69,.08)}.rail:before{content:"";position:absolute;inset:11% -130% 12% 16%;background:repeating-radial-gradient(circle at 0 50%,transparent 0 44px,rgba(255,56,192,.14) 44px 45px)}
+    .hero-main{display:flex;align-items:flex-end;padding:clamp(44px,8vw,98px);color:#fff;background:radial-gradient(820px 480px at 85% 42%,rgba(255,56,192,.52),transparent 62%),radial-gradient(620px 420px at 58% 100%,rgba(238,72,17,.38),transparent 60%),linear-gradient(150deg,#3D0060 0%,#7B0040 48%,#3D0060 100%)}
+    .kicker{font:700 11px/1.2 "Space Mono",monospace;letter-spacing:.17em;text-transform:uppercase;opacity:.85;margin-bottom:18px}h1{font-size:clamp(44px,7.8vw,112px);line-height:.94;letter-spacing:-.035em;max-width:920px}.hero-sub{margin-top:24px;max-width:660px;font-size:clamp(18px,1.7vw,24px);line-height:1.5;color:rgba(255,255,255,.9)}
+
+    /* ── Intro ── */
+    .intro{background:#efefef}.intro p{max-width:860px;font-size:clamp(24px,2.8vw,40px);line-height:1.24;letter-spacing:-.02em}
+
+    /* ── Stats row ── */
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.stat-card{padding:28px 24px;background:#fff;border:1px solid rgba(23,0,69,.11)}.stat-number{font-family:"Space Mono",monospace;font-size:clamp(32px,3.6vw,52px);font-weight:700;color:var(--pink);line-height:1;margin-bottom:8px}.stat-label{font-size:13px;color:rgba(23,0,69,.6);font-weight:500}
+
+    /* ── Pillar cards ── */
+    .pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.pillar{padding:24px;min-height:260px}.pillar h3{font-size:clamp(24px,2.2vw,34px);line-height:1.03;letter-spacing:-.02em;margin:8px 0 6px}.pillar .tagline{font-size:13px;color:rgba(23,0,69,.55);margin-bottom:14px}.pillar ul{list-style:none;display:flex;flex-direction:column;gap:7px}.pillar li{font-size:14px;line-height:1.58;padding-left:14px;position:relative;color:rgba(23,0,69,.78)}.pillar li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--pink)}.p1{background:var(--pink-light)}.p2{background:var(--verm-light)}.p3{background:var(--lime-light)}.p4{background:var(--blue-light)}.p5{background:#f6ede8}
+
+    /* ── Featured work ── */
+    .work-intro{max-width:680px;margin-bottom:40px}.work-intro p{font-size:clamp(18px,1.6vw,22px);line-height:1.5;color:rgba(23,0,69,.78)}
+    .projects{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+    .project{background:#fff;border:1px solid rgba(23,0,69,.11);overflow:hidden}
+    .project-header{padding:36px 32px 28px;position:relative;overflow:hidden;min-height:180px;display:flex;flex-direction:column;justify-content:flex-end}
+    .project-orb{position:absolute;width:300px;height:300px;border-radius:50%;top:-90px;right:-80px;pointer-events:none}
+    .project-badge{position:relative;z-index:2;display:inline-block;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.7);background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);padding:4px 12px;margin-bottom:12px}
+    .project-name{position:relative;z-index:2;font-size:clamp(22px,2vw,28px);font-weight:800;color:#fff;line-height:1.08;letter-spacing:-.02em}
+    .project-body{padding:24px 32px 32px}
+    .project-desc{font-size:14px;line-height:1.65;color:rgba(23,0,69,.72);margin-bottom:20px}
+    .project-outcomes{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+    .project-outcome{font-size:13px;line-height:1.5;padding-left:16px;position:relative;color:rgba(23,0,69,.78)}
+    .project-outcome::before{content:"→";position:absolute;left:0;color:var(--pink);font-weight:700}
+    .project-tags{display:flex;gap:6px;flex-wrap:wrap}
+    .ptag{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--pink);background:rgba(255,56,192,.07);border:1px solid rgba(255,56,192,.18);padding:4px 10px}
+
+    /* Project colour variants */
+    .proj-wellbeing .project-header{background:linear-gradient(135deg,#3D0060 0%,#7B0040 50%,#A81020 100%)}
+    .proj-wellbeing .project-orb{background:radial-gradient(circle,rgba(255,56,192,.5) 0%,rgba(238,72,17,.3) 40%,transparent 70%)}
+    .proj-doed .project-header{background:linear-gradient(135deg,#200845 0%,#3D1580 60%,#1A0033 100%)}
+    .proj-doed .project-orb{background:radial-gradient(circle,rgba(75,1,230,.6) 0%,rgba(255,56,192,.3) 50%,transparent 70%)}
+    .proj-chatsafe .project-header{background:linear-gradient(135deg,#0A2A1A 0%,#005533 55%,#003322 100%)}
+    .proj-chatsafe .project-orb{background:radial-gradient(circle,rgba(190,249,88,.5) 0%,rgba(0,136,68,.4) 50%,transparent 70%)}
+    .proj-hearme .project-header{background:linear-gradient(135deg,#1A0033 0%,#400E30 55%,#1C0808 100%)}
+    .proj-hearme .project-orb{background:radial-gradient(circle,rgba(255,56,192,.55) 0%,rgba(238,72,17,.35) 50%,transparent 70%)}
+
+    /* ── How we work (co-sourced) ── */
+    .cosourced{background:var(--blue-dark);color:#fff}.cosourced h2{font-size:clamp(36px,4vw,60px);line-height:.98;letter-spacing:-.03em}.cosourced-desc{margin-top:18px;max-width:640px;font-size:clamp(16px,1.4vw,19px);line-height:1.58;color:rgba(255,255,255,.84)}.cosourced-grid{margin-top:28px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.cosourced-card{padding:18px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.03)}.cosourced-card h4{font-size:20px;margin-bottom:8px;letter-spacing:-.01em}.cosourced-card p{color:rgba(255,255,255,.84);line-height:1.5}
+
+    /* ── Why section ── */
+    .why{background:#f2f2f2}.why-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.why-card{padding:24px;background:#fff;border:1px solid rgba(23,0,69,.11)}.why-card h4{font-size:22px;line-height:1.08;margin-bottom:8px;letter-spacing:-.02em}.why-card p{color:rgba(23,0,69,.78);line-height:1.58}
+
+    /* ── CTA ── */
+    .cta{background:linear-gradient(90deg,var(--pink-light) 0%,#ffd6f9 45%,#fff0fd 100%);padding:56px 0;color:var(--blue-dark)}.cta-wrap{display:flex;justify-content:space-between;align-items:center;gap:20px}.cta h2{font-size:clamp(30px,4vw,56px);line-height:.96;letter-spacing:-.03em;max-width:760px}.btn{display:inline-flex;align-items:center;padding:14px 24px;border:1px solid rgba(23,0,69,.25);background:rgba(255,255,255,.55);font-weight:600}
+
+    /* ── Footer ── */
+    footer{background:#0d0620;color:rgba(255,255,255,.72);padding:36px var(--gutter) 32px}.footer-inner{max-width:var(--max);margin:0 auto;display:flex;justify-content:space-between;align-items:center}.footer-inner img{height:18px;filter:brightness(0) invert(1)}
+
+    /* ── Responsive ── */
+    @media (max-width:1080px){.pillars{grid-template-columns:1fr 1fr}.cosourced-grid,.why-grid{grid-template-columns:1fr 1fr}.stats-row{grid-template-columns:1fr 1fr}.projects{grid-template-columns:1fr}}
+    @media (max-width:760px){.hero{grid-template-columns:92px 1fr;min-height:68vh}.nav-links{gap:14px;font-size:12px}.pillars,.cosourced-grid,.why-grid,.projects{grid-template-columns:1fr}.stats-row{grid-template-columns:1fr 1fr}.cta-wrap{flex-direction:column;align-items:flex-start}}
+  </style>
+</head>
+<body>
+  <nav class="nav"><div class="nav-inner"><a class="nav-logo" href="index.html"><img src="logo.png" alt="Portable"></a><div class="nav-links"><a href="work.html">Work</a><a href="services.html">Services</a><a href="people.html">People</a><a href="purpose.html">Purpose</a><a href="training.html">Training</a><a href="reports.html">Reports</a><a href="ai.html">AI</a><a href="technology.html">Technology</a><a class="active" href="design.html">Design</a></div></div></nav>
+
+  <header class="hero"><aside class="rail"></aside><div class="hero-main"><div class="fade"><p class="kicker">Strategic Design &amp; Research</p><h1>Design that changes behaviour.</h1><p class="hero-sub">Deep research, service design and behaviour change applied to the hardest problems in health, education, justice and government. We work alongside communities to reshape how people experience complex systems.</p></div></div></header>
+
+  <section class="section intro"><div class="container"><p class="fade">We research. We co-design. We build capability. Portable Design is a strategic design and research practice that partners with government and the purpose sector to understand human experience and design services that shift outcomes at scale.</p></div></section>
+
+  <!-- Stats -->
+  <section class="section"><div class="container"><p class="kicker fade" style="color:var(--pink)">By the numbers</p><div class="stats-row"><div class="stat-card fade"><div class="stat-number">15+</div><div class="stat-label">Years in complex systems design</div></div><div class="stat-card fade"><div class="stat-number">40+</div><div class="stat-label">Government and purpose sector clients</div></div><div class="stat-card fade"><div class="stat-number">100%</div><div class="stat-label">Co-designed with communities</div></div><div class="stat-card fade"><div class="stat-number">National</div><div class="stat-label">Award-winning projects</div></div></div></div></section>
+
+  <!-- Five capability pillars -->
+  <section class="section"><div class="container"><p class="kicker fade" style="color:var(--pink)">What we do</p><div class="pillars">
+
+    <article class="pillar p1 fade">
+      <h3>Service Design</h3>
+      <p class="tagline">People-centred services that actually work</p>
+      <ul>
+        <li>End-to-end service mapping and blueprinting</li>
+        <li>Co-design with communities and practitioners</li>
+        <li>Prototype, test and iterate in real contexts</li>
+        <li>Experience design across physical and digital</li>
+        <li>Implementation support and change management</li>
+        <li>Capability building in design thinking</li>
+      </ul>
+    </article>
+
+    <article class="pillar p2 fade">
+      <h3>Research &amp; Insights</h3>
+      <p class="tagline">Understanding what's really happening</p>
+      <ul>
+        <li>Qualitative and quantitative research design</li>
+        <li>Ethnographic and in-context research</li>
+        <li>Lived experience engagement</li>
+        <li>Systems and stakeholder mapping</li>
+        <li>Evidence synthesis and sense-making</li>
+        <li>Research translation for decision-makers</li>
+      </ul>
+    </article>
+
+    <article class="pillar p3 fade">
+      <h3>Behaviour Change</h3>
+      <p class="tagline">Design that moves people to act differently</p>
+      <ul>
+        <li>Behavioural insight and COM-B analysis</li>
+        <li>Intervention design and testing</li>
+        <li>Communication design for complex audiences</li>
+        <li>Nudge design and choice architecture</li>
+        <li>Campaign and content strategy</li>
+        <li>Evaluation frameworks and measurement</li>
+      </ul>
+    </article>
+
+    <article class="pillar p4 fade">
+      <h3>Policy Design</h3>
+      <p class="tagline">Evidence-informed policy that reflects lived reality</p>
+      <ul>
+        <li>Policy co-design with communities</li>
+        <li>Futures and scenario planning</li>
+        <li>Complex systems analysis</li>
+        <li>Stakeholder engagement and deliberation</li>
+        <li>Strategy development and roadmapping</li>
+        <li>Governance design and accountability</li>
+      </ul>
+    </article>
+
+    <article class="pillar p5 fade">
+      <h3>Digital UX</h3>
+      <p class="tagline">Accessible, human-centred digital products</p>
+      <ul>
+        <li>Discovery, research and needs analysis</li>
+        <li>Information architecture and interaction design</li>
+        <li>Accessibility to WCAG 2.1 AA and beyond</li>
+        <li>Usability testing with real users</li>
+        <li>Design system development</li>
+        <li>Embedded design in delivery teams</li>
+      </ul>
+    </article>
+
+  </div></div></section>
+
+  <!-- Featured work -->
+  <section class="section"><div class="container">
+    <p class="kicker fade" style="color:var(--pink)">Work that made a difference</p>
+    <div class="work-intro fade"><p>Real projects. Real communities. Real change. Here are some of the projects that demonstrate what strategic design looks like when it's done well in complex, high-stakes environments.</p></div>
+    <div class="projects">
+
+      <article class="project proj-wellbeing fade">
+        <div class="project-header">
+          <div class="project-orb"></div>
+          <span class="project-badge">Victorian Government</span>
+          <h3 class="project-name">Victoria Statewide Wellbeing Strategy</h3>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">A state-wide strategy to improve the wellbeing of all Victorians. We led deep community research, systems mapping and co-design with government, community organisations and lived experience voices to shape policy that reflects real human needs.</p>
+          <div class="project-outcomes">
+            <div class="project-outcome">Statewide community engagement spanning diverse populations and geographies</div>
+            <div class="project-outcome">Systems mapping connecting health, housing, education and justice</div>
+            <div class="project-outcome">Co-designed policy framework grounded in lived experience</div>
+            <div class="project-outcome">Research synthesis influencing Victorian Government strategy</div>
+          </div>
+          <div class="project-tags"><span class="ptag">Policy Design</span><span class="ptag">Research</span><span class="ptag">Co-design</span><span class="ptag">Systems Mapping</span></div>
+        </div>
+      </article>
+
+      <article class="project proj-doed fade">
+        <div class="project-header">
+          <div class="project-orb"></div>
+          <span class="project-badge">Department of Education</span>
+          <h3 class="project-name">Understanding Youth Anxiety in Schools</h3>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">A research and design project exploring the lived experience of anxiety among young people in Victorian schools. We partnered with students, teachers and mental health practitioners to understand systemic gaps and design more effective school-based responses.</p>
+          <div class="project-outcomes">
+            <div class="project-outcome">Deep ethnographic research with students experiencing anxiety</div>
+            <div class="project-outcome">Co-design of support pathways with school staff and clinicians</div>
+            <div class="project-outcome">Service blueprint for school-based mental health response</div>
+            <div class="project-outcome">Recommendations adopted into departmental policy</div>
+          </div>
+          <div class="project-tags"><span class="ptag">Service Design</span><span class="ptag">Research</span><span class="ptag">Mental Health</span><span class="ptag">Education</span></div>
+        </div>
+      </article>
+
+      <article class="project proj-chatsafe fade">
+        <div class="project-header">
+          <div class="project-orb"></div>
+          <span class="project-badge">Orygen — National Youth Mental Health</span>
+          <h3 class="project-name">ChatSafe — Safe Online Communication Guidelines</h3>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">Designed in partnership with Orygen, Australia's leading youth mental health research centre, ChatSafe provides evidence-based guidelines for young people communicating about suicide and self-harm online. A landmark project at the intersection of digital behaviour change and suicide prevention.</p>
+          <div class="project-outcomes">
+            <div class="project-outcome">Co-designed with young people with lived experience</div>
+            <div class="project-outcome">Behaviour change framework tested across social platforms</div>
+            <div class="project-outcome">Adopted by platforms and organisations internationally</div>
+            <div class="project-outcome">Evidence base published in peer-reviewed research</div>
+          </div>
+          <div class="project-tags"><span class="ptag">Behaviour Change</span><span class="ptag">UX Design</span><span class="ptag">Mental Health</span><span class="ptag">Research</span></div>
+        </div>
+      </article>
+
+      <article class="project proj-hearme fade">
+        <div class="project-header">
+          <div class="project-orb"></div>
+          <span class="project-badge">Beyond Blue &amp; Orygen</span>
+          <h3 class="project-name">headspace &amp; hear me out — Youth Wellbeing Platforms</h3>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">Multiple digital product and service design engagements with leading Australian mental health organisations, building accessible digital tools that meet young people where they are and connect them to support at critical moments.</p>
+          <div class="project-outcomes">
+            <div class="project-outcome">Accessibility-first design for diverse youth audiences</div>
+            <div class="project-outcome">User research informing evidence-based product decisions</div>
+            <div class="project-outcome">Design systems enabling consistent, scalable experiences</div>
+            <div class="project-outcome">Measured improvement in service access and engagement</div>
+          </div>
+          <div class="project-tags"><span class="ptag">Digital UX</span><span class="ptag">Accessibility</span><span class="ptag">Mental Health</span><span class="ptag">Product Design</span></div>
+        </div>
+      </article>
+
+    </div>
+  </div></section>
+
+  <!-- How we work -->
+  <section class="section cosourced"><div class="container"><p class="kicker fade">How we work</p><h2 class="fade">Embedded, co-designed, evidence-led.</h2><p class="cosourced-desc fade">We embed researchers and designers into your organisation, work alongside your teams, and design with — not for — the communities you serve. Every engagement builds your internal capacity to sustain the work.</p><div class="cosourced-grid">
+
+    <article class="cosourced-card fade"><h4>Research first</h4><p>We don't start with solutions. We start with people. Deep qualitative research, lived experience engagement and systems mapping before a single concept is sketched.</p></article>
+    <article class="cosourced-card fade"><h4>Co-design throughout</h4><p>Community members and practitioners aren't consulted — they're co-designers. Every stage involves the people whose lives are shaped by the outcome.</p></article>
+    <article class="cosourced-card fade"><h4>Test and iterate</h4><p>We prototype early and test in real contexts. Concepts are stress-tested with diverse users before recommendations reach decision-makers.</p></article>
+    <article class="cosourced-card fade"><h4>Build capability</h4><p>Every engagement grows your team's research and design capability. We run workshops, coach practitioners and leave you stronger than we found you.</p></article>
+
+  </div></div></section>
+
+  <!-- Why Portable Design -->
+  <section class="section why"><div class="container"><p class="kicker fade" style="color:var(--pink)">Why Portable Design</p><div class="why-grid">
+
+    <article class="why-card fade"><h4>Research you can trust</h4><p>We recruit and engage with communities in genuine, respectful ways. Our research is rigorous, ethical and grounded in lived experience — not just stakeholder interviews.</p></article>
+    <article class="why-card fade"><h4>Design for complexity</h4><p>Government and purpose sector problems don't have simple solutions. We're experienced working in politically sensitive, high-stakes environments where getting it wrong matters.</p></article>
+    <article class="why-card fade"><h4>Translating insight to action</h4><p>Research that sits on a shelf has no value. We design for implementation from the start — with clear recommendations, prototypes and capability to take the work forward.</p></article>
+    <article class="why-card fade"><h4>Whole-of-Portable integration</h4><p>Design and technology aren't separate disciplines for us. Our designers work alongside engineers, delivery leads and AI specialists to build things that are both desirable and deliverable.</p></article>
+
+  </div></div></section>
+
+  <!-- CTA -->
+  <section class="cta"><div class="container cta-wrap fade"><h2>Let's design something that matters.</h2><a class="btn" href="mailto:hello@portable.com.au">Start a conversation</a></div></section>
+
+  <footer><div class="footer-inner"><img src="logo.png" alt="Portable"><p>&copy; 2026 Portable. All rights reserved.</p></div></footer>
+
+  <script>const observer=new IntersectionObserver((entries)=>{entries.forEach((e)=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.14});document.querySelectorAll('.fade').forEach((el)=>observer.observe(el));</script>
+</body>
+</html>
