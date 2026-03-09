@@ -487,74 +487,50 @@
     .tech-left .eyebrow { color: var(--green); margin-bottom: 24px; }
     .tech-headline { color: var(--white); margin-bottom: 28px; }
     .tech-sub { color: rgba(255,255,255,0.6); margin-bottom: 40px; }
-    /* ── Capability Map ── */
-    .cap-map {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
+    /* ── Technology Pillar Cards ── */
+    .tech-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
       grid-column: 1 / -1;
     }
-    .cap-map-header {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 2px;
-      margin-bottom: 2px;
+    .tech-pillar { padding: 24px; min-height: 260px; }
+    .tech-pillar h3 {
+      font-size: clamp(20px, 1.9vw, 28px);
+      line-height: 1.03;
+      letter-spacing: -0.02em;
+      margin: 8px 0 6px;
+      color: var(--near-black);
     }
-    .cap-map-header-cell {
-      padding: 18px 14px;
-      text-align: center;
-      font-family: var(--font-display);
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: -0.01em;
-      color: #0A0A0A;
-      text-transform: uppercase;
+    .tech-pillar .tp-tagline { font-size: 12px; color: rgba(23,0,69,0.55); margin-bottom: 14px; }
+    .tech-pillar ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+    .tech-pillar li {
+      font-size: 13px;
+      line-height: 1.58;
+      padding-left: 14px;
+      position: relative;
+      color: rgba(23,0,69,0.78);
     }
-    .cap-map-header-cell:nth-child(1) { background: var(--green); }
-    .cap-map-header-cell:nth-child(2) { background: #A8E6FF; }
-    .cap-map-header-cell:nth-child(3) { background: #FFB8E6; }
-    .cap-map-header-cell:nth-child(4) { background: #FFD4A8; }
-    .cap-map-header-cell:nth-child(5) { background: #D4C8FF; }
-    .cap-map-body {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 2px;
+    .tech-pillar li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--blue);
     }
-    .cap-map-col {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .cap-map-item {
-      padding: 12px 14px;
-      font-size: 12.5px;
-      line-height: 1.45;
-      color: rgba(255,255,255,0.72);
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
-      transition: background 0.2s, color 0.2s;
-      font-weight: 500;
-    }
-    .cap-map-item:hover {
-      background: rgba(255,255,255,0.09);
-      color: rgba(255,255,255,0.95);
-    }
-    .cap-map-label {
-      text-align: center;
-      margin-top: 20px;
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
-    }
+    .tp1 { background: var(--lime-light); }
+    .tp2 { background: var(--blue-light); }
+    .tp3 { background: var(--pink-light); }
+    .tp4 { background: var(--verm-light); }
+    .tp5 { background: #f6ede8; }
     @media (max-width: 900px) {
-      .cap-map-header, .cap-map-body { grid-template-columns: repeat(3, 1fr); }
+      .tech-pillars { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 600px) {
-      .cap-map-header, .cap-map-body { grid-template-columns: 1fr 1fr; }
-      .cap-map-header-cell { font-size: 11px; padding: 12px 8px; }
-      .cap-map-item { font-size: 11px; padding: 10px; }
+      .tech-pillars { grid-template-columns: 1fr; }
     }
     .tech-proof {
       display: flex;
@@ -1237,61 +1213,71 @@
           </p>
           <a href="technology.html" class="btn btn-green btn-arrow">Explore our technology capability</a>
         </div>
-        <div class="cap-map fade-up">
-          <div class="cap-map-header">
-            <div class="cap-map-header-cell">Software Development</div>
-            <div class="cap-map-header-cell">Delivery Leadership</div>
-            <div class="cap-map-header-cell">DevSecOps</div>
-            <div class="cap-map-header-cell">Observability</div>
-            <div class="cap-map-header-cell">Cloud Engineering</div>
-          </div>
-          <div class="cap-map-body">
-            <div class="cap-map-col">
-              <div class="cap-map-item">Test-driven development &amp; code quality</div>
-              <div class="cap-map-item">Security patterns built into every layer</div>
-              <div class="cap-map-item">Modern iterative delivery</div>
-              <div class="cap-map-item">API development &amp; integration</div>
-              <div class="cap-map-item">CI/CD from day one</div>
-              <div class="cap-map-item">Growing internal technical capability</div>
-            </div>
-            <div class="cap-map-col">
-              <div class="cap-map-item">Psychological safety, trust &amp; culture</div>
-              <div class="cap-map-item">Team &amp; organisational agility</div>
-              <div class="cap-map-item">Aligning activity to value</div>
-              <div class="cap-map-item">Product management &amp; prioritisation</div>
-              <div class="cap-map-item">Minimising key person risk</div>
-              <div class="cap-map-item">Improving productivity &amp; flow</div>
-              <div class="cap-map-item">Destination employer practices</div>
-            </div>
-            <div class="cap-map-col">
-              <div class="cap-map-item">CI/CD pipeline design &amp; optimisation</div>
-              <div class="cap-map-item">Monitoring, logging &amp; alerting</div>
-              <div class="cap-map-item">Infrastructure-as-code</div>
-              <div class="cap-map-item">Speed &amp; engineering efficiency</div>
-              <div class="cap-map-item">Testing throughout delivery</div>
-              <div class="cap-map-item">DORA metrics benchmarking</div>
-              <div class="cap-map-item">Continuous improvement culture</div>
-            </div>
-            <div class="cap-map-col">
-              <div class="cap-map-item">Single pane of glass monitoring</div>
-              <div class="cap-map-item">Faster issue identification &amp; resolution</div>
-              <div class="cap-map-item">Reduced context switching</div>
-              <div class="cap-map-item">Greater deployment confidence</div>
-              <div class="cap-map-item">Faster system performance feedback</div>
-              <div class="cap-map-item">Reduced on-call burden</div>
-              <div class="cap-map-item">Increased engineering capacity</div>
-            </div>
-            <div class="cap-map-col">
-              <div class="cap-map-item">Effective cloud maintenance</div>
-              <div class="cap-map-item">Pets to cattle architecture</div>
-              <div class="cap-map-item">Automated deployment pipelines</div>
-              <div class="cap-map-item">Automated compliance &amp; governance</div>
-              <div class="cap-map-item">Faster feature delivery</div>
-              <div class="cap-map-item">Improved development hygiene</div>
-              <div class="cap-map-item">Cost optimisation &amp; right-sizing</div>
-            </div>
-          </div>
-          <p class="cap-map-label">Portable Technology — Capability Map</p>
+        <div class="tech-pillars fade-up">
+          <article class="tech-pillar tp1">
+            <h3>Software Development</h3>
+            <p class="tp-tagline">Robust, scalable, maintainable code</p>
+            <ul>
+              <li>Test-driven development and code quality</li>
+              <li>Security patterns built into every layer</li>
+              <li>Modern iterative delivery</li>
+              <li>API development and integration</li>
+              <li>CI/CD from day one</li>
+              <li>Growing internal technical capability</li>
+            </ul>
+          </article>
+          <article class="tech-pillar tp2">
+            <h3>Delivery Leadership</h3>
+            <p class="tp-tagline">Culture, trust and performance</p>
+            <ul>
+              <li>Psychological safety, trust and culture</li>
+              <li>Team and organisational agility</li>
+              <li>Aligning activity to value</li>
+              <li>Product management and prioritisation</li>
+              <li>Minimising key person risk</li>
+              <li>Improving productivity and flow</li>
+              <li>Destination employer practices</li>
+            </ul>
+          </article>
+          <article class="tech-pillar tp3">
+            <h3>DevSecOps</h3>
+            <p class="tp-tagline">Secure, fast, continuously improving</p>
+            <ul>
+              <li>CI/CD pipeline design and optimisation</li>
+              <li>Monitoring, logging and alerting</li>
+              <li>Infrastructure-as-code</li>
+              <li>Speed and engineering efficiency</li>
+              <li>Testing throughout delivery</li>
+              <li>DORA metrics benchmarking</li>
+              <li>Continuous improvement culture</li>
+            </ul>
+          </article>
+          <article class="tech-pillar tp4">
+            <h3>Observability</h3>
+            <p class="tp-tagline">See everything. Fix faster. Ship with confidence.</p>
+            <ul>
+              <li>Single pane of glass monitoring</li>
+              <li>Faster issue identification and resolution</li>
+              <li>Reduced context switching</li>
+              <li>Greater deployment confidence</li>
+              <li>Faster system performance feedback</li>
+              <li>Reduced on-call burden</li>
+              <li>Increased engineering capacity for innovation</li>
+            </ul>
+          </article>
+          <article class="tech-pillar tp5">
+            <h3>Cloud Engineering</h3>
+            <p class="tp-tagline">Sustainable, resilient, cost-efficient infrastructure</p>
+            <ul>
+              <li>Effective cloud maintenance</li>
+              <li>Pets to cattle architecture</li>
+              <li>Automated deployment pipelines</li>
+              <li>Automated compliance and governance</li>
+              <li>Faster feature delivery</li>
+              <li>Improved development hygiene</li>
+              <li>Cost optimisation and right-sizing</li>
+            </ul>
+          </article>
         </div>
       </div>
     </div>
