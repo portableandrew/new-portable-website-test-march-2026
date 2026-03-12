@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoGrab — Portable Pitch Navigator</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+  :root {
+    --black: #0a0a0a;
+    --off-white: #f4f1ec;
+    --warm-white: #faf8f5;
+    --accent: #e85d2f;
+    --accent-soft: #f0896a;
+    --mid: #6b6560;
+    --border: #e0dbd4;
+    --card-bg: #ffffff;
+    --tag-bg: #eee9e2;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--off-white);
+    color: var(--black);
+    min-height: 100vh;
+    font-size: 15px;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--black);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 17px;
+    color: var(--off-white);
+    letter-spacing: -0.02em;
+  }
+
+  .divider-v {
+    width: 1px;
+    height: 20px;
+    background: #333;
+  }
+
+  .client-label {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    color: #888;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .client-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--off-white);
+  }
+
+  .timer-block {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #timer {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--off-white);
+    letter-spacing: -0.02em;
+    min-width: 54px;
+  }
+
+  #timer.warning { color: #f5a623; }
+  #timer.urgent { color: #e85d2f; animation: pulse 1s infinite; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .timer-btn {
+    background: none;
+    border: 1px solid #333;
+    color: #888;
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    transition: all 0.15s;
+  }
+
+  .timer-btn:hover { border-color: #666; color: var(--off-white); }
+
+  /* NAV TABS */
+  .nav-strip {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+
+  .nav-tab {
+    padding: 14px 20px;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--mid);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.15s;
+    letter-spacing: 0.01em;
+  }
+
+  .nav-tab:hover { color: var(--black); }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* MAIN CONTENT */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 36px 32px 80px;
+  }
+
+  .panel { display: none; }
+  .panel.active {
+    display: block;
+    animation: fadeIn 0.2s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* PANEL HEADER */
+  .panel-heading {
+    margin-bottom: 28px;
+  }
+
+  .panel-heading .eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .panel-heading h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--black);
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  .panel-heading .subtitle {
+    margin-top: 8px;
+    font-size: 15px;
+    color: var(--mid);
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 580px;
+  }
+
+  /* CARDS */
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .card-grid.thirds {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .card-grid.single {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px;
+    transition: box-shadow 0.15s;
+  }
+
+  .card:hover { box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
+
+  .card.accent-left { border-left: 3px solid var(--accent); }
+  .card.dark {
+    background: var(--black);
+    color: var(--off-white);
+    border-color: var(--black);
+  }
+
+  .card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+    color: var(--black);
+  }
+
+  .card.dark h3 { color: var(--off-white); }
+
+  .card p {
+    font-size: 14px;
+    line-height: 1.65;
+    color: #555;
+    font-weight: 300;
+  }
+
+  .card.dark p { color: #aaa; }
+
+  .card .big-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--mid);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+  }
+
+  .tag.accent { background: #fde8e0; color: var(--accent); }
+  .tag.green { background: #e0f0e8; color: #2d7a4f; }
+
+  /* TALK TRACK */
+  .talk-track {
+    background: #fff8f5;
+    border: 1px solid #f5d8cc;
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-top: 20px;
+  }
+
+  .talk-track .tt-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .talk-track p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #4a3830;
+    font-style: italic;
+  }
+
+  /* OBJECTION CARDS */
+  .objection {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+
+  .objection-q {
+    padding: 16px 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--black);
+    user-select: none;
+    transition: background 0.1s;
+  }
+
+  .objection-q:hover { background: var(--tag-bg); }
+
+  .objection-q .arrow {
+    font-size: 12px;
+    color: var(--mid);
+    transition: transform 0.2s;
+  }
+
+  .objection.open .arrow { transform: rotate(90deg); }
+
+  .objection-a {
+    display: none;
+    padding: 0 20px 18px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #555;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+
+  .objection.open .objection-a { display: block; }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+    margin-top: 8px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .tl-item {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 5px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--off-white);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+
+  .tl-item .tl-date {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 3px;
+  }
+
+  .tl-item .tl-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 4px;
+  }
+
+  .tl-item .tl-desc {
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.6;
+  }
+
+  /* TEAM CARDS */
+  .team-card {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+
+  .team-initial {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--black);
+    color: var(--off-white);
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .team-initial.primary { background: var(--accent); }
+
+  .team-info h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+
+  .team-info .role {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .team-info p {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.6;
+  }
+
+  /* CLOSER CTA */
+  .closer {
+    background: var(--black);
+    border-radius: 12px;
+    padding: 28px 32px;
+    color: var(--off-white);
+    margin-top: 28px;
+  }
+
+  .closer h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+
+  .closer-items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .closer-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .closer-item .check {
+    color: var(--accent);
+    font-size: 16px;
+    line-height: 1.4;
+    flex-shrink: 0;
+  }
+
+  .closer-item p {
+    font-size: 13px;
+    color: #aaa;
+    line-height: 1.6;
+  }
+
+  .closer-item strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--off-white);
+    margin-bottom: 2px;
+  }
+
+  /* QUICK FACTS STRIP */
+  .facts-strip {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .fact-pill {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 7px 16px;
+    font-size: 13px;
+    color: var(--mid);
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .fact-pill strong {
+    color: var(--black);
+    font-weight: 600;
+  }
+
+  hr.section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 28px 0;
+  }
+
+  h2.section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+    color: var(--black);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <div class="logo">Portable</div>
+    <div class="divider-v"></div>
+    <div>
+      <div class="client-label">Pitch for</div>
+      <div class="client-name">AutoGrab — Steven</div>
+    </div>
+  </div>
+  <div class="timer-block">
+    <div id="timer">30:00</div>
+    <button class="timer-btn" onclick="startTimer()">Start</button>
+    <button class="timer-btn" onclick="resetTimer()">Reset</button>
+  </div>
+</header>
+
+<div class="nav-strip">
+  <div class="nav-tab active" onclick="showPanel('opener')">Opener</div>
+  <div class="nav-tab" onclick="showPanel('problem')">Their Situation</div>
+  <div class="nav-tab" onclick="showPanel('approach')">Our Approach</div>
+  <div class="nav-tab" onclick="showPanel('team')">The Team</div>
+  <div class="nav-tab" onclick="showPanel('timeline')">Timeline</div>
+  <div class="nav-tab" onclick="showPanel('objections')">Objections</div>
+  <div class="nav-tab" onclick="showPanel('close')">Close</div>
+</div>
+
+<div class="main">
+
+  <!-- OPENER -->
+  <div class="panel active" id="opener">
+    <div class="panel-heading">
+      <div class="eyebrow">Opening Frame</div>
+      <h1>Set the tone before anything else</h1>
+      <div class="subtitle">You're not selling a project. You're offering two of the right people, available now, who can move fast.</div>
+    </div>
+
+    <div class="facts-strip">
+      <div class="fact-pill">⏱ <strong>30 min</strong> conversation</div>
+      <div class="fact-pill">👥 <strong>2 AI product people</strong> to start</div>
+      <div class="fact-pill">📅 <strong>April 10</strong> available</div>
+      <div class="fact-pill">🔧 <strong>Tech oversight</strong> in background</div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card accent-left">
+        <div class="tag accent">Framing</div>
+        <h3>What this call is</h3>
+        <p>A conversation about fit — not a pitch. You've looked at their setup, you have a view, and you want to see if the timing and approach makes sense for Steven right now.</p>
+      </div>
+      <div class="card accent-left">
+        <div class="tag accent">Your position</div>
+        <h3>What you're offering</h3>
+        <p>Two hands-on AI product people from April 10. Not consultants who advise — people who build alongside his team. Tech and strategy in the background as needed.</p>
+      </div>
+    </div>
+
+    <div class="talk-track">
+      <div class="tt-label">Opening line</div>
+      <p>"Steven, I've got two people I think you need — and they're available from April 10. I wanted to walk you through the thinking and see if it lands for you."</p>
+    </div>
+  </div>
+
+  <!-- THEIR SITUATION -->
+  <div class="panel" id="problem">
+    <div class="panel-heading">
+      <div class="eyebrow">Their Situation</div>
+      <h1>What you know about where they're at</h1>
+      <div class="subtitle">Show you understand their world before proposing anything.</div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="tag">The gap</div>
+        <h3>30 engineers, 2 AI believers</h3>
+        <p>CEO and Steven are committed. But the engineers are sceptical, time-poor, and using AI for small tasks at best. Intent is there — the capability isn't yet.</p>
+      </div>
+      <div class="card">
+        <div class="tag">The signal</div>
+        <h3>One data analyst proved it works</h3>
+        <p>Built full production systems with AI — for UK customers — independently. That proof point exists but hasn't been turned into a team-wide practice.</p>
+      </div>
+      <div class="card">
+        <div class="tag">The pressure</div>
+        <h3>$80M raised, mandate to move</h3>
+        <p>End of 2025 funding round. CEO has given a clear mandate and open budget. Google Enterprise tools have underdelivered — they need a genuine AI approach, not another tool.</p>
+      </div>
+      <div class="card">
+        <div class="tag">The immediate need</div>
+        <h3>Mobile app needs a rebuild</h3>
+        <p>Capacitor app hitting its limits. They know it needs rebuilding — and this is the natural anchor for an AI-first approach to be demonstrated and embedded.</p>
+      </div>
+    </div>
+
+    <div class="talk-track">
+      <div class="tt-label">How to play this</div>
+      <p>"From what we've seen, the gap isn't intent — Steven, you and the CEO clearly want this. It's that your engineers don't have anyone alongside them yet who can show them what AI-first actually looks like in practice. That's what we'd change."</p>
+    </div>
+  </div>
+
+  <!-- APPROACH -->
+  <div class="panel" id="approach">
+    <div class="panel-heading">
+      <div class="eyebrow">Our Approach</div>
+      <h1>Not advice — delivery alongside them</h1>
+      <div class="subtitle">Three overlapping phases. The mobile app is the vehicle. Capability transfer is the outcome.</div>
+    </div>
+
+    <div class="card-grid thirds">
+      <div class="card">
+        <div class="big-number">1–4</div>
+        <div class="tag">Weeks</div>
+        <h3>Discovery & Investigation</h3>
+        <p>SDLC mapping, mobile app architecture deep-dive, finding the AI injection points. App stakeholder in the room from day one — not briefed at the end.</p>
+      </div>
+      <div class="card">
+        <div class="big-number">4–6</div>
+        <div class="tag">Weeks</div>
+        <h3>Roadmap Presentation</h3>
+        <p>Full AI-first development roadmap. Defined delivery approach. Augmented team model. Forward plan covering the app build.</p>
+      </div>
+      <div class="card">
+        <div class="big-number">2–3</div>
+        <div class="tag">Months</div>
+        <h3>Collaborative Delivery</h3>
+        <p>We lead the mobile app rebuild. AutoGrab's engineers work alongside — learning by doing, not watching. Design system built in parallel.</p>
+      </div>
+    </div>
+
+    <div class="card dark">
+      <h3>The guiding principle</h3>
+      <p>We don't wait for discovery to close before starting work. By the end, AutoGrab's team should be able to sustain and extend this approach independently — not reliant on us to keep it going.</p>
+    </div>
+
+    <div class="talk-track">
+      <div class="tt-label">Key point to land</div>
+      <p>"We're not here to tell your engineers what to do differently. We'd be building alongside them — so they actually see what AI-first looks like on their own codebase, their own stack, their own problems."</p>
+    </div>
+  </div>
+
+  <!-- TEAM -->
+  <div class="panel" id="team">
+    <div class="panel-heading">
+      <div class="eyebrow">The Team</div>
+      <h1>Two people, available April 10</h1>
+      <div class="subtitle">This is what you lead with. Hands-on from day one, with technical depth in the background.</div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-initial primary">L</div>
+      <div class="team-info">
+        <h4>Luke</h4>
+        <div class="role">AI Product Lead — Primary contact</div>
+        <p>Hands-on AI workflow configuration, implementation design, and experimentation. Your engineers' day-to-day partner. He's in the codebase, not in a slide deck.</p>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-initial primary">A</div>
+      <div class="team-info">
+        <h4>Andrew Fulton</h4>
+        <div class="role">Technical & Strategy — Architecture and senior relationship</div>
+        <p>Architecture decisions, lifecycle design, risk assessment. The person who's seen enough of these transformations to know where things typically go wrong.</p>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+    <h2 class="section-title">In the background</h2>
+
+    <div class="team-card">
+      <div class="team-initial">D</div>
+      <div class="team-info">
+        <h4>Dave</h4>
+        <div class="role">Senior Technical Oversight</div>
+        <p>Senior technical governance as needed. Not a layer between teams — available when the hard calls need a second set of eyes.</p>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-initial">B</div>
+      <div class="team-info">
+        <h4>Becky</h4>
+        <div class="role">Commercial & Relationship</div>
+        <p>Ensures the engagement is structured right commercially and the relationship is looked after across the whole three months.</p>
+      </div>
+    </div>
+
+    <div class="talk-track">
+      <div class="tt-label">How to introduce the team</div>
+      <p>"Luke is who your engineers will actually work with every day. Andrew is there for the bigger architecture calls and to make sure we're making the right strategic decisions. And we have senior tech oversight available if anything needs a second set of eyes — but we don't want unnecessary layers between the teams."</p>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="panel" id="timeline">
+    <div class="panel-heading">
+      <div class="eyebrow">Timeline</div>
+      <h1>~3 months, starting April 10</h1>
+      <div class="subtitle">Phases overlap. We move before discovery is finished.</div>
+    </div>
+
+    <div class="card-grid">
+      <div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-date">April 10 — Kick-off</div>
+            <div class="tl-title">Team in the room</div>
+            <div class="tl-desc">Mobile app stakeholder engaged from day one. SDLC mapping begins. Codebase access requested.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">Weeks 1–4</div>
+            <div class="tl-title">Discovery running</div>
+            <div class="tl-desc">Architecture review, workflow mapping, AI injection point identification. Workshops with AutoGrab team — not just interviews.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">Weeks 4–6</div>
+            <div class="tl-title">Roadmap presented</div>
+            <div class="tl-desc">Full AI-first development roadmap. Team model defined. 6-month forward plan confirmed with Steven and stakeholders.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">Months 2–3</div>
+            <div class="tl-title">Delivery underway</div>
+            <div class="tl-desc">Mobile app rebuild in progress. AutoGrab engineers working alongside Portable. Capability transfer happening in real conditions.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">End of Month 3</div>
+            <div class="tl-title">Team stands alone</div>
+            <div class="tl-desc">AutoGrab's engineers equipped to sustain and extend the AI-first approach. Portable steps back — not needed to keep it going.</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="tag green">What AutoGrab needs to bring</div>
+          <h3>What we need from Steven</h3>
+          <p style="margin-bottom:8px">• Mobile app stakeholder available from week one — genuinely engaged, not just informed</p>
+          <p style="margin-bottom:8px">• Codebase and technical artefact access early</p>
+          <p style="margin-bottom:8px">• Engineers willing to work alongside us — not as observers</p>
+          <p>• A named internal champion who owns the AI transformation on their side</p>
+        </div>
+
+        <div class="card dark">
+          <h3>What's separate</h3>
+          <p>Richard's org-wide transformation program is a related but distinct conversation — different stakeholder, different scope. Andrew to run that thread separately.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJECTIONS -->
+  <div class="panel" id="objections">
+    <div class="panel-heading">
+      <div class="eyebrow">Objection Handling</div>
+      <h1>What Steven might push back on</h1>
+      <div class="subtitle">Click each to expand the response.</div>
+    </div>
+
+    <div class="objection" onclick="toggleObj(this)">
+      <div class="objection-q">"We've tried AI tools before — our engineers aren't bought in" <span class="arrow">▶</span></div>
+      <div class="objection-a">That's exactly why we don't start with tools. We start with the mobile app — something your engineers already own. Luke works alongside them on their actual codebase. They see what AI-first looks like on their own problems, not on demos. Buy-in follows results, not training.</div>
+    </div>
+
+    <div class="objection" onclick="toggleObj(this)">
+      <div class="objection-q">"Why two people? Can't one person do this?" <span class="arrow">▶</span></div>
+      <div class="objection-a">Luke is hands-on with your engineers every day — that's the value. Andrew isn't a layer on top of that; he's the person making the architecture calls and the harder strategic decisions so Luke can stay focused on delivery. They're complementary, not duplicative.</div>
+    </div>
+
+    <div class="objection" onclick="toggleObj(this)">
+      <div class="objection-q">"3 months feels long — what are we actually getting?" <span class="arrow">▶</span></div>
+      <div class="objection-a">A rebuilt mobile app, and an engineering team that can sustain AI-first practices without us. Most engagements leave a team dependent on the consultants. We're optimising for the opposite — you should need us less at the end of month three than you do at the start.</div>
+    </div>
+
+    <div class="objection" onclick="toggleObj(this)">
+      <div class="objection-q">"We have engineers — why can't they just do this?" <span class="arrow">▶</span></div>
+      <div class="objection-a">Your data analyst already proved they can — they built full production systems independently. The gap is that this hasn't become a team-level practice. What's missing isn't talent; it's someone who's done it before working alongside them to show it's possible at that scale.</div>
+    </div>
+
+    <div class="objection" onclick="toggleObj(this)">
+      <div class="objection-q">"We're mid-transition on other things — is the timing right?" <span class="arrow">▶</span></div>
+      <div class="objection-a">The mobile app rebuild is already on the roadmap — it needs to happen regardless. We're anchoring to something that was already a priority. This isn't an additional initiative; it's doing the thing you were going to do anyway, with the right approach embedded from the start.</div>
+    </div>
+
+    <div class="objection" onclick="toggleObj(this)">
+      <div class="objection-q">"Have you done this exact thing before?" <span class="arrow">▶</span></div>
+      <div class="objection-a">We're not claiming to have a fifty-client AI transformation playbook. What we have is technical depth to make real decisions, and a track record of figuring it out collaboratively alongside clients — the same way we worked with Morris Blackburn on Eleven Labs. That honest framing is deliberate.</div>
+    </div>
+  </div>
+
+  <!-- CLOSE -->
+  <div class="panel" id="close">
+    <div class="panel-heading">
+      <div class="eyebrow">Closing</div>
+      <h1>End with a clear next step</h1>
+      <div class="subtitle">Don't leave it open-ended. You know what you need from AutoGrab to proceed.</div>
+    </div>
+
+    <div class="talk-track" style="margin-bottom:24px">
+      <div class="tt-label">Closing frame</div>
+      <p>"The reason I wanted to have this conversation before sending anything formal is that the model only works if Steven — and whoever owns the mobile app on your side — are genuinely in it from day one. Not briefed at the end of week four. If that works for you, we're ready to start April 10."</p>
+    </div>
+
+    <div class="closer">
+      <h3>What needs to be confirmed to move</h3>
+      <div class="closer-items">
+        <div class="closer-item">
+          <div class="check">→</div>
+          <div>
+            <strong>Mobile app stakeholder named</strong>
+            <p>Available and genuinely engaged from April 10, not just informed of outputs.</p>
+          </div>
+        </div>
+        <div class="closer-item">
+          <div class="check">→</div>
+          <div>
+            <strong>Codebase access agreed</strong>
+            <p>Architecture review and API mapping can't wait until week three.</p>
+          </div>
+        </div>
+        <div class="closer-item">
+          <div class="check">→</div>
+          <div>
+            <strong>Internal champion confirmed</strong>
+            <p>Someone on AutoGrab's side who owns the AI transformation — not just a sponsor.</p>
+          </div>
+        </div>
+        <div class="closer-item">
+          <div class="check">→</div>
+          <div>
+            <strong>Proposal to follow</strong>
+            <p>Andrew finalises lightweight proposal with prior AI-first examples and 3-month commercial structure.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-grid" style="margin-top:20px">
+      <div class="card accent-left">
+        <div class="tag">Also on the table</div>
+        <h3>Org-wide transformation</h3>
+        <p>Richard is one week into a separate org-wide AI change program. Andrew to run a separate conversation — different scope, different stakeholders, could become a larger mandate.</p>
+      </div>
+      <div class="card accent-left">
+        <div class="tag">Follow-up</div>
+        <h3>Next contact: early next week</h3>
+        <p>Follow up with Steven after the long weekend. Proposal to be finalised by Becky and Andrew with commercial framing for the 3-month structure.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function showPanel(id) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    const tabs = ['opener','problem','approach','team','timeline','objections','close'];
+    const idx = tabs.indexOf(id);
+    document.querySelectorAll('.nav-tab')[idx].classList.add('active');
+  }
+
+  function toggleObj(el) {
+    el.classList.toggle('open');
+  }
+
+  // Timer
+  let totalSeconds = 30 * 60;
+  let remaining = totalSeconds;
+  let interval = null;
+  let running = false;
+
+  function formatTime(s) {
+    const m = Math.floor(s / 60).toString().padStart(2, '0');
+    const sec = (s % 60).toString().padStart(2, '0');
+    return `${m}:${sec}`;
+  }
+
+  function updateTimerDisplay() {
+    const el = document.getElementById('timer');
+    el.textContent = formatTime(remaining);
+    el.className = '';
+    if (remaining <= 300) el.classList.add('urgent');
+    else if (remaining <= 600) el.classList.add('warning');
+  }
+
+  function startTimer() {
+    if (running) {
+      clearInterval(interval);
+      running = false;
+    } else {
+      running = true;
+      interval = setInterval(() => {
+        if (remaining > 0) {
+          remaining--;
+          updateTimerDisplay();
+        } else {
+          clearInterval(interval);
+          running = false;
+        }
+      }, 1000);
+    }
+  }
+
+  function resetTimer() {
+    clearInterval(interval);
+    running = false;
+    remaining = totalSeconds;
+    updateTimerDisplay();
+    document.getElementById('timer').className = '';
+  }
+
+  updateTimerDisplay();
+</script>
+</body>
+</html>
